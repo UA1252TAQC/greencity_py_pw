@@ -19,7 +19,7 @@ class BaseApi:
 
     def get_data(self,
                  headers: Dict[str, str] = None,
-                 query_params: Optional[Dict[str, str]] = None,
+                 query_params: Dict[str, str] = None,
                  **kwargs) -> Response:
         """
         get data by endpoints with data
