@@ -82,7 +82,6 @@ class BaseApi:
 
         return response
 
-
     def put_data(self,
                  payload: Any = None,
                  headers: Dict[str, str] = None,
@@ -107,7 +106,6 @@ class BaseApi:
             response = None
 
         return response
-
 
     def delete_data(self,
                     headers: Dict[str, str] = None,
@@ -145,7 +143,6 @@ class BaseApi:
             response = None
 
         return response
-
 
     def patch_data(self,
                    payload: Any = None,
