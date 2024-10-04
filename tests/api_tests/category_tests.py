@@ -1,22 +1,26 @@
+import random
+import string
 from http import HTTPStatus
-
-import pytest
+from tests.conftest import get_aut_token
 
 from api.base_api import BaseApi
 
 
-@pytest.fixture()
-def setup_teardown():
-    api = BaseApi('https://greencity.greencity.cx.ua/categories')
-    yield api
+def generate_random_name(prefix="test", length=10):
+    """
+    Generates a random name with the given prefix and specified length of random characters.
+    """
+    letters = string.ascii_lowercase  # Using lowercase letters; adjust as needed.
+    random_string = ''.join(random.choice(letters) for i in range(length))
+    return prefix + random_string
 
 
-def test_get_categories_success(setup_teardown):
+def test_get_categories_success():
     """
     Verify that the categories endpoint successfully retrieves a list of categories
     and each category item contains all required fields.
     """
-    api = setup_teardown
+    api = BaseApi('https://greencity.greencity.cx.ua/categories')
     headers = {
         'accept': '*/*',
         'Content-Type': 'application/json'
@@ -37,18 +41,19 @@ def test_get_categories_success(setup_teardown):
     print("Test passed: GET /categories successfully retrieved list")
 
 
-def test_create_category_success(setup_teardown):
+def test_create_category_success(get_aut_token):
     """
     Verify that the API correctly saves a new category and returns the expected response.
     """
-    api = setup_teardown
+    api = BaseApi('https://greencity.greencity.cx.ua/categories')
     headers = {
         'accept': '*/*',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMjZmODg1Yy1iMzZjLTQ3YmItYTQyNy01ZjY4OGY5NzhjNWNAbWFpbHNsdXJwLm5ldCIsInJvbGUiOlsiUk9MRV9VU0VSIl0sImV4cCI6MTcyNzk4MzI1MywiaWF0IjoxNzI3OTc2MDUzfQ.brJgaXWQ03jAtD9IptmhPGYw_LuY4QDNCYHFOV7f4MU',
+        'Authorization': f'Bearer {get_aut_token}',
         'Content-Type': 'application/json'
     }
+    unique_name = generate_random_name(prefix="testCat_", length=8)
     data = {
-        "name": "test112",
+        "name": unique_name,
         "nameUa": "string",
         "parentCategoryId": 0
     }
