@@ -60,7 +60,7 @@ class BaseApi:
         return response
 
     def post_data(self,
-                  payload: Any  = None,
+                  payload: Any = None,
                   headers: Dict[str, str] = None,
                   **kwargs) -> Response:
         """
@@ -81,6 +81,7 @@ class BaseApi:
             response = None
 
         return response
+
 
 def put_data(self,
              payload: Any = None,
@@ -106,6 +107,7 @@ def put_data(self,
         response = None
 
     return response
+
 
 def delete_data(self,
                 headers: Dict[str, str] = None,

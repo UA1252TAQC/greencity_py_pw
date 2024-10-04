@@ -58,6 +58,3 @@ def test_api_04(setup_teardown):
     assert response.text == '["PROPOSED","DECLINED","APPROVED","DELETED"]'
     json_response = json.loads(response.text)
     assert json_response[3] == "DELETED"
-
-
-
