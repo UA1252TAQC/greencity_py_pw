@@ -34,8 +34,6 @@ def test_create_subscription():
         "subscriptionType": "ECO_NEWS"
     }
     response = api.post_data(headers=headers, payload=data)
-    print(f"Response Status Code: {response.status_code}")  # Debug print to check the response status code
-    print(f"Response Text: {response.text}")  # Debug print to check the response text
     if response.status_code == HTTPStatus.FORBIDDEN:
         print("Access forbidden: Check user permissions and token validity.")
     assert response.status_code == HTTPStatus.CREATED
