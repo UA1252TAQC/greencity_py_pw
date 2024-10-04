@@ -1,6 +1,7 @@
 """
 Module that represents base api functionality
 """
+
 from typing import Dict, Optional, Any
 
 import requests
@@ -10,48 +11,30 @@ from requests import Response
 
 class BaseApi:
     """
-    class that represents base api methods
+    Class that represents base api functionality
     """
     response = Response
 
     def __init__(self, url: str):
         self._url = url
 
-    def get_data(self,
-                 headers: Dict[str, str] = None,
-                 query_params: Optional[Dict[str, str]] = None,
-                 **kwargs) -> Response:
+    def get_data(
+        self,
+        headers: Dict[str, str] = None,
+        query_params: Optional[Dict[str, str]] = None,
+        **kwargs,
+    ) -> Response:
         """
-        get data by endpoints with data
-        :http_method: type of http_method
-        :headers: headers
-        :querystring: params for query string
-        :kwargs: kwargs (data, json, params, ...)
-        :return: response
-
-        :Example:
-
-        The following example will show how use that http_method
-
-        .. code-block:: python
-
-            from api.base_api import BaseApi
-
-            class User(BaseApi):
-
-                def get_user_data(self, http_method, headers: dict = None,
-                    querystring: dict = None, **kwargs) -> BaseApi.response:
-
-                    log.info("Customer: Get response")
-
-                    return self.get_data(http_method, headers, querystring,
-                     **kwargs)
+        Method that makes GET request to the specified url
+        :param headers: headers for the request
+        :param query_params: query parameters for the request
+        :param kwargs: additional arguments for the request
+        :return: response from the request
         """
         try:
-            response = requests.get(self._url,
-                                    params=query_params,
-                                    headers=headers,
-                                    **kwargs)
+            response = requests.get(
+                self._url, params=query_params, headers=headers, **kwargs
+            )
             log.info(f"API: Making GET request to {self._url}.")
         except requests.exceptions.RequestException as error:
             log.error(f"API: GET request failed: {error}")
@@ -64,17 +47,14 @@ class BaseApi:
                   headers: Dict[str, str] = None,
                   **kwargs) -> Response:
         """
-        post data to the endpoint
-        :data: data to be sent in the body of the request
-        :headers: headers
-        :kwargs: kwargs (params, ...)
-        :return: response
+        Method that makes POST request to the specified url
+        :param payload: data for the request
+        :param headers: headers for the request
+        :param kwargs: additional arguments for the request
+        :return: response from the request
         """
         try:
-            response = requests.post(self._url,
-                                     json=payload,
-                                     headers=headers,
-                                     **kwargs)
+            response = requests.post(self._url, json=payload, headers=headers, **kwargs)
             log.info(f"API: Making POST request to {self._url}.")
         except requests.exceptions.RequestException as error:
             log.error(f"API: POST request failed: {error}")
@@ -150,14 +130,10 @@ class BaseApi:
                    **kwargs) -> Response:
         """
         Make PATCH request to update data.
-
         :param payload:
         :param headers: headers
-
         :return: response
-
         :Example:
-
 
         """
         try:

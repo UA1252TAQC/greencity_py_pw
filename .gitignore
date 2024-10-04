@@ -46,8 +46,9 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
-*.py,cover
 .hypothesis/
+.pytest_cache/
+*.py,cover
 .pytest_cache/
 cover/
 
@@ -83,6 +84,14 @@ profile_default/
 ipython_config.py
 
 # pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# Pipenv
+# Pipfile.lock is not ignored to ensure consistent dependency versions
+# Pipfile.lock
 #   For a library or package, you might want to ignore these files since the code is
 #   intended to run in multiple environments; otherwise, check them in:
 # .python-version
@@ -148,6 +157,15 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# IDEs
+.idea/
+.vscode/
+
+# Custom workspace files
+testAPI.iml
+
+# New code block
+private _stream: Stream;
 # pytype static type analyzer
 .pytype/
 
