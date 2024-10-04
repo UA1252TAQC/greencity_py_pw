@@ -24,6 +24,7 @@ def tc_logger():
     """
     return TcLogger.get_log()
 
+
 @pytest.fixture(autouse=True, scope='session')
 def generate_logs():
     """
