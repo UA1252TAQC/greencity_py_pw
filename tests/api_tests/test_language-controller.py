@@ -12,10 +12,11 @@ def setup_teardown():
     yield api
 
 
-def test_get_languages_codes(setup_teardown):
-    """
+def test_get_languages_codes(tc_logger, setup_teardown):
+    tc_logger.log_test_name("""
     Verify that all codes are in the list of languages codes
-    """
+    """)
+
     api = setup_teardown
     response = api.get_data()
     assert response.status_code == HTTPStatus.OK
