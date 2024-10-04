@@ -10,7 +10,7 @@ def generate_random_name(prefix="test", length=10):
     """
     Generates a random name with the given prefix and specified length of random characters.
     """
-    letters = string.ascii_lowercase  # Using lowercase letters; adjust as needed.
+    letters = string.ascii_lowercase
     random_string = ''.join(random.choice(letters) for i in range(length))
     return prefix + random_string
 
