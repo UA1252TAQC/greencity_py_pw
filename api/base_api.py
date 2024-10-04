@@ -42,9 +42,10 @@ class BaseApi:
 
         return response
 
-    def post_data(
-        self, payload: Any = None, headers: Dict[str, str] = None, **kwargs
-    ) -> Response:
+    def post_data(self,
+                  payload: Any = None,
+                  headers: Dict[str, str] = None,
+                  **kwargs) -> Response:
         """
         Method that makes POST request to the specified url
         :param payload: data for the request
@@ -61,18 +62,24 @@ class BaseApi:
 
         return response
 
-    def put_data(
-        self, payload: Any = None, headers: Dict[str, str] = None, **kwargs
-    ) -> Response:
-        """ 
-        Method that makes PUT request to the specified url
-        :param payload: data for the request
-        :param headers: headers for the request
-        :param kwargs: additional arguments for the request
-        :return: response from the request
+    def put_data(self,
+                 payload: Any = None,
+                 headers: Dict[str, str] = None,
+                 **kwargs) -> Response:
+        """
+        Make a PUT request with the specified data and headers.
+
+        :param payload: The payload data to be sent (as a dictionary).
+        :param headers: The headers to be included in the request.
+        :param kwargs: Additional keyword arguments to be passed to the
+        `requests.put()` function.
+        :return: The response object.
         """
         try:
-            response = requests.put(self._url, json=payload, headers=headers, **kwargs)
+            response = requests.put(self._url,
+                                    json=payload,
+                                    headers=headers,
+                                    **kwargs)
             log.info(f"API: Making PUT request to {self._url}.")
         except requests.exceptions.RequestException as error:
             log.error(f"API: PUT request failed: {error}")
@@ -80,37 +87,60 @@ class BaseApi:
 
         return response
 
-    def delete_data(
-        self, headers: Dict[str, str] = None, payload: Any = None
-    ) -> Response:
+    def delete_data(self,
+                    headers: Dict[str, str] = None,
+                    payload: Any = None) -> Response:
         """
-        Method that makes DELETE request to the specified url
-        :param headers: headers for the request
-        :param payload: data for the request
-        :return: response from the request
-        """
+        Send DELETE request to delete some data
 
+        :param payload:
+        :param headers: headers
+
+        :return: response
+
+        :Example:
+
+        The following example will show how use that http_method
+
+        .. code-block:: python
+
+            from api.base_api import BaseApi
+
+            def some_test():
+                test_id = 123
+                url = Property.LOCATION_URL.format(test_id)
+                test = BaseApi(url)
+                test.delete_data()
+
+        """
         try:
-            response = requests.delete(self._url, headers=headers, json=payload)
+            response = requests.delete(self._url,
+                                       headers=headers,
+                                       json=payload)
             log.info(f"API: Making DELETE request to {self._url}.")
         except requests.exceptions.RequestException as error:
             log.error(f"API: DELETE request failed: {error}")
             response = None
+
         return response
 
-
-    def patch_data(
-        self, payload: Any = None, headers: Dict[str, str] = None, **kwargs
-    ) -> Response:
+    def patch_data(self,
+                   payload: Any = None,
+                   headers: Dict[str, str] = None,
+                   **kwargs) -> Response:
         """
-        Method that makes PATCH request to the specified url
-        :param payload: data for the request
-        :param headers: headers for the request
-        :param kwargs: additional arguments for the request
-        :return: response from the request
+        Make PATCH request to update data.
+        :param payload:
+        :param headers: headers
+        :return: response
+        :Example:
+
         """
         try:
-            response = requests.patch(self._url, json=payload, headers=headers, **kwargs)
+            response = requests.patch(self._url,
+                                      json=payload,
+                                      headers=headers,
+                                      **kwargs)
             log.info(f"API: Making PATCH request to {self._url}.")
         except requests.exceptions.RequestException as error:
             log.error(f"API: PATCH request failed: {error}")
