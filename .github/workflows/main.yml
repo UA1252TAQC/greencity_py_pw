@@ -3,7 +3,6 @@ name: Lint with Flake8
 on:
   # Triggers the workflow on push or pull request events
   push:
-  pull_request:
 
 jobs:
   flake8-lint:
