@@ -1,14 +1,15 @@
 import random
 import string
 from http import HTTPStatus
-from tests.conftest import get_aut_token
+# from tests.conftest import get_aut_token
 
 from api.base_api import BaseApi
 
 
 def generate_random_name(prefix="test", length=10):
     """
-    Generates a random name with the given prefix and specified length of random characters.
+    Generates a random name with the given prefix and specified
+     length of random characters.
     """
     letters = string.ascii_lowercase
     random_string = ''.join(random.choice(letters) for i in range(length))
@@ -17,8 +18,8 @@ def generate_random_name(prefix="test", length=10):
 
 def test_get_categories_success():
     """
-    Verify that the categories endpoint successfully retrieves a list of categories
-    and each category item contains all required fields.
+    Verify that the categories endpoint successfully retrieves a list of
+    categories and each category item contains all required fields.
     """
     api = BaseApi('https://greencity.greencity.cx.ua/categories')
     headers = {
@@ -43,7 +44,8 @@ def test_get_categories_success():
 
 def test_create_category_success(get_aut_token):
     """
-    Verify that the API correctly saves a new category and returns the expected response.
+    Verify that the API correctly saves a new category and returns
+    the expected response.
     """
     api = BaseApi('https://greencity.greencity.cx.ua/categories')
     headers = {
@@ -65,6 +67,8 @@ def test_create_category_success(get_aut_token):
     response_data = response.json()
     assert 'id' in response_data, "Response should include 'id'"
     assert 'name' in response_data, "Response should include 'name'"
-    assert response_data['name'] == data['name'], "The 'name' in the response should match the 'name' sent"
+    assert response_data['name'] == data['name'], \
+        "The 'name' in the response should match the 'name' sent"
 
-    print("Test passed: Successfully created category and verified response.")
+    # print("Test passed: Successfully created category
+    # and verified response.")

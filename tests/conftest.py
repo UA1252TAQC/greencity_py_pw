@@ -3,8 +3,9 @@ import pytest
 from modules.constants import Data
 from api.base_api import BaseApi
 
+
 @pytest.fixture(scope="module")
-def get_aut_token ():
+def get_aut_token():
     api = BaseApi('https://greencity-user.greencity.cx.ua/ownSecurity/signIn')
     data = {
         "email": Data.EMAIL,

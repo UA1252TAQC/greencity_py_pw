@@ -3,6 +3,7 @@ import pytest
 
 from api.base_api import BaseApi
 
+
 class RunnerGetAllEcoNews:
 
     @pytest.fixture

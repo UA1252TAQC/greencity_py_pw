@@ -54,7 +54,10 @@ class BaseApi:
         :return: response from the request
         """
         try:
-            response = requests.post(self._url, json=payload, headers=headers, **kwargs)
+            response = requests.post(self._url,
+                                     json=payload,
+                                     headers=headers,
+                                     **kwargs)
             log.info(f"API: Making POST request to {self._url}.")
         except requests.exceptions.RequestException as error:
             log.error(f"API: POST request failed: {error}")
