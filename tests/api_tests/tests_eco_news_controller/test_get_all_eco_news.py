@@ -1,7 +1,10 @@
 import pytest
 from http import HTTPStatus
 
-from tests.api_tests.tests_eco_news_controller.runner_get_all_eco_news_controller import RunnerGetAllEcoNews
+from .runner_get_all_eco_news_controller import (
+    RunnerGetAllEcoNews
+)
+
 
 @pytest.mark.usefixtures("setup_method")
 class TestsGetAllEcoNews(RunnerGetAllEcoNews):
