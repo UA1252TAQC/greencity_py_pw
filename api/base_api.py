@@ -18,10 +18,12 @@ class BaseApi:
     def __init__(self, url: str):
         self._url = url
 
-    def get_data(self,
-                 headers: Dict[str, str] = None,
-                 query_params: Dict[str, str] = None,
-                 **kwargs) -> Response:
+    def get_data(
+        self,
+        headers: Dict[str, str] = None,
+        query_params: Optional[Dict[str, str]] = None,
+        **kwargs,
+    ) -> Response:
         """
         Method that makes GET request to the specified url
         :param headers: headers for the request
