@@ -3,7 +3,9 @@ Module for holding fixtures
 """
 import pytest
 
+from api.base_api import BaseApi
 from modules.logger import TcLogger
+from modules.constants import Data
 
 
 @pytest.fixture()
@@ -42,3 +44,19 @@ def generate_logs():
     """
 
     TcLogger.generate_logs()
+
+
+@pytest.fixture(scope="module")
+def get_aut_token():
+    api = BaseApi('https://greencity-user.greencity.cx.ua/ownSecurity/signIn')
+    data = {
+        "email": Data.EMAIL,
+        "password": Data.PASSWORD
+    }
+    headers = {
+        'accept': '*/*',
+        'Content-Type': 'application/json'
+    }
+    response = api.post_data(payload=data, headers=headers)
+    token = response.json().get('accessToken')
+    return token
