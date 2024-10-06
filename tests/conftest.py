@@ -38,7 +38,11 @@ def setup_and_teardown_news(get_aut_token):
         'Authorization': f'Bearer {get_aut_token}'
     }
     files = {
-        'addEcoNewsDtoRequest': ('', '{"tags":["News"],"title":"Title Test News","text":"Text Test News DELETE Long"}')
+        'addEcoNewsDtoRequest': (
+            '',
+            '{"tags":["News"],"title":"Title Test News",'
+            '"text":"Text Test News DELETE Long"}'
+        )
     }
     response = api.post_data(files=files, headers=headers)
     response_data = response.json()
@@ -55,11 +59,13 @@ def setup_comment(get_aut_token, setup_and_teardown_news):
     """
     Fixture to create a comment for a news article.
     :param get_aut_token: Fixture to get the authentication token.
-    :param setup_and_teardown_news: Fixture that creates and provides the news article ID.
+    :param setup_and_teardown_news: Fixture that provides the news article ID.
     :return: Response of the comment creation.
     """
     news_id = setup_and_teardown_news
-    comment_text = f'Test comment at {datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")}'
+    comment_text = (
+        f'Test comment at {datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")}'
+    )
 
     api = BaseApi(f'{Data.APPLICATION_API_URL}/eco-news/{news_id}/comments')
     headers = {
@@ -80,7 +86,9 @@ def teardown_comment():
     :return: Function to delete a comment by its ID.
     """
     def _delete_comment(get_aut_token, comment_id):
-        api = BaseApi(f'{Data.APPLICATION_API_URL}/eco-news/comments/{comment_id}')
+        api = BaseApi(
+            f'{Data.APPLICATION_API_URL}/eco-news/comments/{comment_id}'
+        )
         headers = {
             'accept': '*/*',
             'Authorization': f'Bearer {get_aut_token}'
