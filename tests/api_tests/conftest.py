@@ -45,6 +45,7 @@ def generate_logs():
 
     TcLogger.generate_logs()
 
+
 @pytest.fixture(scope="module")
 def get_aut_token():
     api = BaseApi('https://greencity-user.greencity.cx.ua/ownSecurity/signIn')
