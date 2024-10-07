@@ -49,15 +49,15 @@ def generate_logs():
 
 
 @pytest.fixture(scope="module")
-def get_aut_token():
+def get_auth_token():
     """
     Fixture to get an authentication token.
     :return: Authentication token.
     """
     api = BaseApi('https://greencity-user.greencity.cx.ua/ownSecurity/signIn')
     data = {
-        "email": Data.EMAIL,
-        "password": Data.PASSWORD
+        "email": Data.USER_EMAIL,
+        "password": Data.USER_PASSWORD
     }
     headers = {
         'accept': '*/*',
@@ -72,16 +72,16 @@ def get_aut_token():
 
 
 @pytest.fixture(scope="module")
-def setup_and_teardown_news(get_aut_token):
+def setup_and_teardown_news(get_auth_token):
     """
     Fixture to set up and tear down a news article.
     :param get_aut_token: Fixture to get the authentication token.
     :return: ID of the created news article.
     """
-    api = BaseApi(f'{Data.APPLICATION_API_URL}/eco-news')
+    api = BaseApi(f'{Data.BASE_URL}/eco-news')
     headers = {
         'accept': '*/*',
-        'Authorization': f'Bearer {get_aut_token}'
+        'Authorization': f'Bearer {get_auth_token}'
     }
     files = {
         'addEcoNewsDtoRequest': (
@@ -99,7 +99,7 @@ def setup_and_teardown_news(get_aut_token):
     yield news_id
 
     log.info(f"CONFTEST: Deleting news article with ID: {news_id}")
-    delete_api = BaseApi(f'{Data.APPLICATION_API_URL}/eco-news/{news_id}')
+    delete_api = BaseApi(f'{Data.BASE_URL}/eco-news/{news_id}')
     delete_api.delete_data(headers=headers)
     log.info(
         f"CONFTEST: News article with ID: {news_id} deleted successfully."
@@ -107,7 +107,7 @@ def setup_and_teardown_news(get_aut_token):
 
 
 @pytest.fixture(scope="function")
-def setup_comment(get_aut_token, setup_and_teardown_news):
+def setup_comment(get_auth_token, setup_and_teardown_news):
     """
     Fixture to create a comment for a news article.
     :param get_aut_token: Fixture to get the authentication token.
@@ -119,10 +119,10 @@ def setup_comment(get_aut_token, setup_and_teardown_news):
         f'Test comment at {datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")}'
     )
 
-    api = BaseApi(f'{Data.APPLICATION_API_URL}/eco-news/{news_id}/comments')
+    api = BaseApi(f'{Data.BASE_URL}/eco-news/{news_id}/comments')
     headers = {
         'accept': '*/*',
-        'Authorization': f'Bearer {get_aut_token}'
+        'Authorization': f'Bearer {get_auth_token}'
     }
     files = {
         'request': ('', f'{{"parentCommentId": 0, "text": "{comment_text}"}}')
@@ -140,13 +140,13 @@ def teardown_comment():
     Fixture to delete a comment after a test.
     :return: Function to delete a comment by its ID.
     """
-    def _delete_comment(get_aut_token, comment_id):
+    def _delete_comment(get_auth_token, comment_id):
         api = BaseApi(
-            f'{Data.APPLICATION_API_URL}/eco-news/comments/{comment_id}'
+            f'{Data.BASE_URL}/eco-news/comments/{comment_id}'
         )
         headers = {
             'accept': '*/*',
-            'Authorization': f'Bearer {get_aut_token}'
+            'Authorization': f'Bearer {get_auth_token}'
         }
         log.info(f"CONFTEST: Deleting comment with ID: {comment_id}")
         api.delete_data(headers=headers)

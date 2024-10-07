@@ -8,7 +8,7 @@ from modules.constants import Data
 
 
 def test_add_comment_success(tc_logger,
-                             get_aut_token,
+                             get_auth_token,
                              setup_and_teardown_news,
                              teardown_comment):
     tc_logger.log_test_name(
@@ -20,10 +20,10 @@ def test_add_comment_success(tc_logger,
     news_id = setup_and_teardown_news
 
     log.info(f"Starting test {test_add_comment_success.__name__}")
-    api = BaseApi(f'{Data.APPLICATION_API_URL}/eco-news/{news_id}/comments')
+    api = BaseApi(f'{Data.BASE_URL}/eco-news/{news_id}/comments')
     headers = {
         'accept': '*/*',
-        'Authorization': f'Bearer {get_aut_token}'
+        'Authorization': f'Bearer {get_auth_token}'
     }
     files = {
         'request': ('', f'{{"parentCommentId": 0, "text": "{comment_text}"}}')
@@ -45,12 +45,12 @@ def test_add_comment_success(tc_logger,
         f"Comment author name verified: {response_data['author']['name']}"
     )
 
-    teardown_comment(get_aut_token, response_data['id'])
+    teardown_comment(get_auth_token, response_data['id'])
     log.info(f"Test {test_add_comment_success.__name__} completed.")
 
 
 def test_delete_comment_success(tc_logger,
-                                get_aut_token,
+                                get_auth_token,
                                 setup_comment):
     tc_logger.log_test_name(
         "Verify successful deletion of a comment from news."
@@ -58,10 +58,10 @@ def test_delete_comment_success(tc_logger,
     comment_id = setup_comment.json()['id']
 
     log.info(f"Starting test {test_delete_comment_success.__name__}")
-    api = BaseApi(f'{Data.APPLICATION_API_URL}/eco-news/comments/{comment_id}')
+    api = BaseApi(f'{Data.BASE_URL}/eco-news/comments/{comment_id}')
     headers = {
         'accept': '*/*',
-        'Authorization': f'Bearer {get_aut_token}'
+        'Authorization': f'Bearer {get_auth_token}'
     }
     response = api.delete_data(headers=headers)
     log.info(f"Response status code: {response.status_code}")
@@ -72,7 +72,7 @@ def test_delete_comment_success(tc_logger,
 
 
 def test_count_comments_success(tc_logger,
-                                get_aut_token,
+                                get_auth_token,
                                 setup_and_teardown_news,
                                 setup_comment,
                                 teardown_comment):
@@ -84,7 +84,7 @@ def test_count_comments_success(tc_logger,
 
     log.info(f"Starting test {test_count_comments_success.__name__}")
     api = BaseApi(
-        f'{Data.APPLICATION_API_URL}/eco-news/{news_id}/comments/count'
+        f'{Data.BASE_URL}/eco-news/{news_id}/comments/count'
     )
     headers = {
         'accept': '*/*'
@@ -99,12 +99,12 @@ def test_count_comments_success(tc_logger,
     assert response_data == 1
     log.info("Comment count verification successful.")
 
-    teardown_comment(get_aut_token, comment_id)
+    teardown_comment(get_auth_token, comment_id)
     log.info(f"Test {test_count_comments_success.__name__} completed.")
 
 
 def test_update_comment_success(tc_logger,
-                                get_aut_token,
+                                get_auth_token,
                                 setup_and_teardown_news,
                                 setup_comment,
                                 teardown_comment):
@@ -119,11 +119,11 @@ def test_update_comment_success(tc_logger,
 
     log.info(f"Starting test {test_update_comment_success.__name__}")
     api = BaseApi(
-        f'{Data.APPLICATION_API_URL}/eco-news/comments?commentId={comment_id}'
+        f'{Data.BASE_URL}/eco-news/comments?commentId={comment_id}'
     )
     headers = {
         'accept': '*/*',
-        'Authorization': f'Bearer {get_aut_token}'
+        'Authorization': f'Bearer {get_auth_token}'
     }
     data = modified_comment_text
     response = api.patch_data(headers=headers, payload=data)
@@ -132,5 +132,5 @@ def test_update_comment_success(tc_logger,
     assert response.status_code == HTTPStatus.OK
     log.info(f"Comment with ID {comment_id} updated successfully.")
 
-    teardown_comment(get_aut_token, comment_id)
+    teardown_comment(get_auth_token, comment_id)
     log.info(f"Test {test_update_comment_success.__name__} completed.")
