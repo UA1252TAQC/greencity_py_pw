@@ -22,7 +22,9 @@ def test_get_eco_news_default():
         assert "likes" in news
         assert "countComments" in news
         assert "countOfEcoNews" in news
-
+"""
+dsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+"""
 
 def test_get_eco_news_with_tags():
     api = BaseApi('https://greencity.greencity.cx.ua/eco-news')
