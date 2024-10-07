@@ -3,11 +3,15 @@
     ```sh
     pipenv install
     ```
-2. Open pipenv shell:
+2. Create `.env` file:
     ```sh
-    pipenv shell
+    BASE_URL=
+    USER_BASE_URL=
+    USER_ID=
+    USER_NAME=
+    USER_EMAIL=
+    USER_PASSWORD=
     ```
-
 ## Usage
 To run the API, execute:
 ```sh
