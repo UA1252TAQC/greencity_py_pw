@@ -17,8 +17,7 @@ from modules.constants import Data
 def test_update_comment_success(tc_logger,
                                 get_auth_token,
                                 setup_and_teardown_news,
-                                setup_comment,
-                                teardown_comment):
+                                setup_comment):
     tc_logger.log_test_name(
         "Verify successful updating of an existing comment on news."
     )
@@ -42,6 +41,3 @@ def test_update_comment_success(tc_logger,
 
     assert response.status_code == HTTPStatus.OK
     log.info(f"Comment with ID {comment_id} updated successfully.")
-
-    teardown_comment(get_auth_token, comment_id)
-    log.info(f"Test {test_update_comment_success.__name__} completed.")

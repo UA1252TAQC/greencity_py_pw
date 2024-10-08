@@ -16,8 +16,7 @@ from modules.constants import Data
 def test_count_comments_success(tc_logger,
                                 get_auth_token,
                                 setup_and_teardown_news,
-                                setup_comment,
-                                teardown_comment):
+                                setup_comment):
     tc_logger.log_test_name(
         "Verify successful retrieval of the comment count for the news post."
     )
@@ -35,11 +34,9 @@ def test_count_comments_success(tc_logger,
     log.info(f"Response status code: {response.status_code}")
 
     assert response.status_code == HTTPStatus.OK
+
     response_data = response.json()
     log.info(f"Retrieved comment count: {response_data}")
 
     assert response_data == 1
     log.info("Comment count verification successful.")
-
-    teardown_comment(get_auth_token, comment_id)
-    log.info(f"Test {test_count_comments_success.__name__} completed.")

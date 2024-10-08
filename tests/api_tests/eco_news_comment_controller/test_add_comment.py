@@ -16,8 +16,7 @@ from modules.constants import Data
 @allure.severity(allure.severity_level.NORMAL)
 def test_add_comment_success(tc_logger,
                              get_auth_token,
-                             setup_and_teardown_news,
-                             teardown_comment):
+                             setup_and_teardown_news):
     tc_logger.log_test_name(
         "Verify successful addition of a comment to news."
     )
@@ -45,12 +44,11 @@ def test_add_comment_success(tc_logger,
 
     assert response_data['text'] == comment_text
     log.info(f"Comment text verified: {response_data['text']}")
+
     assert response_data['author']['id'] == Data.USER_ID
     log.info(f"Comment author ID verified: {response_data['author']['id']}")
+
     assert response_data['author']['name'] == Data.USER_NAME
     log.info(
         f"Comment author name verified: {response_data['author']['name']}"
     )
-
-    teardown_comment(get_auth_token, response_data['id'])
-    log.info(f"Test {test_add_comment_success.__name__} completed.")

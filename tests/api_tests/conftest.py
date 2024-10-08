@@ -75,11 +75,11 @@ def get_auth_token():
 
 
 @allure.step("Setup and Teardown News")
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def setup_and_teardown_news(get_auth_token):
     """
     Fixture to set up and tear down a news article.
-    :param get_aut_token: Fixture to get the authentication token.
+    :param get_auth_token: Fixture to get the authentication token.
     :return: ID of the created news article.
     """
     api = BaseApi(f'{Data.BASE_URL}/eco-news')
@@ -115,7 +115,7 @@ def setup_and_teardown_news(get_auth_token):
 def setup_comment(get_auth_token, setup_and_teardown_news):
     """
     Fixture to create a comment for a news article.
-    :param get_aut_token: Fixture to get the authentication token.
+    :param get_auth_token: Fixture to get the authentication token.
     :param setup_and_teardown_news: Fixture that provides the news article ID.
     :return: Response of the comment creation.
     """
@@ -137,27 +137,3 @@ def setup_comment(get_auth_token, setup_and_teardown_news):
     log.info(f"CONFTEST: Comment created with ID: {response.json()['id']}")
 
     return response
-
-
-@allure.step("Teardown Comment")
-@pytest.fixture(scope="function")
-def teardown_comment():
-    """
-    Fixture to delete a comment after a test.
-    :return: Function to delete a comment by its ID.
-    """
-    def _delete_comment(get_auth_token, comment_id):
-        api = BaseApi(
-            f'{Data.BASE_URL}/eco-news/comments/{comment_id}'
-        )
-        headers = {
-            'accept': '*/*',
-            'Authorization': f'Bearer {get_auth_token}'
-        }
-        log.info(f"CONFTEST: Deleting comment with ID: {comment_id}")
-        api.delete_data(headers=headers)
-        log.info(
-            f"CONFTEST: Comment with ID: {comment_id} deleted successfully."
-        )
-
-    return _delete_comment
