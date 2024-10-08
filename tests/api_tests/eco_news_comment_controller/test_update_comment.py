@@ -3,6 +3,7 @@ from http import HTTPStatus
 
 import logging as log
 
+import allure
 import pytest
 
 from api.base_api import BaseApi
@@ -10,6 +11,9 @@ from modules.constants import Data
 
 
 @pytest.mark.comment
+@allure.feature('Update Comment Feature')
+@allure.story('Update comment in Eco News')
+@allure.severity(allure.severity_level.NORMAL)
 def test_update_comment_success(tc_logger,
                                 get_auth_token,
                                 setup_and_teardown_news,

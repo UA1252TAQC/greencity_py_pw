@@ -2,6 +2,8 @@
 Module for holding fixtures
 """
 import logging as log
+
+import allure
 import pytest
 
 from api.base_api import BaseApi
@@ -48,6 +50,7 @@ def generate_logs():
     TcLogger.generate_logs()
 
 
+@allure.step("Get Authorisation Token")
 @pytest.fixture(scope="module")
 def get_auth_token():
     """
@@ -71,6 +74,7 @@ def get_auth_token():
     return token
 
 
+@allure.step("Setup and Teardown News")
 @pytest.fixture(scope="module")
 def setup_and_teardown_news(get_auth_token):
     """
@@ -106,6 +110,7 @@ def setup_and_teardown_news(get_auth_token):
     )
 
 
+@allure.step("Setup Comment")
 @pytest.fixture(scope="function")
 def setup_comment(get_auth_token, setup_and_teardown_news):
     """
@@ -134,6 +139,7 @@ def setup_comment(get_auth_token, setup_and_teardown_news):
     return response
 
 
+@allure.step("Teardown Comment")
 @pytest.fixture(scope="function")
 def teardown_comment():
     """
