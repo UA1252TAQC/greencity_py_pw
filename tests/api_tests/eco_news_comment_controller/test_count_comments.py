@@ -22,7 +22,6 @@ def test_count_comments_success(tc_logger,
             "Verify successful retrieval of the comment count for the news post."
         )
         news_id = setup_and_teardown_news
-        comment_id = setup_comment.json()['id']
 
         log.info(f"Starting test {test_count_comments_success.__name__}")
         api = BaseApi(

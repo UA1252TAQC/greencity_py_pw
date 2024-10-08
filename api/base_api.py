@@ -19,7 +19,6 @@ class BaseApi:
     def __init__(self, url: str):
         self._url = url
 
-
     @allure.step("Step GET")
     def get_data(
         self,
