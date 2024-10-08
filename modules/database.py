@@ -22,7 +22,7 @@ class Database:
             return self.cursor.fetchall()
         except Exception as e:
             self.connection.rollback()
-            print(f"An error occurred: {e}")
+            print(f"A database error occurred: {e}")
             return None
 
     def close(self):
