@@ -11,7 +11,7 @@ def test_get_all_habits_auth(get_aut_token, tc_logger):
     api = BaseApi('https://greencity.greencity.cx.ua/habit')
     headers = {
         'accept': '*/*',
-        'Authorization': "Bearer " + get_aut_token,
+        'Authorization': "Bearer " + get_auth_token,
     }
     query_params = {'page': '0', 'size': '5'}
     response = api.get_data(headers=headers, query_params=query_params)
@@ -44,7 +44,7 @@ def test_get_all_habit_tags(get_aut_token, tc_logger):
     query_params = {'lang': 'en'}
     headers = {
         'accept': '*/*',
-        'Authorization': "Bearer " + get_aut_token,
+        'Authorization': "Bearer " + get_auth_token,
     }
 
     response = api.get_data(headers=headers, query_params=query_params)
@@ -69,7 +69,7 @@ def test_post_custom_habit(get_aut_token, tc_logger):
     api = BaseApi('https://greencity.greencity.cx.ua/habit/custom')
     headers = {
         'accept': '*/*',
-        'Authorization': "Bearer " + get_aut_token
+        'Authorization': "Bearer " + get_auth_token
     }
 
     response = api.post_data(headers=headers, payload=fields)

@@ -15,8 +15,8 @@ def test_sign_in():
     """
     api = BaseApi('https://greencity-user.greencity.cx.ua/ownSecurity/signIn')
     data = {
-        "email": Data.EMAIL,
-        "password": Data.PASSWORD
+        "email": Data.USER_EMAIL,
+        "password": Data.USER_PASSWORD
     }
     headers = {
         'accept': '*/*',
