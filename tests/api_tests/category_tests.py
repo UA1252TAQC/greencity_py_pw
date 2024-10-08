@@ -7,8 +7,8 @@ from api.base_api import BaseApi
 
 def generate_random_name(tc_logger, prefix="test", length=10):
     tc_logger.log_test_name(
-        """Generates a random name using the given prefix and specified length
-        of random characters."""
+        "Generates a random name using the given prefix and specified length "
+        "of random characters."
     )
 
     letters = string.ascii_lowercase
@@ -36,18 +36,25 @@ def test_get_categories_success(tc_logger):
     }
 
     response = api.get_data(headers=headers)
-    assert response.status_code == HTTPStatus.OK, "Should return 200 OK"
+    assert response.status_code == HTTPStatus.OK, (
+        tc_logger.log_test_name("Should return 200 OK")
+    )
 
     categories = response.json()
-    assert isinstance(categories, list), "Response should be a list"
-    assert len(categories) > 0, "List should not be empty"
+    assert isinstance(categories, list), (
+        tc_logger.log_test_name(
+            "Response should be a list"))
+    assert len(categories) > 0, (
+        tc_logger.log_test_name("List should not be empty"))
 
-    category_names = [category.get('name') for category in categories
-                      if 'name' in category]
+    category_names = [
+        category.get('name') for category in categories if 'name' in category
+    ]
 
     for expected_category in expected_categories:
         assert expected_category in category_names, (
-            "Expected category '{0}' not found in the response"
+            tc_logger.log_test_name(
+                "Expected category '{0}' not found in the response")
             .format(expected_category)
         )
 
@@ -81,7 +88,8 @@ def test_create_category_success(tc_logger, get_aut_token):
 
     response_data = response.json()
     assert response_data['name'] == data['name'], (
-        "The 'name' in the response should match the 'name' sent"
+        tc_logger.log_test_name(
+            "The 'name' in the response should match the 'name' sent")
     )
 
     tc_logger.log_test_name(

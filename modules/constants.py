@@ -1,10 +1,15 @@
+import os
+from dotenv import load_dotenv
+
+
 class Data:
     """
-    Data class to store all the constants
+    Data class to store all the constants loaded from a .env file
     """
-    EMAIL = "226f885c-b36c-47bb-a427-5f688f978c5c@mailslurp.net"
-    PASSWORD = "User2024*"
-    USER_ID = 2983
-    USER_NAME = "TestUser"
-    USER_API_URL = "https://greencity-user.greencity.cx.ua"
-    APPLICATION_API_URL = "https://greencity.greencity.cx.ua"
+    load_dotenv()
+    BASE_URL = os.getenv('BASE_URL')
+    USER_BASE_URL = os.getenv('USER_BASE_URL')
+    USER_ID = int(os.getenv('USER_ID'))
+    USER_NAME = os.getenv('USER_NAME')
+    USER_EMAIL = os.getenv('USER_EMAIL')
+    USER_PASSWORD = os.getenv('USER_PASSWORD')
