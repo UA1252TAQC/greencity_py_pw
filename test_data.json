@@ -1,0 +1,23 @@
+{
+    "test_get_all_eco_news_with_pagination": [
+        [20, null, null],
+        [20, 1, 0], 
+        [5, 1, 5], 
+        [10, 1, 10]
+    ],
+    "test_get_all_eco_news_with_author_id": [
+        [0, 1],
+        [4, 2], 
+        [4, 3], 
+        [1, 4]
+    ],
+    "test_get_all_eco_news_with_title": [
+        [1, "Plant trees"],
+        [132, "test"]
+    ],
+    "test_get_all_eco_news_with_tags": [
+        [16, ["News", "Education"]],
+        [95, ["Education"]],
+        [463, ["News"]]
+    ]
+}
