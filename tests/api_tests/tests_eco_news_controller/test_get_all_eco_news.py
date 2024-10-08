@@ -55,8 +55,8 @@ def test_get_all_eco_news_with_tags(expected_size, tags):
     actual_response = api.get_data(query_params={"tags": tags})
     assert actual_response.status_code == HTTPStatus.OK
     actual_json_response = actual_response.json()
-    assert actual_json_response["totalElements"] == expected_size, (
-        f"Expected {expected_size} news, but got {actual_json_response["totalElements"]}"
+    assert actual_json_response['totalElements'] == expected_size, (
+        f"Expected {expected_size} news, but got {actual_json_response['totalElements']}"
     )
     for news in actual_json_response["page"]:
         assert "tagsEn" in news, (
@@ -85,8 +85,8 @@ def test_get_all_eco_news_with_title(expected_size, title):
     actual_response = api.get_data(query_params={"title": title})
     assert actual_response.status_code == HTTPStatus.OK
     actual_json_response = actual_response.json()
-    assert actual_json_response["totalElements"] == expected_size, (
-        f"Expected {expected_size} news, but got {actual_json_response["totalElements"]}"
+    assert actual_json_response['totalElements'] == expected_size, (
+        f"Expected {expected_size} news, but got {actual_json_response['totalElements']}"
     )
     for news in actual_json_response["page"]:
         assert "title" in news, (
@@ -117,7 +117,7 @@ def test_get_all_eco_news_with_author_id(expected_size, author_id):
         f"Expected status code 200, but got {actual_response.status_code}"
     )
     actual_json_response = actual_response.json()
-    assert actual_json_response["totalElements"] == expected_size, (
+    assert actual_json_response['totalElements'] == expected_size, (
         f"Expected {expected_size} news, but got {len(actual_json_response['page'])}"
     )
     for news in actual_json_response["page"]:
