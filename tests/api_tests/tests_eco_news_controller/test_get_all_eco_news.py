@@ -1,10 +1,20 @@
 import pytest
+import allure
 from api.base_api import BaseApi
 from http import HTTPStatus
 from modules.constants import Data
 from modules.dataprovider import DataProvider
 
 
+@allure.title("Get all eco news")
+@allure.description("""
+    This test checks the response of the request to get all eco news.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Eco News")
+@allure.feature("Get all eco news")
+@allure.story("Get all eco news")
+@allure.tag("Eco News")
 def test_get_eco_news_default():
     api = BaseApi(f"{Data.BASE_URL}eco-news")
     response = api.get_data()
@@ -27,6 +37,15 @@ def test_get_eco_news_default():
         assert "countOfEcoNews" in news
 
 
+@allure.title("Get all eco news with tags")
+@allure.description("""
+    This test checks the response of the request to get all eco news with tags.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Eco News")
+@allure.feature("Get all eco news")
+@allure.story("Get all eco news with tags")
+@allure.tag("Eco News")
 @pytest.mark.parametrize(
     "expected_size, tags",
     DataProvider.get_data("test_get_all_eco_news_with_tags")
@@ -48,6 +67,15 @@ def test_get_all_eco_news_with_tags(expected_size, tags):
         )
 
 
+@allure.title("Get all eco news with title")
+@allure.description("""
+    This test checks the response of the request to get all eco news with title.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Eco News")
+@allure.feature("Get all eco news")
+@allure.story("Get all eco news with title")
+@allure.tag("Eco News")
 @pytest.mark.parametrize(
     "expected_size, title",
     DataProvider.get_data("test_get_all_eco_news_with_title")
@@ -69,6 +97,15 @@ def test_get_all_eco_news_with_title(expected_size, title):
         )
 
 
+@allure.title("Get all eco news with author id")
+@allure.description("""
+    This test checks the response of the request to get all eco news with author id.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Eco News")
+@allure.feature("Get all eco news")
+@allure.story("Get all eco news with author id")
+@allure.tag("Eco News")
 @pytest.mark.parametrize(
     "expected_size, author_id",
     DataProvider.get_data("test_get_all_eco_news_with_author_id")
@@ -92,6 +129,15 @@ def test_get_all_eco_news_with_author_id(expected_size, author_id):
         )
 
 
+@allure.title("Get all eco news with pagination")
+@allure.description("""
+    This test checks the response of the request to get all eco news with pagination.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Eco News")
+@allure.feature("Get all eco news")
+@allure.story("Get all eco news with pagination")
+@allure.tag("Eco News")
 @pytest.mark.parametrize(
     "expected_size, page, size",
     DataProvider.get_data("test_get_all_eco_news_with_pagination")
