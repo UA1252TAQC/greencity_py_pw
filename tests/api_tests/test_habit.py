@@ -3,8 +3,8 @@ from http import HTTPStatus
 from api.base_api import BaseApi
 
 
-def test_get_all_habits_auth(get_aut_token, tc_logger):
-    tc_logger("""
+def test_get_all_habits_auth(get_auth_token, tc_logger):
+    tc_logger.log_test_name("""
     Verify that the getHabit endpoint works correctly
     """)
 
@@ -24,7 +24,7 @@ def test_get_all_habits_auth(get_aut_token, tc_logger):
 
 
 def test_get_all_habits_notAuth(tc_logger):
-    tc_logger("""
+    tc_logger.log_test_name("""
     Verify that the getHabit endpoint return 401 status
     for not authorized users
     """)
@@ -35,8 +35,8 @@ def test_get_all_habits_notAuth(tc_logger):
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
-def test_get_all_habit_tags(get_aut_token, tc_logger):
-    tc_logger("""
+def test_get_all_habit_tags(get_auth_token, tc_logger):
+    tc_logger.log_test_name("""
     Verify that the getHabitTag endpoint works correctly
     """)
 
@@ -53,8 +53,8 @@ def test_get_all_habit_tags(get_aut_token, tc_logger):
     assert len(json_response) > 0
 
 
-def test_post_custom_habit(get_aut_token, tc_logger):
-    tc_logger("""
+def test_post_custom_habit(get_auth_token, tc_logger):
+    tc_logger.log_test_name("""
     Verify that the post custom habit endpoint works correctly
     """)
     json_data = '{"habitTranslations":[{"name":"new habi\
