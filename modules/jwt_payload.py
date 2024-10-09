@@ -1,6 +1,7 @@
 from typing import List
 from datetime import datetime, timezone
 
+
 class JwtPayload:
     def __init__(self, sub: str, role: List[str], exp: str, iat: str):
         self.sub = sub
