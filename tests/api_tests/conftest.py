@@ -49,7 +49,7 @@ def generate_logs():
     TcLogger.generate_logs()
 
 
-@allure.step("Get Authorisation Token")
+@allure.step("Get Authorization Token")
 @pytest.fixture(scope="session")
 def get_auth_token():
     """
