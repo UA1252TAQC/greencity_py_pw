@@ -26,6 +26,8 @@ def test_get_fact_of_the_day(lang, expected_status):
 
     # Create an instance of BaseApi using the base URL
     api = BaseApi(base_url)
+
+    # Call get_data method from the api instance
     response = api.get_data(headers=headers, query_params=query_params)
 
     logger.info(f"Response status: {response.status_code}, Response text: {response.text}")
