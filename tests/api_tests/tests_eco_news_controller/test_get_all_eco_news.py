@@ -5,7 +5,7 @@ from modules.constants import Data
 
 
 def test_get_eco_news_default():
-    api = BaseApi(Data.BASE_URL + 'eco-news')
+    api = BaseApi(f"{Data.BASE_URL}eco-news")
     response = api.get_data()
     assert response.status_code == HTTPStatus.OK
     json_response = response.json()
@@ -27,7 +27,7 @@ def test_get_eco_news_default():
 
 
 def test_get_eco_news_with_tags():
-    api = BaseApi(Data.BASE_URL + 'eco-news')
+    api = BaseApi(f"{Data.BASE_URL}eco-news")
     params = {"tags": ["News", "Education"]}
     response = api.get_data(query_params=params)
     assert response.status_code == HTTPStatus.OK
@@ -50,7 +50,7 @@ def test_get_eco_news_with_tags():
 
 
 def test_get_eco_news_with_title():
-    api = BaseApi(Data.BASE_URL + 'eco-news')
+    api = BaseApi(f"{Data.BASE_URL}eco-news")
     params = {"title": "Plant trees"}
     response = api.get_data(query_params=params)
     assert response.status_code == HTTPStatus.OK
@@ -73,7 +73,7 @@ def test_get_eco_news_with_title():
 
 
 def test_get_eco_news_with_author_id():
-    api = BaseApi(Data.BASE_URL + 'eco-news')
+    api = BaseApi(f"{Data.BASE_URL}eco-news")
     params = {"author-id": 19}
     response = api.get_data(query_params=params)
     assert response.status_code == HTTPStatus.OK
@@ -96,7 +96,7 @@ def test_get_eco_news_with_author_id():
 
 
 def test_get_eco_news_with_pagination():
-    api = BaseApi(Data.BASE_URL + 'eco-news')
+    api = BaseApi(f"{Data.BASE_URL}eco-news")
     params = {"page": 0, "size": 5}
     response = api.get_data(query_params=params)
     assert response.status_code == HTTPStatus.OK

@@ -10,8 +10,8 @@ BASE_URL = 'https://greencity-user.greencity.cx.ua'
 def sign_in():
     url = f'{BASE_URL}/ownSecurity/signIn'
     data = {
-        "email": Data.EMAIL,
-        "password": Data.PASSWORD
+        "email": Data.USER_EMAIL,
+        "password": Data.USER_PASSWORD
     }
     headers = {
         'accept': '*/*',
@@ -31,7 +31,7 @@ def test_create_subscription():
         'Content-Type': 'application/json'
     }
     data = {
-        "email": Data.EMAIL,
+        "email": Data.USER_EMAIL,
         "subscriptionType": "ECO_NEWS"
     }
     response = api.post_data(headers=headers, payload=data)
