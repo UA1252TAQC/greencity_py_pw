@@ -3,7 +3,6 @@ Module for holding fixtures
 """
 import logging as log
 import pytest
-import requests
 
 from api.base_api import BaseApi
 from datetime import datetime
@@ -156,15 +155,3 @@ def teardown_comment():
         )
 
     return _delete_comment
-
-
-@pytest.fixture
-def fact_of_the_day_api():
-    base_url = "https://greencity.greencity.cx.ua/fact-of-the-day/random"
-
-    class BaseApi:
-        def get_data(self, headers=None, query_params=None):
-            response = requests.get(base_url, headers=headers, params=query_params)
-            return response
-
-    return BaseApi()
