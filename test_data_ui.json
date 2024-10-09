@@ -1,0 +1,86 @@
+{
+    "testButtonState": [
+        [true, false, "test@gmail.com", "Denys", "Password1!", "Password1!"],
+        [false, true, "test@gmail.com", "Denys", "Password1!", "Password1!"]
+    ],
+    "testEmailValidation": [
+        [false, "EMAIL_REQUIRED_ERROR_MESSAGE", false, "'Електронна пошта' with empty field", "", null, null, null],
+        [true, null, false, "'Електронна пошта' with spaces around", " test@gmail.com ", null, null, null],
+        [false, "EMAIL_WITH_SPACES_ERROR_MESSAGE", false, "'Електронна пошта' with spaces", "tes t@gmail.com", null, null, null],
+        [true, null, false, "'Електронна пошта' with “@” is valid", "test@gmail.com", null, null, null],
+        [false, "EMAIL_INVALID_ERROR_MESSAGE", false, "'Електронна пошта' with “@” is valid", "test@gmailcom", null, null, null],
+        [false, "EMAIL_INVALID_ERROR_MESSAGE", false, "'Електронна пошта' field require “@”", "testgmail.com", null, null, null],
+        [false, "EMAIL_INVALID_ERROR_MESSAGE", true, "'Електронна пошта' field can't contain more than 72 characters", "emailemailemailemailemailemailemailemailemailemailemai2emailema1@gmail.com", "Denys1", "Password1!", "Password1!"]
+    ],
+    "testUsernameValidation": [
+        [false, "USERNAME_REQUIRED_ERROR_MESSAGE", "User name empty", ""],
+        [true, null, "Valid username", "Ira"],
+        [true, null, "Valid username with numbers and dots", "Ira99.Prut"],
+        [false, "USERNAME_WITH_DOT_AT_THE_START_ERROR_MESSAGE", "Username with dot at the start", ".Ira"],
+        [false, "USERNAME_WITH_CONSECUTIVE_DOT_ERROR_MESSAGE", "Username with consecutive dots", "Ira..99"],
+        [false, "USERNAME_TOO_LONG_ERROR_MESSAGE", "Username too long", "IraThisUsernameIsWayTooLongForTheValidationRule"]
+    ],
+    "testPasswordValidation": [
+        [false, "PASSWORD_REQUIRED_ERROR_MESSAGE", "Password empty", ""],
+        [false, "PASSWORD_TOO_SHORT_ERROR_MESSAGE", "Password too short", "Short1!"],
+        [false, "PASSWORD_WITHOUT_UPPERCASE_ERROR_MESSAGE", "Password without uppercase", "password1!"],
+        [false, "PASSWORD_WITHOUT_DIGIT_ERROR_MESSAGE", "Password without digit", "Password!@"],
+        [false, "PASSWORD_WITHOUT_SPECIAL_CHAR_ERROR_MESSAGE", "Password without special char", "Password1a"],
+        [true, null, "Valid password", "Password1!"],
+        [false, "PASSWORD_TOO_LONG_ERROR_MESSAGE", "VeryLongPasswordThatExceeds20Chars1!", "Password1!Password1!Password1!"]
+    ],
+    "testRepeatPasswordValidation": [
+        [true, null, "Confirm password and password are equals!", "Password1!", "Password1!"],
+        [false, "CONFIRM_PASSWORD_REQUIRED_ERROR_MESSAGE", "Confirm password empty", "Password1!", ""],
+        [false, "PASSWORDS_DO_NOT_MATCH_ERROR_MESSAGE", "Passwords do not match", "Password1!", "DifferentPassword1!"],
+        [false, "ENTER_PASSWORD_FIRST_ERROR_MESSAGE", "Confirm password with password empty", "", "Password1!"]
+    ],
+
+    "testPopUpSignUpValidation": [
+        ["REGISTERED_POP_UP_MESSAGE", "ACCOUNT_SUBMIT_POP_UP_MESSAGE", "GENERATE_TEMPORARY_EMAIL", "TestUser", "Password1!", "Password1!"],
+        ["REGISTERED_POP_UP_MESSAGE", "ACCOUNT_SUBMIT_POP_UP_MESSAGE", "GENERATE_TEMPORARY_EMAIL", "TestUser2", "Password2!", "Password2!"]
+    ],
+
+    "testGoogleSignUp": [
+        ["EXTRACT_GOOGLE_EMAIL","EXTRACT_GOOGLE_PASSWORD","EXTRACT_GOOGLE_NAME"]
+    ],
+
+    "testEmailAlreadyExists" : [
+        ["REGISTERED_POP_UP_MESSAGE","EMAIL_ALREADY_EXIST_ERROR_MESSAGE","GENERATE_TEMPORARY_EMAIL","UserName","Password1!","Password1!"]
+    ],
+
+    "testRegisteredGreenCity" : [
+        ["REGISTERED_POP_UP_MESSAGE","EMAIL_ALREADY_EXIST_ERROR_MESSAGE","GENERATE_TEMPORARY_EMAIL","UserName","Password1!","Password1!"]
+    ],
+    "testRegisteredUbs" : [
+        ["REGISTERED_POP_UP_MESSAGE","EMAIL_ALREADY_EXIST_ERROR_MESSAGE","GENERATE_TEMPORARY_EMAIL","UserName","Password1!","Password1!"]
+    ],
+
+    "testGreenCityRegisteredWithConfirmEmail" : [
+        ["REGISTERED_POP_UP_MESSAGE", "ACCOUNT_SUBMIT_POP_UP_MESSAGE", "EMAIL_ALREADY_EXIST_ERROR_MESSAGE","GENERATE_TEMPORARY_EMAIL","UserName","Password1!","Password1!"]
+    ],
+
+    "testUbsRegisteredWithConfirmEmail" : [
+        ["REGISTERED_POP_UP_MESSAGE", "ACCOUNT_SUBMIT_POP_UP_MESSAGE", "EMAIL_ALREADY_EXIST_ERROR_MESSAGE","GENERATE_TEMPORARY_EMAIL","UserName","Password1!","Password1!"]
+    ],
+
+    "verifyErrorMessageForExceedingPasswordLengthInUA": [
+        ["email@gmail.com", "passworddddddddddddddddddddddddddddddddddddddddddd", "Пароль повинен містити менше 20 символів без пробілів."]
+    ],
+
+    "verifyErrorMessageForInvalidPasswordUA": [
+        ["email@gmail.com", "Password1233!", "Введено невірний email або пароль"]
+    ],
+
+    "verifyErrorMessageForEmptyEmailAndPasswordEng": [
+        ["email@gmail.com", "", "Please fill all required fields."]
+    ],
+
+    "verifyCssAndErrorIsDisplayedInForgotPasswordWithInvalidEmail": [
+        ["invalidemail@gmail.com", "Користувач не існує за цією електронною адресою: "]
+    ],
+
+    "allTagsDisplayedCorrectly": [
+        [{"buttonColor": [255, 255, 255, 1], "buttonSize": [83, 32], "text": "Новини", "textColor": [0, 0, 0, 1], "location": [555, 193]}]
+    ]
+}
