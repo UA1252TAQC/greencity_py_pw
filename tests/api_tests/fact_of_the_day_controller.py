@@ -3,6 +3,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 @pytest.mark.parametrize("lang, expected_status", [
     ("en", 200),  # Test for English localization
     ("invalid-lang", 400),  # Test for non-existent localization
@@ -22,7 +23,7 @@ def test_get_fact_of_the_day(fact_of_the_day_api, lang, expected_status):
 
     response = fact_of_the_day_api.get_data(headers=headers, query_params=query_params)
 
-    # Логируем статус ответа и текст ответа
+    # Logging the response status and response text
     logger.info(f"Response status: {response.status_code}, Response text: {response.text}")
 
     assert response.status_code == expected_status, \
