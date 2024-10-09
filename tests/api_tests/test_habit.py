@@ -3,10 +3,11 @@ from http import HTTPStatus
 from api.base_api import BaseApi
 
 
-def test_get_all_habits_auth(get_auth_token):
-    """
+def test_get_all_habits_auth(get_auth_token, tc_logger):
+    tc_logger.log_test_name("""
     Verify that the getHabit endpoint works correctly
-    """
+    """)
+
     api = BaseApi('https://greencity.greencity.cx.ua/habit')
     headers = {
         'accept': '*/*',
@@ -22,21 +23,23 @@ def test_get_all_habits_auth(get_auth_token):
     assert 'totalPages' in json_response
 
 
-def test_get_all_habits_notAuth():
-    """
+def test_get_all_habits_notAuth(tc_logger):
+    tc_logger.log_test_name("""
     Verify that the getHabit endpoint return 401 status
     for not authorized users
-    """
+    """)
+
     api = BaseApi("https://greencity.greencity.cx.ua/habit")
     query_params = {"page": "0", "size": "5"}
     response = api.get_data(query_params=query_params)
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
-def test_get_all_habit_tags(get_auth_token):
-    """
+def test_get_all_habit_tags(get_auth_token, tc_logger):
+    tc_logger.log_test_name("""
     Verify that the getHabitTag endpoint works correctly
-    """
+    """)
+
     api = BaseApi('https://greencity.greencity.cx.ua/habit/tags')
     query_params = {'lang': 'en'}
     headers = {
@@ -50,11 +53,10 @@ def test_get_all_habit_tags(get_auth_token):
     assert len(json_response) > 0
 
 
-def test_post_custom_habit(get_auth_token):
-    """
+def test_post_custom_habit(get_auth_token, tc_logger):
+    tc_logger.log_test_name("""
     Verify that the post custom habit endpoint works correctly
-    """
-
+    """)
     json_data = '{"habitTranslations":[{"name":"new habi\
     t","description":"<p>new habit</p><p>new habit</p><p>n\
     ew habitnew habitnew habit</p>","habitItem":"","languag\

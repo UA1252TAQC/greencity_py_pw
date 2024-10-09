@@ -51,7 +51,7 @@ def generate_logs():
 
 
 @allure.step("Get Authorisation Token")
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def get_auth_token():
     """
     Fixture to get an authentication token.
@@ -137,3 +137,111 @@ def setup_comment(get_auth_token, setup_and_teardown_news):
     log.info(f"CONFTEST: Comment created with ID: {response.json()['id']}")
 
     return response
+
+
+@pytest.fixture(scope="module")
+def get_first_available_habit_id(get_auth_token):
+    """
+    Fixture to get a list of habits.
+    :return: list of habits.
+    """
+    api = BaseApi('https://greencity.greencity.cx.ua/habit?page=1&size=5')
+    headers = {
+        'accept': '*/*',
+        'Authorization': "Bearer " + get_auth_token
+    }
+
+    log.info("CONFTEST: Requesting habit list with authentication token for user.")
+
+    response = api.get_data(headers=headers)
+
+    if response.status_code == 200:
+        log.info("CONFTEST: Successfully retrieved habit list.")
+    else:
+        log.error(f"CONFTEST: Failed to retrieve habit list. Status code: {response.status_code}")
+
+    response.raise_for_status()
+    habits_list = response.json().get('page', [])
+
+    if len(habits_list) > 0:
+        for habit in habits_list:
+            if habit.get('shoppingListItems'):
+                return habit.get('id')
+    else:
+        log.warning("CONFTEST: The habit list is empty. Consider adding a habit before proceeding.")
+        raise ValueError("The habit list is empty. Unable to proceed without available habits.")
+
+
+@pytest.fixture(scope="module")
+def assign_habit_with_id(get_auth_token, get_first_available_habit_id):
+    """
+    Fixture to assign a habit.
+    :return: assigned habit ID.
+    """
+    api = BaseApi(f'https://greencity.greencity.cx.ua/habit/assign/{get_first_available_habit_id}')
+    headers = {
+        'accept': '*/*',
+        'Authorization': "Bearer " + get_auth_token
+    }
+
+    log.info("CONFTEST: Assigning habit with authentication token for user.")
+
+    response = api.post_data(headers=headers)
+
+    if response.status_code == 201:
+        log.info("CONFTEST: Successfully assigned habit.")
+    else:
+        log.error(f"CONFTEST: Failed to assign habit. Status code: {response.status_code}")
+
+    response.raise_for_status()
+    assigned_habit_id = response.json().get('id')
+
+    return assigned_habit_id
+
+
+@pytest.fixture(scope="module")
+def delete_habit(get_auth_token, assign_habit_with_id):
+    """
+    Fixture to delete a habit assigned during the test.
+    :return: None
+    """
+    habit_id = assign_habit_with_id
+    api = BaseApi(f"https://greencity.greencity.cx.ua/habit/assign/delete/{habit_id}")
+    headers = {
+        'accept': '*/*',
+        'Authorization': "Bearer " + get_auth_token
+    }
+
+    log.info(f"CONFTEST: Deleting habit with ID {habit_id}.")
+
+    response = api.delete_data(headers=headers)
+
+    if response.status_code == 200:
+        log.info("CONFTEST: Successfully deleted habit.")
+    else:
+        log.error(f"CONFTEST: Failed to delete habit. Status code: {response.status_code}")
+
+    response.raise_for_status()
+
+
+@pytest.fixture(scope="function")
+def teardown_comment():
+    """
+    Fixture to delete a comment after a test.
+    :return: Function to delete a comment by its ID.
+    """
+    def _delete_comment(get_auth_token, comment_id):
+        api = BaseApi(
+            f'{Data.BASE_URL}/eco-news/comments/{comment_id}'
+        )
+        headers = {
+            'accept': '*/*',
+            'Authorization': f'Bearer {get_auth_token}'
+        }
+        log.info(f"CONFTEST: Deleting comment with ID: {comment_id}")
+        api.delete_data(headers=headers)
+        log.info(
+            f"CONFTEST: Comment with ID: {comment_id} deleted successfully."
+        )
+
+    return _delete_comment
