@@ -60,7 +60,10 @@ class RegistrationModalComponent:
         return self.google_button.is_visible()
 
     def submit(self):
-        self.register_button.click()
+        if self.register_button.is_visible() and self.register_button.is_enabled():
+            self.register_button.click()
+        else:
+            raise Exception("Registration button is not enabled")
 
     def is_registration_button_enabled(self) -> bool:
         return self.register_button.is_enabled()
