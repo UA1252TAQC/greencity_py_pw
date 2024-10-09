@@ -6,7 +6,11 @@ from api.base_api import BaseApi
 from modules.constants import Data
 import logging as log
 import inspect
+import allure
 
+
+@allure.description("Verify successful receiving of all achievements by type and category")
+@allure.feature("Achievements")
 @pytest.mark.parametrize("achievementStatus, achievementCategoryId", [("ACHIEVED", 1), ("UNACHIEVED", 2)])
 def test_achievements_by_type_and_category(tc_logger, get_auth_token, achievementStatus, achievementCategoryId):
     tc_logger.log_test_name(
