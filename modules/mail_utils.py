@@ -39,4 +39,3 @@ class MailUtils:
             raise RuntimeError(f"HTTP error occurred: {http_err}")
         except Exception as err:
             raise RuntimeError(f"Other error occurred: {err}")
-
