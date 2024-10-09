@@ -15,7 +15,6 @@ class GoogleAuthComponent():
 
     def click_email_submit_button(self):
         self.email_next_button.click()
-        self.page.wait_for_timeout(6000)
         return self
 
     def enter_password(self, password: str):
@@ -24,7 +23,6 @@ class GoogleAuthComponent():
 
     def click_password_submit_button(self):
         self.password_next_button.click()
-        self.page.wait_for_timeout(1000)
 
     def is_email_input_displayed(self) -> bool:
         return self.email_input.is_visible()

@@ -6,5 +6,5 @@ from ui.pages.base_page import BasePage
 
 class UbsBasePage(BasePage):
     def __init__(self, page: Page):
-        self.page = page
+        super().__init__(page)
         self.header_component = UbsHeaderComponent(page)
