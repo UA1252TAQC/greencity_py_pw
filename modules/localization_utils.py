@@ -13,10 +13,4 @@ class LocalizationUtils:
             return json.load(f)
 
     def get_form_messages(self, language: str) -> Dict[str, str]:
-        localized_messages = {}
-        form_node = self.root_node.get("form", {}).get(language, {})
-
-        for key, message in form_node.items():
-            localized_messages[key] = message
-
-        return localized_messages
+        return self.root_node["form"][language]

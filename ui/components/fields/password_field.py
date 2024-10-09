@@ -6,7 +6,7 @@ class PasswordField:
         self.page = page
 
     def enter(self, text: str):
-        if text:
+        if text is not None:
             self.page.fill("input#password", text)
 
     def is_displayed(self) -> bool:

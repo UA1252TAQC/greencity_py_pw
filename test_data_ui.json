@@ -4,13 +4,13 @@
         [false, true, "test@gmail.com", "Denys", "Password1!", "Password1!"]
     ],
     "testEmailValidation": [
-        [false, "EMAIL_REQUIRED_ERROR_MESSAGE", false, "'Електронна пошта' with empty field", "", null, null, null],
-        [true, null, false, "'Електронна пошта' with spaces around", " test@gmail.com ", null, null, null],
-        [false, "EMAIL_WITH_SPACES_ERROR_MESSAGE", false, "'Електронна пошта' with spaces", "tes t@gmail.com", null, null, null],
-        [true, null, false, "'Електронна пошта' with “@” is valid", "test@gmail.com", null, null, null],
-        [false, "EMAIL_INVALID_ERROR_MESSAGE", false, "'Електронна пошта' with “@” is valid", "test@gmailcom", null, null, null],
-        [false, "EMAIL_INVALID_ERROR_MESSAGE", false, "'Електронна пошта' field require “@”", "testgmail.com", null, null, null],
-        [false, "EMAIL_INVALID_ERROR_MESSAGE", true, "'Електронна пошта' field can't contain more than 72 characters", "emailemailemailemailemailemailemailemailemailemailemai2emailema1@gmail.com", "Denys1", "Password1!", "Password1!"]
+        [false, "EMAIL_REQUIRED_ERROR_MESSAGE", false, "Mail with empty field", "", null, null, null],
+        [true, null, false, "Mail with spaces around", " test@gmail.com ", null, null, null],
+        [false, "EMAIL_WITH_SPACES_ERROR_MESSAGE", false, "Mail with spaces", "tes t@gmail.com", null, null, null],
+        [true, null, false,  "Mail with @ is valid", "test@gmail.com", null, null, null],
+        [false, "EMAIL_INVALID_ERROR_MESSAGE", false, "Mail with @ is valid", "test@gmailcom", null, null, null],
+        [false, "EMAIL_INVALID_ERROR_MESSAGE", false, "Mail field require @", "testgmail.com", null, null, null],
+        [false, "EMAIL_INVALID_ERROR_MESSAGE", true, "Mail field cant contain more than 72 characters", "emailemailemailemailemailemailemailemailemailemailemai2emailema1@gmail.com", "Denys1", "Password1!", "Password1!"]
     ],
     "testUsernameValidation": [
         [false, "USERNAME_REQUIRED_ERROR_MESSAGE", "User name empty", ""],
@@ -62,25 +62,5 @@
 
     "testUbsRegisteredWithConfirmEmail" : [
         ["REGISTERED_POP_UP_MESSAGE", "ACCOUNT_SUBMIT_POP_UP_MESSAGE", "EMAIL_ALREADY_EXIST_ERROR_MESSAGE","GENERATE_TEMPORARY_EMAIL","UserName","Password1!","Password1!"]
-    ],
-
-    "verifyErrorMessageForExceedingPasswordLengthInUA": [
-        ["email@gmail.com", "passworddddddddddddddddddddddddddddddddddddddddddd", "Пароль повинен містити менше 20 символів без пробілів."]
-    ],
-
-    "verifyErrorMessageForInvalidPasswordUA": [
-        ["email@gmail.com", "Password1233!", "Введено невірний email або пароль"]
-    ],
-
-    "verifyErrorMessageForEmptyEmailAndPasswordEng": [
-        ["email@gmail.com", "", "Please fill all required fields."]
-    ],
-
-    "verifyCssAndErrorIsDisplayedInForgotPasswordWithInvalidEmail": [
-        ["invalidemail@gmail.com", "Користувач не існує за цією електронною адресою: "]
-    ],
-
-    "allTagsDisplayedCorrectly": [
-        [{"buttonColor": [255, 255, 255, 1], "buttonSize": [83, 32], "text": "Новини", "textColor": [0, 0, 0, 1], "location": [555, 193]}]
     ]
 }

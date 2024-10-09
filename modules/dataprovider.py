@@ -1,55 +1,41 @@
 import json
-from typing import Callable, Iterator, Tuple, Any
-from modules.mail_utils import MailUtils
+import os
 
 
 class DataProvider:
-    _data = None
-    mail_utils = MailUtils()
+    @staticmethod
+    def load_data(path):
+        with open(path) as file:
+            return json.load(file)
 
-    def __init__(self, json_file: str):
-        self.json_file = json_file
-        self.load_data()
+    @staticmethod
+    def get_api_test_data(test_method):
+        data = DataProvider.load_data('test_data_api.json')
+        return data[test_method]
 
-    def load_data(self):
-        if DataProvider._data is None:
-            with open(self.json_file) as file:
-                DataProvider._data = json.load(file)
+    @staticmethod
+    def get_ui_test_data(test_method):
+        data = DataProvider.load_data('test_data_ui.json')
+        return data[test_method]
+        # test_cases = self._data_ui
+        # for i in range(len(test_cases)):
+        #     for j in range(len(test_cases[i])):
+        #         test_cases[i][j] = self.handle_special_cell(test_cases[i][j])
+        #  test_cases
 
-    def get_test_cases(self, method: Callable) -> Iterator[Tuple]:
-        data_type = method.__name__.replace("dp", "")
-        data_nodes = DataProvider._data.get(data_type, [])
-        for node in data_nodes:
-            yield self.parse_row(node, method)
-
-    def parse_row(self, node: Any, method: Callable) -> Tuple:
-        parameter_types = method.__annotations__.values()
-        row = []
-        for i, param_type in enumerate(parameter_types):
-            cell = node[i] if i < len(node) else None
-            row.append(self.convert_json_to_type(cell, param_type))
-        return tuple(row)
-
-    def convert_json_to_type(self, cell: Any, expected_type: Any) -> Any:
+    def handle_special_cell(self, cell):
         if cell is None or cell == "null":
             return None
 
-        if cell == "GENERATE_TEMPORARY_EMAIL":
-            return self.mail_utils.create_inbox().get("id")
-        elif cell == "EXTRACT_GOOGLE_EMAIL":
-            return self.config_properties.get_google_email()
-        elif cell == "EXTRACT_GOOGLE_PASSWORD":
-            return self.config_properties.get_google_password()
-        elif cell == "EXTRACT_GOOGLE_NAME":
-            return self.config_properties.get_google_name()
+        special_cases = {
+            # "GENERATE_TEMPORARY_EMAIL": lambda: self.mail_utils.create_inbox()["id"],
+            "EXTRACT_GOOGLE_EMAIL": lambda: os.getenv("GOOGLE_EMAIL"),
+            "EXTRACT_GOOGLE_PASSWORD": lambda: os.getenv("GOOGLE_PASSWORD"),
+            "EXTRACT_GOOGLE_NAME": lambda: os.getenv("GOOGLE_NAME")
+        }
 
-        if expected_type == str:
-            return str(cell)
-        elif expected_type == bool:
-            return bool(cell)
-        elif expected_type == int:
-            return int(cell)
-        elif expected_type == float:
-            return float(cell)
-        else:
-            return str(cell)
+        return special_cases.get(cell, lambda: cell)()
+
+
+if __name__ == "__main__":
+    print(DataProvider.get_ui_test_data("testUsernameValidation"))
