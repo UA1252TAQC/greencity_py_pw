@@ -1,5 +1,4 @@
 from playwright.sync_api import Page
-
 from ui.components.regisration_modal_component import RegistrationModalComponent
 
 

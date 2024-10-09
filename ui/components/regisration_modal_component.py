@@ -1,12 +1,19 @@
 from playwright.sync_api import Page
-
-from ui.components.fields import EmailField, UsernameField, PasswordField, RepeatPasswordField
+from ui.components.fields.email_field import EmailField
+from ui.components.fields.password_field import PasswordField
+from ui.components.fields.repeat_password_field import RepeatPasswordField
+from ui.components.fields.username_field import UsernameField
 from ui.components.google_auth_component import GoogleAuthComponent
 
 
 class RegistrationModalComponent:
     def __init__(self, page: Page):
         self.page = page
+        self.title = page.locator(".title-text")
+        self.register_button = page.locator("button[type='submit']")
+        self.google_button = page.locator("button.google-sign-in")
+        self.sign_in_link = page.locator("a.green-link[aria-label='sign in modal window']")
+        self.close_button = page.locator("img.cross-btn[alt='close button']")
         self.email = EmailField(page)
         self.username = UsernameField(page)
         self.password = PasswordField(page)
@@ -29,8 +36,8 @@ class RegistrationModalComponent:
         return self
 
     def open_auth_google_form(self):
-        self.page.click(".google-sign-in")
-        self.page.wait_for_timeout(1000)
+        self.google_button.click()
+        self.page.wait_for_timeout(20000)
         self.page.context.pages[-1].bring_to_front()
         return GoogleAuthComponent(self.page.context.pages[-1])
 
@@ -42,30 +49,30 @@ class RegistrationModalComponent:
                 .click_title())
 
     def click_title(self):
-        self.page.click(".title-text")
+        self.title.click()
         return self
 
-    def is_registration_button_displayed(self):
-        return self.page.is_visible(".//button[@type='submit']")
+    def is_registration_button_displayed(self) -> bool:
+        return self.register_button.is_visible()
 
-    def is_google_button_displayed(self):
-        return self.page.is_visible(".google-sign-in")
+    def is_google_button_displayed(self) -> bool:
+        return self.google_button.is_visible()
 
     def submit(self):
-        self.page.click(".//button[@type='submit']")
+        self.register_button.click()
 
-    def is_registration_button_enabled(self):
-        return self.page.is_enabled(".//button[@type='submit']")
+    def is_registration_button_enabled(self) -> bool:
+        return self.register_button.is_enabled()
 
     def submit_if(self, should_submit_form: bool):
         if should_submit_form:
             self.submit()
 
-    def is_sign_in_link_displayed(self):
-        return self.page.is_visible(".green-link")
+    def is_sign_in_link_displayed(self) -> bool:
+        return self.sign_in_link.is_visible()
 
     def close(self):
-        self.page.click(".cross-btn[alt='close button']")
+        self.close_button.click()
         self.page.wait_for_timeout(1000)
 
     def clear_password_field_if(self, should_clear_password: bool):

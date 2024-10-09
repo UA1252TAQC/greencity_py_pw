@@ -1,11 +1,13 @@
 from playwright.sync_api import Page
 
+from ui.pages.ubs.base_page_ubs import BasePageUbs
 
-class HomePage:
+
+class UbsHomePage(BasePageUbs):
     def __init__(self, page: Page):
-        self.page = page
+        super().__init__(page)
         self.page.wait_for_selector("//header[@role='banner']", timeout=20000)
 
     def set_language(self, language: str):
-        self.page.click(f"//button[@data-language='{language}']")
+        self.get_header_component().set_language(language)
         return self
