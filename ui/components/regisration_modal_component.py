@@ -1,4 +1,5 @@
 from playwright.sync_api import Page
+
 from ui.components.fields.email_field import EmailField
 from ui.components.fields.password_field import PasswordField
 from ui.components.fields.repeat_password_field import RepeatPasswordField

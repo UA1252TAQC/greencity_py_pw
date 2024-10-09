@@ -1,10 +1,9 @@
 from playwright.sync_api import Page
-from ui.pages.green_city.base_page_green_city import BasePageGreenCity
 
 
-class GoogleAuthComponent(BasePageGreenCity):
+class GoogleAuthComponent():
     def __init__(self, page: Page):
-        super().__init__(page)
+        self.page = page
         self.email_input = page.locator("#identifierId")
         self.email_next_button = page.locator("#identifierNext div button")
         self.password_input = page.locator("#password div div div input")
