@@ -1,12 +1,11 @@
 from playwright.sync_api import Page
-from ui.Base import Base
 
 
-class BasePage(Base):
-    TIME_TO_WAIT = 15000  # milliseconds
+class BasePage():
+    TIME_TO_WAIT = 15000
 
     def __init__(self, page: Page):
-        super().__init__(page)
+        self.page = page
         self.header_root_element = self.find_with_wait_element("//header[@role='banner']", self.TIME_TO_WAIT)
 
     def get_pop_up_message(self):
