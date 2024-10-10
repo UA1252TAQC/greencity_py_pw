@@ -1,8 +1,12 @@
 import json
 import os
 
+from modules.mail_utils import MailUtils
+
 
 class DataProvider:
+    mail_utils = MailUtils()
+
     @staticmethod
     def load_data(path):
         with open(path) as file:
@@ -16,26 +20,21 @@ class DataProvider:
     @staticmethod
     def get_ui_test_data(test_method):
         data = DataProvider.load_data('test_data_ui.json')
-        return data[test_method]
-        # test_cases = self._data_ui
-        # for i in range(len(test_cases)):
-        #     for j in range(len(test_cases[i])):
-        #         test_cases[i][j] = self.handle_special_cell(test_cases[i][j])
-        #  test_cases
+        required_data = data[test_method]
+        for i in range(len(required_data)):
+            for j in range(len(required_data[i])):
+                required_data[i][j] = DataProvider().handle_special_cell(required_data[i][j])
+        return required_data
 
     def handle_special_cell(self, cell):
         if cell is None or cell == "null":
             return None
 
         special_cases = {
-            # "GENERATE_TEMPORARY_EMAIL": lambda: self.mail_utils.create_inbox()["id"],
+            "GENERATE_TEMPORARY_EMAIL": lambda: DataProvider.mail_utils.create_inbox(),
             "EXTRACT_GOOGLE_EMAIL": lambda: os.getenv("GOOGLE_EMAIL"),
             "EXTRACT_GOOGLE_PASSWORD": lambda: os.getenv("GOOGLE_PASSWORD"),
             "EXTRACT_GOOGLE_NAME": lambda: os.getenv("GOOGLE_NAME")
         }
 
         return special_cases.get(cell, lambda: cell)()
-
-
-if __name__ == "__main__":
-    print(DataProvider.get_ui_test_data("testUsernameValidation"))

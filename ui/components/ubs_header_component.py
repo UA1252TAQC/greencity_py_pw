@@ -1,12 +1,11 @@
 from playwright.sync_api import Page
 
-from ui.components.base_component import BaseComponent
 from ui.components.regisration_modal_component import RegistrationModalComponent
 
 
-class UbsHeaderComponent(BaseComponent):
+class UbsHeaderComponent():
     def __init__(self, page: Page):
-        super().__init__(page)
+        self.page = page
         self.current_language = page.locator("ul[aria-label='language switcher']")
         self.list_language = page.locator(
             "ul.header_lang-switcher-wrp.header_navigation-menu-right-lang.ubs-lang-switcher")

@@ -18,7 +18,7 @@ class MailUtils:
         payload = {"expiresAt": expiration}
 
         try:
-            response = requests.post(f"{self.base_url}/inboxes", headers=self.headers, json=payload)
+            response = requests.post(f"{self.base_url}inboxes", headers=self.headers, json=payload)
             response.raise_for_status()
             return response.json()
         except HTTPError as http_err:
@@ -26,12 +26,12 @@ class MailUtils:
         except Exception as err:
             raise RuntimeError(f"Other error occurred: {err}")
 
-    def get_last_mail(self, inbox_id: str, timeout_millis: int = 30000):
+    def get_last_mail(self, inbox_id: str):
         try:
             response = requests.get(
-                f"{self.base_url}/waitForLatestEmail",
+                f"{self.base_url}waitForLatestEmail",
                 headers=self.headers,
-                params={"inboxId": inbox_id, "timeout": timeout_millis}
+                params={"inboxId": inbox_id, "timeout": 30000}
             )
             response.raise_for_status()
             return response.json()
