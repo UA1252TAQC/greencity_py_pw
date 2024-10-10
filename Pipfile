@@ -12,6 +12,7 @@ psycopg2 = "*"
 allure-pytest = "*"
 
 [dev-packages]
+flake8 = "*"
 
 [requires]
 python_version = ">=3.10,<3.13"
