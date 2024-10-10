@@ -2,10 +2,11 @@
 Module for holding fixtures
 """
 import logging as log
+
+import allure
 import pytest
 
 from api.base_api import BaseApi
-from datetime import datetime
 from modules.logger import TcLogger
 from modules.constants import Data
 from modules.helpers import prepare_headers, get_habit_list, handle_api_error
@@ -50,6 +51,7 @@ def generate_logs():
     TcLogger.generate_logs()
 
 
+@allure.step("Get Authorization Token")
 @pytest.fixture(scope="session")
 def get_auth_token():
     """
@@ -248,7 +250,7 @@ def delete_habit(get_auth_token, assign_habit):
 
     response.raise_for_status()
 
-
+    
 @pytest.fixture(scope="session")
 def get_user_id(get_auth_token):
     api = BaseApi('https://greencity-user.greencity.cx.ua/ownSecurity/signIn')

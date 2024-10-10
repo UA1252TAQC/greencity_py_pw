@@ -16,7 +16,7 @@ from modules.dataprovider import DataProvider
 @allure.story("Get all eco news")
 @allure.tag("Eco News")
 def test_get_eco_news_default():
-    api = BaseApi(f"{Data.BASE_URL}eco-news")
+    api = BaseApi(f"{Data.API_BASE_URL}eco-news")
     response = api.get_data()
     assert response.status_code == HTTPStatus.OK
     json_response = response.json()
@@ -48,10 +48,10 @@ def test_get_eco_news_default():
 @allure.tag("Eco News")
 @pytest.mark.parametrize(
     "expected_size, tags",
-    DataProvider.get_data("test_get_all_eco_news_with_tags")
+    DataProvider.get_api_test_data("test_get_all_eco_news_with_tags")
 )
 def test_get_all_eco_news_with_tags(expected_size, tags):
-    api = BaseApi(f"{Data.BASE_URL}eco-news")
+    api = BaseApi(f"{Data.API_BASE_URL}eco-news")
     actual_response = api.get_data(query_params={"tags": tags})
     assert actual_response.status_code == HTTPStatus.OK
     actual_json_response = actual_response.json()
@@ -78,10 +78,10 @@ def test_get_all_eco_news_with_tags(expected_size, tags):
 @allure.tag("Eco News")
 @pytest.mark.parametrize(
     "expected_size, title",
-    DataProvider.get_data("test_get_all_eco_news_with_title")
+    DataProvider.get_api_test_data("test_get_all_eco_news_with_title")
 )
 def test_get_all_eco_news_with_title(expected_size, title):
-    api = BaseApi(f"{Data.BASE_URL}eco-news")
+    api = BaseApi(f"{Data.API_BASE_URL}eco-news")
     actual_response = api.get_data(query_params={"title": title})
     assert actual_response.status_code == HTTPStatus.OK
     actual_json_response = actual_response.json()
@@ -108,10 +108,10 @@ def test_get_all_eco_news_with_title(expected_size, title):
 @allure.tag("Eco News")
 @pytest.mark.parametrize(
     "expected_size, author_id",
-    DataProvider.get_data("test_get_all_eco_news_with_author_id")
+    DataProvider.get_api_test_data("test_get_all_eco_news_with_author_id")
 )
 def test_get_all_eco_news_with_author_id(expected_size, author_id):
-    api = BaseApi(f"{Data.BASE_URL}eco-news")
+    api = BaseApi(f"{Data.API_BASE_URL}eco-news")
     actual_response = api.get_data(query_params={"author-id": author_id})
     assert actual_response.status_code == HTTPStatus.OK, (
         f"Expected status code 200, but got {actual_response.status_code}"
@@ -140,10 +140,10 @@ def test_get_all_eco_news_with_author_id(expected_size, author_id):
 @allure.tag("Eco News")
 @pytest.mark.parametrize(
     "expected_size, page, size",
-    DataProvider.get_data("test_get_all_eco_news_with_pagination")
+    DataProvider.get_api_test_data("test_get_all_eco_news_with_pagination")
 )
 def test_get_all_eco_news_with_pagination(expected_size, page, size):
-    api = BaseApi(f"{Data.BASE_URL}eco-news")
+    api = BaseApi(f"{Data.API_BASE_URL}eco-news")
     actual_response = api.get_data(query_params={"page": page, "size": size})
     assert actual_response.status_code == HTTPStatus.OK, (
         f"Expected status code 200, but got {actual_response.status_code}"
