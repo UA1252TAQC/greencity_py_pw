@@ -1,6 +1,5 @@
 import base64
 import json
-from datetime import timedelta
 from playwright.sync_api import sync_playwright
 import pytest
 
