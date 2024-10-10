@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page
 
 from ui.components.regisration_modal_component import RegistrationModalComponent
@@ -14,10 +15,12 @@ class UbsHeaderComponent():
         self.register = page.locator("li.header_sign-up-link.ng-star-inserted span").all()[-1]
         self.auth_root_element = page.locator("app-auth-modal")
 
+    @allure.step("Open registration form")
     def open_registration_form(self):
         self.register.click()
         return RegistrationModalComponent(self.page)
 
+    @allure.step("Set language to {language}")
     def set_language(self, language: str):
         c_language = self.current_language.inner_text()
         if c_language.strip().lower() == language.lower():

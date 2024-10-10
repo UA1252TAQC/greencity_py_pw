@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright
 import pytest
+import allure
 
 from modules.constants import Data
 from modules.dataprovider import DataProvider
@@ -38,6 +39,16 @@ def setup_function(request):
 #     return JwtPayload(**json.loads(decoded_payload))
 
 # # TODO FIX
+# @allure.title("Verify registration email field validation")
+# @allure.description("""
+#     This test checks the validation of the registration form fields.
+#                     """)
+# @allure.severity(allure.severity_level.NORMAL)
+# @allure.epic("Green City")
+# @allure.feature("Registration form")
+# @allure.story("Registration form email field validation")
+# @allure.tag("Green City")
+# @allure.issue("12")
 # @pytest.mark.parametrize(
 #     "expected_registration_success_message, expected_account_submit_message, mail_box, username, password, repeat_password",
 #     DataProvider.get_ui_test_data("testPopUpSignUpValidation"),
@@ -54,7 +65,7 @@ def setup_function(request):
 #     mail = MailUtils().get_last_mail(mail_box["id"])
 #     home_page.open_url_in_new_tab(MailUtils.extract_activation_link(mail["body"]))
 
-
+#  WAIT FOR LOGIN COMPONENT
 #     ubs_page = UbsHomePage(home_page.page)
 
     # login_form = ubs_page.header_component.get_current_login_form()
@@ -64,6 +75,16 @@ def setup_function(request):
     # assert jwt_payload.exp == jwt_payload.iat + timedelta(
     #     hours=24), "Validating the JWT token expiration time is 24 hours."
 
+@allure.title("Verify registration email field validation")
+@allure.description("""
+    This test checks the validation of the registration form fields.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Green City")
+@allure.feature("Registration form")
+@allure.story("Registration form email field validation")
+@allure.tag("Green City")
+@allure.issue("12")
 @pytest.mark.parametrize(
     "google_email, google_password, expected_google_name",
     DataProvider.get_ui_test_data("testGoogleSignUp"),
@@ -94,6 +115,16 @@ def test_google_sign_up(
     )
 
 
+@allure.title("Verify registration email field validation")
+@allure.description("""
+    This test checks the validation of the registration form fields.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Green City")
+@allure.feature("Registration form")
+@allure.story("Registration form email field validation")
+@allure.tag("Green City")
+@allure.issue("12")
 @pytest.mark.parametrize(
     "expected_registration_error_message, mail_box, username, password, repeat_password",
     DataProvider.get_ui_test_data("testRegisteredGreenCity"),
@@ -125,6 +156,16 @@ def test_registered_green_city(
     )
 
 
+@allure.title("Verify registration email field validation")
+@allure.description("""
+    This test checks the validation of the registration form fields.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Green City")
+@allure.feature("Registration form")
+@allure.story("Registration form email field validation")
+@allure.tag("Green City")
+@allure.issue("12")
 @pytest.mark.parametrize(
     "expected_registration_error_message, mail_box, username, password, repeat_password",
     DataProvider.get_ui_test_data("testRegisteredUbs"),
@@ -155,6 +196,16 @@ def test_registered_ubs(
     )
 
 
+@allure.title("Verify registration email field validation")
+@allure.description("""
+    This test checks the validation of the registration form fields.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Green City")
+@allure.feature("Registration form")
+@allure.story("Registration form email field validation")
+@allure.tag("Green City")
+@allure.issue("12")
 @pytest.mark.parametrize(
     "expected_registration_error_message, mail_box, username, password, repeat_password",
     DataProvider.get_ui_test_data("testEmailAlreadyExists"),
@@ -183,6 +234,16 @@ def test_email_already_exists(
     )
 
 
+@allure.title("Verify registration email field validation")
+@allure.description("""
+    This test checks the validation of the registration form fields.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Green City")
+@allure.feature("Registration form")
+@allure.story("Registration form email field validation")
+@allure.tag("Green City")
+@allure.issue("12")
 @pytest.mark.parametrize(
     "expected_error_message, mail_box, username, password, repeat_password",
     DataProvider.get_ui_test_data("testGreenCityRegisteredWithConfirmEmail"),
@@ -215,6 +276,16 @@ def test_green_city_registered_with_confirm_email(
     assert actual_registration_error_message == localization_utils.get_form_message(expected_error_message)
 
 
+@allure.title("Verify registration email field validation")
+@allure.description("""
+    This test checks the validation of the registration form fields.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Green City")
+@allure.feature("Registration form")
+@allure.story("Registration form email field validation")
+@allure.tag("Green City")
+@allure.issue("12")
 @pytest.mark.parametrize(
     "expected_registration_error_message, mail_box, username, password, repeat_password",
     DataProvider.get_ui_test_data("testUbsRegisteredWithConfirmEmail"),
