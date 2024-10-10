@@ -23,10 +23,11 @@ class DataProvider:
         required_data = data[test_method]
         for i in range(len(required_data)):
             for j in range(len(required_data[i])):
-                required_data[i][j] = DataProvider().handle_special_cell(required_data[i][j])
+                required_data[i][j] = DataProvider.handle_special_cell(required_data[i][j])
         return required_data
 
-    def handle_special_cell(self, cell):
+    @staticmethod
+    def handle_special_cell(cell):
         if cell is None or cell == "null":
             return None
 

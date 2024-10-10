@@ -10,7 +10,6 @@ from modules.localization_utils import LocalizationUtils
 from modules.mail_utils import MailUtils
 from ui.pages.green_city.green_city_home_page import GreenCityHomePage
 from ui.pages.ubs.ubs_home_page import UbsHomePage
-import asyncio
 
 
 # @pytest.fixture(scope="function", autouse=True)
@@ -27,12 +26,10 @@ import asyncio
 
 @pytest.fixture(scope="function")
 def setup_function(request):
-    print(asyncio.get_event_loop())
     with sync_playwright() as playwright_instance:
         browser = playwright_instance.chromium.launch(
             headless=False
         )
-        print(asyncio.get_event_loop())
         context = browser.new_context(viewport={"width": 1920, "height": 1080})
         page = context.new_page()
         language = request.config.getoption("--language", default="Ua")
