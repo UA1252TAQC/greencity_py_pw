@@ -2,6 +2,7 @@
 Module for holding fixtures
 """
 import logging as log
+from datetime import datetime
 
 import allure
 import pytest
@@ -250,7 +251,7 @@ def delete_habit(get_auth_token, assign_habit):
 
     response.raise_for_status()
 
-    
+
 @pytest.fixture(scope="session")
 def get_user_id(get_auth_token):
     api = BaseApi('https://greencity-user.greencity.cx.ua/ownSecurity/signIn')
