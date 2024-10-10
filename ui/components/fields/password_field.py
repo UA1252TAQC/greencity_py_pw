@@ -12,14 +12,14 @@ class PasswordField:
     def is_displayed(self) -> bool:
         return self.page.is_visible("input#password")
 
-    def get_error_message(self) -> str:
-        error_selector = ".alert-general-error, #pass-err-msg div"
+    def get_error_message(self):
+        error_selector = "#password-err-msg app-error div, .alert-general-error, #pass-err-msg div"
         if self.page.is_visible(error_selector):
             return self.page.inner_text(error_selector)
         return None
 
     def is_valid(self) -> bool:
-        error_selector = ".alert-general-error, #pass-err-msg div"
+        error_selector = "#password-err-msg app-error div, .alert-general-error, #pass-err-msg div"
         return not self.page.is_visible(error_selector)
 
     def clear(self):
