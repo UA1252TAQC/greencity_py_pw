@@ -16,14 +16,3 @@ def test_get_shopping_list_for_habit(get_shopping_list, delete_habit, get_first_
         log.info(f"Habit with ID {get_first_available_habit_id} was deleted.")
     else:
         log.warning("delete_habit is None. Skipping habit deletion.")
-
-
-def test_delete_shopping_list_item(delete_shopping_list_item, get_first_shopping_list_item_id, get_first_habit_id):
-    habit_id = get_first_habit_id
-    shopping_list_item_id = get_first_shopping_list_item_id
-
-    response = delete_shopping_list_item(habit_id, shopping_list_item_id)
-
-    assert response.status_code == 200
-
-    log.info(f"Shopping list item with ID {shopping_list_item_id} for habit ID {habit_id} successfully deleted.")
