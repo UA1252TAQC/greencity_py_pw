@@ -8,6 +8,8 @@ from api.base_api import BaseApi
 from datetime import datetime
 from modules.logger import TcLogger
 from modules.constants import Data
+from modules.helpers import prepare_headers, get_habit_list, handle_api_error
+from modules.api_utils import post_data, delete_data
 
 
 @pytest.fixture()
@@ -134,91 +136,6 @@ def setup_comment(get_auth_token, setup_and_teardown_news):
     return response
 
 
-@pytest.fixture(scope="module")
-def get_first_available_habit_id(get_auth_token):
-    """
-    Fixture to get a list of habits.
-    :return: list of habits.
-    """
-    api = BaseApi('https://greencity.greencity.cx.ua/habit?page=1&size=5')
-    headers = {
-        'accept': '*/*',
-        'Authorization': "Bearer " + get_auth_token
-    }
-
-    log.info("CONFTEST: Requesting habit list with authentication token for user.")
-
-    response = api.get_data(headers=headers)
-
-    if response.status_code == 200:
-        log.info("CONFTEST: Successfully retrieved habit list.")
-    else:
-        log.error(f"CONFTEST: Failed to retrieve habit list. Status code: {response.status_code}")
-
-    response.raise_for_status()
-    habits_list = response.json().get('page', [])
-
-    if len(habits_list) > 0:
-        for habit in habits_list:
-            if habit.get('shoppingListItems'):
-                return habit.get('id')
-    else:
-        log.warning("CONFTEST: The habit list is empty. Consider adding a habit before proceeding.")
-        raise ValueError("The habit list is empty. Unable to proceed without available habits.")
-
-
-@pytest.fixture(scope="module")
-def assign_habit_with_id(get_auth_token, get_first_available_habit_id):
-    """
-    Fixture to assign a habit.
-    :return: assigned habit ID.
-    """
-    api = BaseApi(f'https://greencity.greencity.cx.ua/habit/assign/{get_first_available_habit_id}')
-    headers = {
-        'accept': '*/*',
-        'Authorization': "Bearer " + get_auth_token
-    }
-
-    log.info("CONFTEST: Assigning habit with authentication token for user.")
-
-    response = api.post_data(headers=headers)
-
-    if response.status_code == 201:
-        log.info("CONFTEST: Successfully assigned habit.")
-    else:
-        log.error(f"CONFTEST: Failed to assign habit. Status code: {response.status_code}")
-
-    response.raise_for_status()
-    assigned_habit_id = response.json().get('id')
-
-    return assigned_habit_id
-
-
-@pytest.fixture(scope="module")
-def delete_habit(get_auth_token, assign_habit_with_id):
-    """
-    Fixture to delete a habit assigned during the test.
-    :return: None
-    """
-    habit_id = assign_habit_with_id
-    api = BaseApi(f"https://greencity.greencity.cx.ua/habit/assign/delete/{habit_id}")
-    headers = {
-        'accept': '*/*',
-        'Authorization': "Bearer " + get_auth_token
-    }
-
-    log.info(f"CONFTEST: Deleting habit with ID {habit_id}.")
-
-    response = api.delete_data(headers=headers)
-
-    if response.status_code == 200:
-        log.info("CONFTEST: Successfully deleted habit.")
-    else:
-        log.error(f"CONFTEST: Failed to delete habit. Status code: {response.status_code}")
-
-    response.raise_for_status()
-
-
 @pytest.fixture(scope="function")
 def teardown_comment():
     """
@@ -240,3 +157,69 @@ def teardown_comment():
         )
 
     return _delete_comment
+
+
+@pytest.fixture(scope="module")
+def get_first_available_habit_id(get_auth_token):
+    """
+    Fixture to get the first available habit with shopping list items.
+    :return: habit ID or raises ValueError if no habits are found.
+    """
+    api_url = 'https://greencity.greencity.cx.ua/habit?page=1&size=5'
+    headers = prepare_headers(get_auth_token)
+
+    log.info("CONFTEST: Requesting habit list with authentication token for user.")
+
+    habits_list = get_habit_list(api_url, headers)
+
+    if not habits_list:
+        log.warning("CONFTEST: The habit list is empty. Consider adding a habit before proceeding.")
+        raise ValueError("The habit list is empty. Unable to proceed without available habits.")
+
+    habit = next((habit for habit in habits_list if habit.get('shoppingListItems')), None)
+
+    if habit:
+        return habit.get('id')
+    else:
+        raise ValueError("No habit with shopping list items found.")
+
+
+@pytest.fixture(scope="module")
+def assign_habit(get_auth_token, get_first_available_habit_id):
+    """
+    Fixture to assign a habit.
+    :return: assigned habit ID.
+    """
+    habit_id = get_first_available_habit_id
+    api_url = f'https://greencity.greencity.cx.ua/habit/assign/{habit_id}'
+    headers = prepare_headers(get_auth_token)
+
+    log.info(f"CONFTEST: Assigning habit with ID {habit_id}.")
+
+    response = post_data(api_url, headers)
+
+    if response.status_code == 201:
+        log.info("CONFTEST: Successfully assigned habit.")
+        return response.json().get('id')
+    else:
+        handle_api_error(response, "Failed to assign habit")
+
+
+@pytest.fixture(scope="module")
+def delete_habit(get_auth_token, assign_habit):
+    """
+    Fixture to delete a habit assigned during the test.
+    :return: None
+    """
+    habit_id = assign_habit
+    api_url = f"https://greencity.greencity.cx.ua/habit/assign/delete/{habit_id}"
+    headers = prepare_headers(get_auth_token)
+
+    log.info(f"CONFTEST: Deleting habit with ID {habit_id}.")
+
+    response = delete_data(api_url, headers)
+
+    if response.status_code == 200:
+        log.info("CONFTEST: Successfully deleted habit.")
+    else:
+        handle_api_error(response, f"Failed to delete habit with ID {habit_id}")
