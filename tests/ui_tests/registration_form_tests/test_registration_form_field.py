@@ -71,7 +71,7 @@ def test_email_validation(
     actual_error_message = form.email.get_error_message()
 
     assert is_actual_valid == is_expected_valid, error_message
-    assert actual_error_message == localization_utils.get_form_message(expected_error_message),"Error message mismatch"
+    assert actual_error_message == localization_utils.get_form_message(expected_error_message), "Error message mismatch"
 
 
 @allure.title("Verify registration username field validation")
@@ -98,7 +98,7 @@ def test_username_validation(
     actual_error_message = form.username.get_error_message()
 
     assert is_actual_valid == is_expected_valid, error_message
-    assert actual_error_message == localization_utils.get_form_message(expected_error_message ), "Error message mismatch"
+    assert actual_error_message == localization_utils.get_form_message(expected_error_message), "Error message mismatch"
 
 
 @allure.title("Verify registration password field validation")
