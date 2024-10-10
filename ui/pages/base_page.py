@@ -6,6 +6,7 @@ class BasePage:
 
     def __init__(self, page: Page):
         self.page = page
+        page.wait_for_timeout(2000)
 
     def get_pop_up_message(self):
         return self.page.wait_for_selector("//div[@matsnackbarlabel]", timeout=self.TIME_TO_WAIT).inner_text()

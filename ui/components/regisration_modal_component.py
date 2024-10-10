@@ -62,6 +62,7 @@ class RegistrationModalComponent:
     def submit(self):
         if self.register_button.is_visible() and self.register_button.is_enabled():
             self.register_button.click()
+            self.page.wait_for_timeout(3000)
         else:
             raise Exception("Registration button is not enabled")
 

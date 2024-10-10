@@ -39,3 +39,20 @@ class MailUtils:
             raise RuntimeError(f"HTTP error occurred: {http_err}")
         except Exception as err:
             raise RuntimeError(f"Other error occurred: {err}")
+
+    @staticmethod
+    def extract_activation_link(body: str) -> str:
+        start_token = '<div class="vertical-center"><a href="http'
+        end_token = '" class="verify-email color-green-city'
+
+        start_index = body.find(start_token)
+        if start_index != -1:
+            start_index += len(start_token) - 4
+            end_index = body.find(end_token, start_index)
+
+            if end_index == -1:
+                end_index = body.find('"', start_index)
+
+            if start_index < end_index:
+                return body[start_index:end_index].replace('amp;', '')
+        raise ValueError("Token cannot be parsed!")

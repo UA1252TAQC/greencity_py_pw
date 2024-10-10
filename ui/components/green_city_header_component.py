@@ -31,4 +31,4 @@ class GreenCityHeaderComponent:
             self.ukrainian.click()
 
     def get_username(self):
-        return self.page.wait_for_selector("body-2 user-name").inner_text().strip()
+        return self.page.wait_for_selector("//*[@id='header_user-wrp']/li").inner_text().strip()
