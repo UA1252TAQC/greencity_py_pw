@@ -296,7 +296,7 @@ def get_first_habit_id(get_user_habits):
     """
     habits = get_user_habits.get('page', [])
     if habits and len(habits) > 0:
-        first_habit_id = habits[0]['habit']['id']  # Достаем ID хабита из объекта 'habit'
+        first_habit_id = habits[0]['habit']['id']
         log.info(f"First habit ID: {first_habit_id}")
         return first_habit_id
     else:
