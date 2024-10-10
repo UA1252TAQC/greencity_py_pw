@@ -38,7 +38,7 @@ class RegistrationModalComponent:
 
     def open_auth_google_form(self):
         self.google_button.click()
-        self.page.wait_for_timeout(20000)
+        self.page.wait_for_timeout(15000)
         self.page.context.pages[-1].bring_to_front()
         return GoogleAuthComponent(self.page.context.pages[-1])
 

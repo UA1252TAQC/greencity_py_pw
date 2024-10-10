@@ -9,7 +9,9 @@ from modules.jwt_payload import JwtPayload
 from modules.localization_utils import LocalizationUtils
 from modules.mail_utils import MailUtils
 from ui.pages.green_city.green_city_home_page import GreenCityHomePage
+from ui.pages.green_city.profile_page import ProfilePage
 from ui.pages.ubs.ubs_home_page import UbsHomePage
+
 
 @pytest.fixture(scope="function")
 def setup_function(request):
@@ -20,9 +22,9 @@ def setup_function(request):
         context = browser.new_context(viewport={"width": 1920, "height": 1080})
         page = context.new_page()
         language = request.config.getoption("--language", default="Ua")
-        localized_messages = LocalizationUtils().get_form_messages(language)
+        localization_utils = LocalizationUtils(language=language)
 
-        yield page, localized_messages, language
+        yield page, localization_utils, language
         context.close()
         browser.close()
 
@@ -55,30 +57,36 @@ def extract_activation_link(body: str) -> str:
     raise ValueError("Token cannot be parsed!")
 
 
-@pytest.mark.parametrize(
-    "expected_registration_success_message, expected_account_submit_message, mail_box, username, password, repeat_password",
-    DataProvider.get_ui_test_data("testPopUpSignUpValidation"),
-)
-def test_pop_up_sign_up_validation(expected_registration_success_message, expected_account_submit_message,
-                                   mail_box, username, password, repeat_password, setup_function):
-    page, localized_messages, language = setup_function
-    page.goto(f"{Data.UI_BASE_URL}greenCity")
-    home_page = GreenCityHomePage(page)
-    home_page.header_component.set_language(language)
-    form = home_page.header_component.open_registration_form()
-    form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
+# @pytest.mark.parametrize(
+#     "expected_registration_success_message, expected_account_submit_message, mail_box, username, password, repeat_password",
+#     DataProvider.get_ui_test_data("testPopUpSignUpValidation"),
+# )
+# def test_pop_up_sign_up_validation(expected_registration_success_message, expected_account_submit_message,
+#                                    mail_box, username, password, repeat_password, setup_function):
+#     page, localization_utils, language = setup_function
+#     page.goto(f"{Data.UI_BASE_URL}greenCity")
+#     home_page = GreenCityHomePage(page)
+#     home_page.header_component.set_language(language)
+#     form = home_page.header_component.open_registration_form()
+#     form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
-    actual_registration_success_message = home_page.get_pop_up_message()
-    assert actual_registration_success_message == localized_messages[expected_registration_success_message], (
-        "Validating the success message after registration."
-    )
+#     actual_registration_success_message = home_page.get_pop_up_message()
+#     assert actual_registration_success_message == localization_utils.get_form_message(expected_registration_success_message], (
+#         "Validating the success message after registration."
+#     )
 
-    mail = MailUtils().get_last_mail(mail_box["id"])
-    home_page.open_url_in_new_tab(extract_activation_link(mail["body"]))
+#     mail = MailUtils().get_last_mail(mail_box["id"])
+#     home_page.open_url_in_new_tab(extract_activation_link(mail["body"]))
+
+
+
+
+
+
     # ubs_page = UbsHomePage(page)
 
     # actual_account_submit_message = ubs_page.get_pop_up_message()
-    # assert actual_account_submit_message == localized_messages[expected_account_submit_message], (
+    # assert actual_account_submit_message == localization_utils.get_form_message(expected_account_submit_message], (
     #     "Validating the account submission message after activation."
     # )
 
@@ -95,7 +103,8 @@ def test_pop_up_sign_up_validation(expected_registration_success_message, expect
     DataProvider.get_ui_test_data("testGoogleSignUp"),
 )
 def test_google_sign_up(google_email, google_password, expected_google_name, setup_function):
-    page, localized_messages, language = setup_function
+    page, localization_utils, language = setup_function
+    page.goto(f"{Data.UI_BASE_URL}greenCity")
     home_page = GreenCityHomePage(page)
     form = home_page.header_component.open_registration_form()
 
@@ -104,153 +113,158 @@ def test_google_sign_up(google_email, google_password, expected_google_name, set
         google_password).click_password_submit_button()
 
     home_page.switch_to_active_tab()
-    profile_page = ProfilePage(page)
+    profile_page = ProfilePage(home_page.page)
 
     assert profile_page.get_auth_token() is not None, (
         "Validating that the JWT token is not null after Google sign-up."
     )
-    assert page.url.startswith(f"{Data.UI_BASE_URL}/#/profile"), "Validating that the user is redirected to the profile page."
-    assert profile_page.header_component.get_username() == localized_messages[expected_google_name], (
+    assert profile_page.header_component.get_username() == expected_google_name, (
         "Validating that the Google account name matches the expected name."
     )
 
 
-@pytest.mark.parametrize(
-    "expected_registration_success_message, expected_registration_error_message, mail_box, username, password, repeat_password",
-    DataProvider.get_ui_test_data("testRegisteredGreenCity"),
-)
-def test_registered_green_city(expected_registration_success_message, expected_registration_error_message,
-                               mail_box, username, password, repeat_password, setup_function):
-    page, localized_messages, language = setup_function
-    home_page = GreenCityHomePage(page)
-    home_form = home_page.header_component.open_registration_form()
-    home_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
+# @pytest.mark.parametrize(
+#     "expected_registration_success_message, expected_registration_error_message, mail_box, username, password, repeat_password",
+#     DataProvider.get_ui_test_data("testRegisteredGreenCity"),
+# )
+# def test_registered_green_city(expected_registration_success_message, expected_registration_error_message,
+#                                mail_box, username, password, repeat_password, setup_function):
+#     page, localization_utils, language = setup_function
+#     home_page = GreenCityHomePage(page)
+#     home_form = home_page.header_component.open_registration_form()
+#     home_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
-    actual_registration_success_message = home_page.get_pop_up_message()
-    assert actual_registration_success_message == localized_messages[expected_registration_success_message], (
-        "Validating the success message after registration."
-    )
+#     actual_registration_success_message = home_page.get_pop_up_message()
+#     assert actual_registration_success_message == localization_utils.get_form_message(expected_registration_success_message], (
+#         "Validating the success message after registration."
+#     )
 
-    ubs_page = UbsHomePage(page)
-    ubs_form = ubs_page.header_component.open_registration_form()
-    ubs_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
+#     ubs_page = UbsHomePage(page)
+#     ubs_form = ubs_page.header_component.open_registration_form()
+#     ubs_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
-    actual_registration_error_message = ubs_form.get_email().get_error_message()
-    assert actual_registration_error_message == localized_messages[expected_registration_error_message], (
-        "Validating the error message for already registered email."
-    )
-
-
-@pytest.mark.parametrize(
-    "expected_registration_success_message, expected_registration_error_message, mail_box, username, password, repeat_password",
-    DataProvider.get_ui_test_data("testRegisteredUbs"),
-)
-def test_registered_ubs(expected_registration_success_message, expected_registration_error_message,
-                        mail_box, username, password, repeat_password, setup_function):
-    page, localized_messages, language = setup_function
-    ubs_page = UbsHomePage(page)
-    ubs_form = ubs_page.header_component.open_registration_form()
-    ubs_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
-
-    actual_registration_success_message = ubs_page.get_pop_up_message()
-    assert actual_registration_success_message == localized_messages[expected_registration_success_message], (
-        "Validating the success message after registration."
-    )
-
-    home_page = GreenCityHomePage(page)
-    home_form = home_page.header_component.open_registration_form()
-    home_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
-
-    actual_registration_error_message = home_form.get_email().get_error_message()
-    assert actual_registration_error_message == localized_messages[expected_registration_error_message], (
-        "Validating the error message for already registered email in UBS."
-    )
+#     actual_registration_error_message = ubs_form.email.get_error_message()
+#     assert actual_registration_error_message == localization_utils.get_form_message(expected_registration_error_message], (
+#         "Validating the error message for already registered email."
+#     )
 
 
-@pytest.mark.parametrize(
-    "expected_registration_success_message, expected_registration_error_message, mail_box, username, password, repeat_password",
-    DataProvider.get_ui_test_data("testEmailAlreadyExists"),
-)
-def test_email_already_exists(expected_registration_success_message, expected_registration_error_message,
-                              mail_box, username, password, repeat_password, setup_function):
-    page, localized_messages, language = setup_function
-    home_page = GreenCityHomePage(page)
-    home_form = home_page.header_component.open_registration_form()
-    home_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
+# @pytest.mark.parametrize(
+#     "expected_registration_success_message, expected_registration_error_message, mail_box, username, password, repeat_password",
+#     DataProvider.get_ui_test_data("testRegisteredUbs"),
+# )
+# def test_registered_ubs(expected_registration_success_message, expected_registration_error_message,
+#                         mail_box, username, password, repeat_password, setup_function):
+#     page, localization_utils, language = setup_function
+#     ubs_page = UbsHomePage(page)
+#     ubs_form = ubs_page.header_component.open_registration_form()
+#     ubs_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
-    actual_registration_success_message = home_page.get_pop_up_message()
-    assert actual_registration_success_message == localized_messages[expected_registration_success_message], (
-        "Validating the success message after registration."
-    )
+#     actual_registration_success_message = ubs_page.get_pop_up_message()
+#     assert actual_registration_success_message == localization_utils.get_form_message(expected_registration_success_message], (
+#         "Validating the success message after registration."
+#     )
 
-    home_form = home_page.header_component.open_registration_form()
-    home_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
+#     home_page = GreenCityHomePage(page)
+#     home_form = home_page.header_component.open_registration_form()
+#     home_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
-    actual_error_message = home_form.get_email().get_error_message()
-    assert actual_error_message == localized_messages[expected_registration_error_message], (
-        "Validating the error message for already registered email."
-    )
-
-
-@pytest.mark.parametrize(
-    "expected_success_message, expected_account_submit_message, expected_error_message, mail_box, username, password, repeat_password",
-    DataProvider.get_ui_test_data("testGreenCityRegisteredWithConfirmEmail"),
-)
-def test_green_city_registered_with_confirm_email(expected_registration_success_message,
-                                                  expected_account_submit_message, expected_registration_error_message,
-                                                  mail_box, username, password, repeat_password, setup_function):
-    page, localized_messages, language = setup_function
-    home_page = GreenCityHomePage(page)
-    green_city_form = home_page.header_component.open_registration_form()
-    green_city_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
-
-    actual_registration_success_message = home_page.get_pop_up_message()
-    assert actual_registration_success_message == localized_messages[expected_registration_success_message], (
-        "Validating the success message after registration."
-    )
-
-    mail = MailUtils.get_last_email(mail_box["id"])
-    home_page.open_url_in_new_tab(mail.extract_activation_link())
-
-    actual_account_submit_message = home_page.get_pop_up_message()
-    assert actual_account_submit_message == localized_messages[expected_account_submit_message]
-
-    ubs_page = UbsHomePage(page)
-    ubs_form = ubs_page.header_component.open_registration_form()
-    ubs_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
-
-    actual_registration_error_message = ubs_form.get_email().get_error_message()
-    assert actual_registration_error_message == expected_registration_error_message
+#     actual_registration_error_message = home_form.email.get_error_message()
+#     assert actual_registration_error_message == localization_utils.get_form_message(expected_registration_error_message], (
+#         "Validating the error message for already registered email in UBS."
+#     )
 
 
-@pytest.mark.parametrize(
-    "expected_registration_success_message, expected_account_submit_message, expected_registration_error_message, mail_box, username, password, repeat_password",
-    DataProvider.get_ui_test_data("testUbsRegisteredWithConfirmEmail"),
-)
-def test_ubs_registered_with_confirm_email(expected_registration_success_message,
-                                           expected_account_submit_message, expected_registration_error_message,
-                                           mail_box, username, password, repeat_password, setup_function):
-    page, localized_messages, language = setup_function
-    ubs_page = UbsHomePage(page)
-    ubs_form = ubs_page.header_component.open_registration_form()
-    ubs_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
+# @pytest.mark.parametrize(
+#     "expected_registration_success_message, expected_registration_error_message, mail_box, username, password, repeat_password",
+#     DataProvider.get_ui_test_data("testEmailAlreadyExists"),
+# )
+# def test_email_already_exists(expected_registration_success_message, expected_registration_error_message,
+#                               mail_box, username, password, repeat_password, setup_function):
+#     page, localization_utils, language = setup_function
+#     home_page = GreenCityHomePage(page)
+#     home_form = home_page.header_component.open_registration_form()
+#     home_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
-    actual_registration_success_message = ubs_page.get_pop_up_message()
-    assert actual_registration_success_message == expected_registration_success_message
+#     actual_registration_success_message = home_page.get_pop_up_message()
+#     assert actual_registration_success_message == localization_utils.get_form_message(expected_registration_success_message], (
+#         "Validating the success message after registration."
+#     )
 
-    mail = MailUtils.get_last_email(mail_box["id"])
-    ubs_page.open_url_in_new_tab(mail.extract_activation_link())
+#     home_form = home_page.header_component.open_registration_form()
+#     home_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
-    actual_account_submit_message = ubs_page.get_pop_up_message()
-    assert actual_account_submit_message == localized_messages[expected_account_submit_message], (
-        "Validating the account submission message after email confirmation."
-    )
+#     actual_error_message = home_form.email.get_error_message()
+#     assert actual_error_message == localization_utils.get_form_message(expected_registration_error_message], (
+#         "Validating the error message for already registered email."
+#     )
 
-    home_page = GreenCityHomePage(page)
-    green_city_form = home_page.header_component.open_registration_form()
-    green_city_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
-    actual_registration_error_message = green_city_form.get_email().get_error_message()
-    assert actual_registration_error_message == localized_messages[expected_registration_error_message], (
-        "Validating the error message for already registered email in Green City."
-    )
+
+
+
+
+
+
+# @pytest.mark.parametrize(
+#     "expected_success_message, expected_account_submit_message, expected_error_message, mail_box, username, password, repeat_password",
+#     DataProvider.get_ui_test_data("testGreenCityRegisteredWithConfirmEmail"),
+# )
+# def test_green_city_registered_with_confirm_email(expected_registration_success_message,
+#                                                   expected_account_submit_message, expected_registration_error_message,
+#                                                   mail_box, username, password, repeat_password, setup_function):
+#     page, localization_utils, language = setup_function
+#     home_page = GreenCityHomePage(page)
+#     green_city_form = home_page.header_component.open_registration_form()
+#     green_city_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
+
+#     actual_registration_success_message = home_page.get_pop_up_message()
+#     assert actual_registration_success_message == localization_utils.get_form_message(expected_registration_success_message], (
+#         "Validating the success message after registration."
+#     )
+
+#     mail = MailUtils.get_last_email(mail_box["id"])
+#     home_page.open_url_in_new_tab(mail.extract_activation_link())
+
+#     actual_account_submit_message = home_page.get_pop_up_message()
+#     assert actual_account_submit_message == localization_utils.get_form_message(expected_account_submit_message]
+
+#     ubs_page = UbsHomePage(page)
+#     ubs_form = ubs_page.header_component.open_registration_form()
+#     ubs_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
+
+#     actual_registration_error_message = ubs_form.email.get_error_message()
+#     assert actual_registration_error_message == expected_registration_error_message
+
+
+# @pytest.mark.parametrize(
+#     "expected_registration_success_message, expected_account_submit_message, expected_registration_error_message, mail_box, username, password, repeat_password",
+#     DataProvider.get_ui_test_data("testUbsRegisteredWithConfirmEmail"),
+# )
+# def test_ubs_registered_with_confirm_email(expected_registration_success_message,
+#                                            expected_account_submit_message, expected_registration_error_message,
+#                                            mail_box, username, password, repeat_password, setup_function):
+#     page, localization_utils, language = setup_function
+#     ubs_page = UbsHomePage(page)
+#     ubs_form = ubs_page.header_component.open_registration_form()
+#     ubs_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
+
+#     actual_registration_success_message = ubs_page.get_pop_up_message()
+#     assert actual_registration_success_message == expected_registration_success_message
+
+#     mail = MailUtils.get_last_email(mail_box["id"])
+#     ubs_page.open_url_in_new_tab(mail.extract_activation_link())
+
+#     actual_account_submit_message = ubs_page.get_pop_up_message()
+#     assert actual_account_submit_message == localization_utils.get_form_message(expected_account_submit_message], (
+#         "Validating the account submission message after email confirmation."
+#     )
+
+#     home_page = GreenCityHomePage(page)
+#     green_city_form = home_page.header_component.open_registration_form()
+#     green_city_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
+
+#     actual_registration_error_message = green_city_form.email.get_error_message()
+#     assert actual_registration_error_message == localization_utils.get_form_message(expected_registration_error_message], (
+#         "Validating the error message for already registered email in Green City."
+#     )

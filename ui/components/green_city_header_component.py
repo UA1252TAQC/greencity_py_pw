@@ -30,5 +30,5 @@ class GreenCityHeaderComponent:
         elif language.lower() == "ua":
             self.ukrainian.click()
 
-    def get_username(self) -> str:
-        return self.page.locator(".//ul[@id='header_user-wrp']/li[contains(@class, 'user-name')]").inner_text().strip()
+    def get_username(self):
+        return self.page.wait_for_selector("body-2 user-name").inner_text().strip()
