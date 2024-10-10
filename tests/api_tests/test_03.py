@@ -1,6 +1,4 @@
-import pytest
 import logging as log
-from api.base_api import BaseApi
 
 log.basicConfig(level=log.INFO)
 
@@ -27,4 +25,3 @@ def test_delete_shopping_list_item(delete_shopping_list_item, get_first_shopping
     delete_shopping_list_item(habit_id, shopping_list_item_id)
 
     log.info(f"Shopping list item with ID {shopping_list_item_id} for habit ID {habit_id} successfully deleted.")
-

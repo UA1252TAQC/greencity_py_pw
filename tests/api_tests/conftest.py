@@ -9,7 +9,7 @@ from datetime import datetime
 from modules.logger import TcLogger
 from modules.constants import Data
 from modules.helpers import prepare_headers, get_habit_list, handle_api_error
-from modules.api_utils import post_data, delete_data
+from modules.api_utils import post_data
 
 
 @pytest.fixture()
@@ -205,29 +205,6 @@ def assign_habit(get_auth_token, get_first_available_habit_id):
         handle_api_error(response, "Failed to assign habit")
 
 
-@pytest.fixture(scope="module")
-def delete_shopping_list_item(get_auth_token, habit_id, shopping_list_item_id):
-    """
-    Fixture to delete a shopping list item for a given habit ID and shopping list item ID.
-    :param habit_id: ID of the habit associated with the shopping list item.
-    :param shopping_list_item_id: ID of the shopping list item to delete.
-    :return: None
-    """
-    api_url = f"https://greencity.greencity.cx.ua/user/shopping-list-items?habitId={habit_id}&shoppingListItemId={shopping_list_item_id}"
-    headers = prepare_headers(get_auth_token)
-
-    log.info(f"Deleting shopping list item with ID {shopping_list_item_id} for habit ID {habit_id}.")
-
-    api = BaseApi(api_url)
-    response = api.delete_data(headers=headers)
-
-    if response.status_code == 200:
-        log.info(f"Successfully deleted shopping list item with ID {shopping_list_item_id}.")
-    else:
-        handle_api_error(response, f"Failed to delete shopping list item with ID {shopping_list_item_id}")
-
-
-
 @pytest.fixture
 def get_shopping_list(get_auth_token, get_first_available_habit_id):
     """
@@ -245,6 +222,31 @@ def get_shopping_list(get_auth_token, get_first_available_habit_id):
         handle_api_error(response, f"Failed to get shopping list for habit ID {get_first_available_habit_id}")
 
     return response.json()
+
+
+@pytest.fixture(scope="module")
+def delete_habit(get_auth_token, assign_habit):
+    """
+    Fixture to delete a habit assigned during the test.
+    :return: None
+    """
+    habit_id = assign_habit
+    api = BaseApi(f"https://greencity.greencity.cx.ua/habit/assign/delete/{habit_id}")
+    headers = {
+        'accept': '*/*',
+        'Authorization': "Bearer " + get_auth_token
+    }
+
+    log.info(f"CONFTEST: Deleting habit with ID {habit_id}.")
+
+    response = api.delete_data(headers=headers)
+
+    if response.status_code == 200:
+        log.info("CONFTEST: Successfully deleted habit.")
+    else:
+        log.error(f"CONFTEST: Failed to delete habit. Status code: {response.status_code}")
+
+    response.raise_for_status()
 
 
 @pytest.fixture(scope="session")
@@ -308,7 +310,8 @@ def delete_shopping_list_item(get_auth_token):
     """
 
     def _delete_item(habit_id, shopping_list_item_id):
-        api_url = f"https://greencity.greencity.cx.ua/user/shopping-list-items?habitId={habit_id}&shoppingListItemId={shopping_list_item_id}"
+        api_url = (f"https://greencity.greencity.cx.ua/user/shopping-list-items?habitId={habit_id}&shoppingListItemId="
+                   f"{shopping_list_item_id}")
         headers = prepare_headers(get_auth_token)
 
         log.info(f"Attempting to delete shopping list item with ID {shopping_list_item_id} for habit ID {habit_id}.")
