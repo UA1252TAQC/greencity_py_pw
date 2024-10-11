@@ -13,12 +13,16 @@ class LoginModalComponent:
         self.sign_in_button = page.locator("button[type='submit']")
 
     def enter_email(self, email: str):
-    def fill_form(self, email: str, password: str):
         self.email.enter(email)
         return self
 
     def enter_password(self, password: str):
         self.password.enter(password)
+        return self
+
+    def fill_form(self, email: str, password: str):
+        self.enter_email(email)
+        self.enter_password(password)
         return self
 
     def click_sign_in_button(self):
