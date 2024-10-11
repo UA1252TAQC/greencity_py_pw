@@ -75,14 +75,14 @@ def setup_function(request):
     # assert jwt_payload.exp == jwt_payload.iat + timedelta(
     #     hours=24), "Validating the JWT token expiration time is 24 hours."
 
-@allure.title("Verify registration email field validation")
+@allure.title("Verify Google sign-up process")
 @allure.description("""
-    This test checks the validation of the registration form fields.
+    This test validates the Google sign-up process for unregistered users on the Green City application.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
 @allure.epic("Green City")
 @allure.feature("Registration form")
-@allure.story("Registration form email field validation")
+@allure.story("Google sign-up process validation")
 @allure.tag("Green City")
 @allure.issue("12")
 @pytest.mark.parametrize(
@@ -115,9 +115,10 @@ def test_google_sign_up(
     )
 
 
-@allure.title("Verify registration email field validation")
+@allure.title("Verify error message for already registered in Green City user without confirm the email during UBS sign-up")
 @allure.description("""
-    This test checks the validation of the registration form fields.
+This test checks the scenario where a user registered from the Green City site,
+but hasn't confirmed their email yet, tries to register again from the UBS site.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
 @allure.epic("Green City")
@@ -156,9 +157,10 @@ def test_registered_green_city(
     )
 
 
-@allure.title("Verify registration email field validation")
+@allure.title("Verify error message for already registered in UBS user without confirm the email during Green City sign-up")
 @allure.description("""
-    This test checks the validation of the registration form fields.
+    This test checks the scenario where a user registered from the UBS site,
+    but hasn't confirmed their email yet, tries to register again from the Green City site.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
 @allure.epic("Green City")
@@ -196,10 +198,10 @@ def test_registered_ubs(
     )
 
 
-@allure.title("Verify registration email field validation")
+@allure.title("Verify error message for already registered email")
 @allure.description("""
-    This test checks the validation of the registration form fields.
-                    """)
+    This test verifies that when a user attempts to register with an email that is
+    already registered on the Green City platform, the appropriate error message  is displayed.""")
 @allure.severity(allure.severity_level.NORMAL)
 @allure.epic("Green City")
 @allure.feature("Registration form")
@@ -234,9 +236,10 @@ def test_email_already_exists(
     )
 
 
-@allure.title("Verify registration email field validation")
+@allure.title("Verify error message for already registered email from Green City with confirm the email on UBS sign-up")
 @allure.description("""
-    This test checks the validation of the registration form fields.
+    This test validates that a user who has already registered from the Green City site with confirm
+    the email and tries to sign up on the UBS site receives the appropriate error message.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
 @allure.epic("Green City")
@@ -276,9 +279,10 @@ def test_green_city_registered_with_confirm_email(
     assert actual_registration_error_message == localization_utils.get_form_message(expected_error_message)
 
 
-@allure.title("Verify registration email field validation")
+@allure.title("Verify error message for already registered email from UBS with confirm the email on Green City sign-up")
 @allure.description("""
-    This test checks the validation of the registration form fields.
+    This test validates that a user who has already registered from the UBS site with confirm
+    the email and tries to sign up on the Green City site receives the appropriate error message.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
 @allure.epic("Green City")
