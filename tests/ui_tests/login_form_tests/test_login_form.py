@@ -3,7 +3,7 @@ from playwright.sync_api import sync_playwright
 
 from modules.constants import Data
 from ui.pages.green_city.green_city_home_page import GreenCityHomePage
-from ui.pages.green_city.green_city_profile_page import GreenCityProfilePage
+from ui.pages.green_city.profile_page import ProfilePage
 
 
 @pytest.fixture(scope="function")
@@ -29,7 +29,7 @@ def test_successful_sign_in(setup_function):
     login_modal.enter_password(Data.USER_PASSWORD)
     login_modal.click_sign_in_button_and_successful_login()
 
-    profile_page = GreenCityProfilePage(page)
+    profile_page = ProfilePage(page)
 
     assert profile_page.page.url == f"{Data.UI_BASE_URL}/#/profile/{Data.USER_ID}"
     assert profile_page.header_component.get_username() == Data.USER_NAME

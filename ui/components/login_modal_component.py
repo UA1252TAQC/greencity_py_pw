@@ -25,4 +25,3 @@ class LoginModalComponent:
     def click_sign_in_button_and_successful_login(self):
         self.click_sign_in_button()
         self.sign_in_button.wait_for(state='hidden')
-        return self.page
