@@ -25,6 +25,24 @@ class LoginModalComponent:
         self.click_sign_in_button()
         return self
 
+    def enter_email(self, email: str):
+        """
+        Enter the email into the email field.
+        :param email: Email address to be entered.
+        :return: Returns the current instance of LoginModalComponent for chaining.
+        """
+        self.email.enter(email)
+        return self
+
+    def enter_password(self, password: str):
+        """
+        Enter the password into the password field.
+        :param password: Password to be entered.
+        :return: Returns the current instance of LoginModalComponent for chaining.
+        """
+        self.password.enter(password)
+        return self
+
     def click_sign_in_button(self):
         """
         Wait for the sign-in button to appear and click it.
