@@ -2,6 +2,7 @@ from playwright.sync_api import Page
 
 from ui.components.fields.email_field import EmailField
 from ui.components.fields.password_field import PasswordField
+from ui.pages.green_city.profile_page import ProfilePage
 
 
 class LoginModalComponent:
@@ -21,7 +22,9 @@ class LoginModalComponent:
 
     def click_sign_in_button(self):
         self.sign_in_button.click()
+        return self
 
     def click_sign_in_button_and_successful_login(self):
         self.click_sign_in_button()
         self.sign_in_button.wait_for(state='hidden')
+        return ProfilePage(self.page)
