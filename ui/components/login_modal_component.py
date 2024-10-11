@@ -3,6 +3,7 @@ import logging
 from playwright.sync_api import Page
 from ui.components.fields.email_field import EmailField
 from ui.components.fields.password_field import PasswordField
+from ui.pages.green_city.profile_page import ProfilePage
 
 logging.basicConfig(level=logging.INFO,
                     format='[%(asctime)s] %(levelname)s %(message)s',
