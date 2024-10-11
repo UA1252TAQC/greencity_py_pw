@@ -19,7 +19,7 @@ def setup_and_teardown_news(get_auth_token):
     :param get_auth_token: Fixture to get the authentication token.
     :return: ID of the created news article.
     """
-    api = BaseApi(f'{Data.BASE_URL}/eco-news')
+    api = BaseApi(f'{Data.API_BASE_URL}/eco-news')
     headers = {
         'accept': '*/*',
         'Authorization': f'Bearer {get_auth_token}'
@@ -40,7 +40,7 @@ def setup_and_teardown_news(get_auth_token):
     yield news_id
 
     log.info(f"CONFTEST: Deleting news article with ID: {news_id}")
-    delete_api = BaseApi(f'{Data.BASE_URL}/eco-news/{news_id}')
+    delete_api = BaseApi(f'{Data.API_BASE_URL}/eco-news/{news_id}')
     delete_api.delete_data(headers=headers)
     log.info(
         f"CONFTEST: News article with ID: {news_id} deleted successfully."
@@ -61,7 +61,7 @@ def setup_comment(get_auth_token, setup_and_teardown_news):
         f'Test comment at {datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")}'
     )
 
-    api = BaseApi(f'{Data.BASE_URL}/eco-news/{news_id}/comments')
+    api = BaseApi(f'{Data.API_BASE_URL}/eco-news/{news_id}/comments')
     headers = {
         'accept': '*/*',
         'Authorization': f'Bearer {get_auth_token}'

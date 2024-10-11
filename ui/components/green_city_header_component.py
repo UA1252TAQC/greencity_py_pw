@@ -1,6 +1,9 @@
 import allure
 from playwright.sync_api import Page
+
+from ui.components.login_modal_component import LoginModalComponent
 from ui.components.regisration_modal_component import RegistrationModalComponent
+from ui.pages.green_city.news_page import NewsPage
 
 
 class GreenCityHeaderComponent:
@@ -36,3 +39,11 @@ class GreenCityHeaderComponent:
 
     def get_username(self):
         return self.page.wait_for_selector(self.username_selector).inner_text().strip()
+
+    def open_news_link(self):
+        self.news.click()
+        return NewsPage(self.page)
+
+    def open_login_form(self):
+        self.login.click()
+        return LoginModalComponent(self.page)
