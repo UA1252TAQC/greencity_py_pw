@@ -34,7 +34,7 @@ class GreenCityHeaderComponent:
             self.ukrainian.click()
 
     def get_username(self) -> str:
-        return self.page.locator(".//ul[@id='header_user-wrp']/li[contains(@class, 'user-name')]").inner_text().strip()
+        return self.page.locator("#header_user-wrp li.user-name").inner_text().strip()
 
     def open_news_link(self):
         self.news.click()
