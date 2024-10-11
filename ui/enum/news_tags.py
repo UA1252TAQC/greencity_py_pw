@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class NewsTags(Enum):
     NEWS = ("News", "Новини")
     EVENTS = ("Events", "Події")
