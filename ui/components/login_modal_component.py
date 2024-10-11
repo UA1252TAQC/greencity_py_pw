@@ -1,7 +1,14 @@
-from playwright.sync_api import Page
+import logging
 
+from playwright.sync_api import Page
 from ui.components.fields.email_field import EmailField
 from ui.components.fields.password_field import PasswordField
+
+logging.basicConfig(level=logging.INFO,
+                    format='[%(asctime)s] %(levelname)s %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
+
+logger = logging.getLogger(__name__)
 
 
 class LoginModalComponent:
@@ -20,9 +27,11 @@ class LoginModalComponent:
         :param email: Email address to be entered.
         :param password: Password to be entered.
         """
+        logger.info(f"Logging in with email: {email}")
         self.email.enter(email)
         self.password.enter(password)
         self.click_sign_in_button()
+        logger.info("Clicked sign-in button")
         return self
 
     def enter_email(self, email: str):
@@ -31,6 +40,7 @@ class LoginModalComponent:
         :param email: Email address to be entered.
         :return: Returns the current instance of LoginModalComponent for chaining.
         """
+        logger.info(f"Entering email: {email}")
         self.email.enter(email)
         return self
 
@@ -40,6 +50,7 @@ class LoginModalComponent:
         :param password: Password to be entered.
         :return: Returns the current instance of LoginModalComponent for chaining.
         """
+        self.logger.info("Entering password (hidden for security reasons)")
         self.password.enter(password)
         return self
 
@@ -47,14 +58,12 @@ class LoginModalComponent:
         """
         Wait for the sign-in button to appear and click it.
         """
+        logger.info("Clicking the sign-in button")
         self.page.wait_for_selector("button[type='submit']")
         self.sign_in_button.click()
         return self
 
-    def click_sign_in_button_and_wait_for_success(self):
-        """
-        Click the sign-in button and wait until it disappears (indicating successful login).
-        """
+    def click_sign_in_button_and_successful_login(self):
         self.click_sign_in_button()
         self.sign_in_button.wait_for(state='hidden')
-        return self
+        return ProfilePage(self.page)
