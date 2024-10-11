@@ -1,5 +1,6 @@
 from playwright.sync_api import Page
 from ui.components.regisration_modal_component import RegistrationModalComponent
+from ui.components.login_modal_component import LoginModalComponent
 
 
 class GreenCityHeaderComponent:
@@ -20,6 +21,10 @@ class GreenCityHeaderComponent:
         self.register.click()
         return RegistrationModalComponent(self.page)
 
+    def open_login_form(self):
+        self.login.click()
+        return LoginModalComponent(self.page)
+
     def set_language(self, language: str):
         current_language = self.current_language.inner_text()
         if current_language.strip().lower() == language.lower():
@@ -31,4 +36,4 @@ class GreenCityHeaderComponent:
             self.ukrainian.click()
 
     def get_username(self) -> str:
-        return self.page.locator(".//ul[@id='header_user-wrp']/li[contains(@class, 'user-name')]").inner_text().strip()
+        return self.page.locator("#header_user-wrp li.user-name").inner_text().strip()
