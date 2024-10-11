@@ -1,0 +1,50 @@
+{
+  "form": {
+      "Ua": {
+        "EMAIL_INVALID_ERROR_MESSAGE": "Перевірте, чи правильно вказано вашу адресу електронної пошти",
+        "EMAIL_REQUIRED_ERROR_MESSAGE": "Введіть пошту",
+        "EMAIL_WITH_SPACES_ERROR_MESSAGE": "Перевірте, чи правильно вказано вашу адресу електронної пошти",
+        "EMAIL_ALREADY_EXIST_ERROR_MESSAGE": "Користувач з такою поштою вже існує",
+        "USERNAME_REQUIRED_ERROR_MESSAGE": "Введіть ім'я",
+        "USERNAME_INVALID_ERROR_MESSAGE": "Поле обов’язкове для заповнення. Ім'я повинно містити 1-30 символів і може складатись з літер(a-z; а-я), цифр(0-9) та крапки(.), крапка на початку імені, в кінці та послідовність крапок заборонена",
+        "USERNAME_WITH_DOT_AT_THE_START_ERROR_MESSAGE": "Поле обов’язкове для заповнення. Ім'я повинно містити 1-30 символів і може складатись з літер(a-z; а-я), цифр(0-9) та крапки(.), крапка на початку імені, в кінці та послідовність крапок заборонена",
+        "USERNAME_WITH_CONSECUTIVE_DOT_ERROR_MESSAGE": "Поле обов’язкове для заповнення. Ім'я повинно містити 1-30 символів і може складатись з літер(a-z; а-я), цифр(0-9) та крапки(.), крапка на початку імені, в кінці та послідовність крапок заборонена",
+        "USERNAME_TOO_LONG_ERROR_MESSAGE": "Поле обов’язкове для заповнення. Ім'я повинно містити 1-30 символів і може складатись з літер(a-z; а-я), цифр(0-9) та крапки(.), крапка на початку імені, в кінці та послідовність крапок заборонена",
+        "PASSWORD_REQUIRED_ERROR_MESSAGE": "Введіть пароль",
+        "PASSWORD_INVALID_ERROR_MESSAGE": "Пароль має містити хоча б один символ латинського алфавіту верхнього (A-Z) та нижнього регістру (a-z), число (0-9) та спеціальний символ (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "PASSWORD_TOO_SHORT_ERROR_MESSAGE": "Пароль повинен містити принаймі 8 символів без пробілів",
+        "PASSWORD_WITHOUT_UPPERCASE_ERROR_MESSAGE": "Пароль має містити хоча б один символ латинського алфавіту верхнього (A-Z) та нижнього регістру (a-z), число (0-9) та спеціальний символ (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "PASSWORD_WITHOUT_DIGIT_ERROR_MESSAGE": "Пароль має містити хоча б один символ латинського алфавіту верхнього (A-Z) та нижнього регістру (a-z), число (0-9) та спеціальний символ (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "PASSWORD_WITHOUT_SPECIAL_CHAR_ERROR_MESSAGE": "Пароль має містити хоча б один символ латинського алфавіту верхнього (A-Z) та нижнього регістру (a-z), число (0-9) та спеціальний символ (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "PASSWORD_TOO_LONG_ERROR_MESSAGE": "Пароль повинен містити менше 20 символів без пробілів.",
+        "PASSWORDS_DO_NOT_MATCH_ERROR_MESSAGE": "Пароль не співпадає",
+        "ENTER_PASSWORD_FIRST_ERROR_MESSAGE": "Будь ласка введіть спершу пароль!",
+        "CONFIRM_PASSWORD_REQUIRED_ERROR_MESSAGE": "Введіть пароль ще раз",
+        "REGISTERED_POP_UP_MESSAGE": "Вітання! Ви успішно зареєструвалися на сайті. Будь ласка, підтвердіть свою адресу електронної пошти.",
+        "ACCOUNT_SUBMIT_POP_UP_MESSAGE": "Ваша електронна адреса підтверджена."
+      },
+      "En": {
+        "EMAIL_INVALID_ERROR_MESSAGE": "Please check that your e-mail address is indicated correctly",
+        "EMAIL_REQUIRED_ERROR_MESSAGE": "Email is required",
+        "EMAIL_WITH_SPACES_ERROR_MESSAGE": "Please check that your e-mail address is indicated correctly",
+        "EMAIL_ALREADY_EXIST_ERROR_MESSAGE": "The user with this email already exists",
+        "USERNAME_REQUIRED_ERROR_MESSAGE": "User name is required",
+        "USERNAME_INVALID_ERROR_MESSAGE": "The field is required. The name must contain 1-30 characters and can contain letters(a-z; а-я), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
+        "USERNAME_WITH_DOT_AT_THE_START_ERROR_MESSAGE": "The field is required. The name must contain 1-30 characters and can contain letters(a-z; а-я), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
+        "USERNAME_WITH_CONSECUTIVE_DOT_ERROR_MESSAGE": "The field is required. The name must contain 1-30 characters and can contain letters(a-z; а-я), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
+        "USERNAME_TOO_LONG_ERROR_MESSAGE": "The field is required. The name must contain 1-30 characters and can contain letters(a-z; а-я), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
+        "PASSWORD_REQUIRED_ERROR_MESSAGE": "Password is required",
+        "PASSWORD_INVALID_ERROR_MESSAGE": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "PASSWORD_TOO_SHORT_ERROR_MESSAGE": "Password must be at least 8 characters long without spaces",
+        "PASSWORD_WITHOUT_UPPERCASE_ERROR_MESSAGE": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "PASSWORD_WITHOUT_DIGIT_ERROR_MESSAGE": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "PASSWORD_WITHOUT_SPECIAL_CHAR_ERROR_MESSAGE": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
+        "PASSWORD_TOO_LONG_ERROR_MESSAGE": "Password must be less than 20 characters long without spaces.",
+        "PASSWORDS_DO_NOT_MATCH_ERROR_MESSAGE": "Passwords do not match",
+        "ENTER_PASSWORD_FIRST_ERROR_MESSAGE": "Please type your password first!",
+        "CONFIRM_PASSWORD_REQUIRED_ERROR_MESSAGE": "Please confirm your password",
+        "REGISTERED_POP_UP_MESSAGE": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box.",
+        "ACCOUNT_SUBMIT_POP_UP_MESSAGE": "Your email has been verified."
+    }
+  }
+}

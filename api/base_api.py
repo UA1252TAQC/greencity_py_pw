@@ -4,6 +4,7 @@ Module that represents base api functionality
 
 from typing import Dict, Optional, Any
 
+import allure
 import requests
 import logging as log
 from requests import Response
@@ -18,6 +19,7 @@ class BaseApi:
     def __init__(self, url: str):
         self._url = url
 
+    @allure.step("Step GET")
     def get_data(
         self,
         headers: Dict[str, str] = None,
@@ -42,6 +44,7 @@ class BaseApi:
 
         return response
 
+    @allure.step("Step POST")
     def post_data(self,
                   payload: Any = None,
                   headers: Dict[str, str] = None,
@@ -65,6 +68,7 @@ class BaseApi:
 
         return response
 
+    @allure.step("Step PUT")
     def put_data(self,
                  payload: Any = None,
                  headers: Dict[str, str] = None,
@@ -90,6 +94,7 @@ class BaseApi:
 
         return response
 
+    @allure.step("Step DELETE")
     def delete_data(self,
                     headers: Dict[str, str] = None,
                     payload: Any = None) -> Response:
@@ -127,6 +132,7 @@ class BaseApi:
 
         return response
 
+    @allure.step("Step PATCH")
     def patch_data(self,
                    payload: Any = None,
                    headers: Dict[str, str] = None,

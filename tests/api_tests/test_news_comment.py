@@ -20,7 +20,7 @@ def test_add_comment_success(tc_logger,
     news_id = setup_and_teardown_news
 
     log.info(f"Starting test {test_add_comment_success.__name__}")
-    api = BaseApi(f'{Data.BASE_URL}/eco-news/{news_id}/comments')
+    api = BaseApi(f'{Data.API_BASE_URL}eco-news/{news_id}/comments')
     headers = {
         'accept': '*/*',
         'Authorization': f'Bearer {get_auth_token}'
@@ -58,7 +58,7 @@ def test_delete_comment_success(tc_logger,
     comment_id = setup_comment.json()['id']
 
     log.info(f"Starting test {test_delete_comment_success.__name__}")
-    api = BaseApi(f'{Data.BASE_URL}/eco-news/comments/{comment_id}')
+    api = BaseApi(f'{Data.API_BASE_URL}eco-news/comments/{comment_id}')
     headers = {
         'accept': '*/*',
         'Authorization': f'Bearer {get_auth_token}'
@@ -84,7 +84,7 @@ def test_count_comments_success(tc_logger,
 
     log.info(f"Starting test {test_count_comments_success.__name__}")
     api = BaseApi(
-        f'{Data.BASE_URL}/eco-news/{news_id}/comments/count'
+        f'{Data.API_BASE_URL}eco-news/{news_id}/comments/count'
     )
     headers = {
         'accept': '*/*'
@@ -119,7 +119,7 @@ def test_update_comment_success(tc_logger,
 
     log.info(f"Starting test {test_update_comment_success.__name__}")
     api = BaseApi(
-        f'{Data.BASE_URL}/eco-news/comments?commentId={comment_id}'
+        f'{Data.API_BASE_URL}eco-news/comments?commentId={comment_id}'
     )
     headers = {
         'accept': '*/*',
