@@ -1,9 +1,7 @@
 import logging
-from asyncio import wait_for
 
 from playwright.sync_api import Page
 from ui.components.fields.email_field import EmailField
-from ui.components.login_modal_component import LoginModalComponent
 from ui.pages.ubs.ubs_home_page import UbsHomePage
 
 logging.basicConfig(level=logging.INFO,
