@@ -27,12 +27,14 @@ class GreenCityHeaderComponent:
     def set_language(self, language: str):
         current_language = self.current_language.inner_text()
         if current_language.strip().lower() == language.lower():
-            return
+            return self
         self.list_language.click()
         if language.lower() == "en":
             self.english.click()
+            return self
         elif language.lower() == "ua":
             self.ukrainian.click()
+            return self
 
     def get_username(self) -> str:
         return self.username.inner_text().strip() if self.username.is_visible() else None

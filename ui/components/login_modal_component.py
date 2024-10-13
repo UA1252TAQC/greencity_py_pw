@@ -3,7 +3,8 @@ import logging
 from playwright.sync_api import Page
 from ui.components.fields.email_field import EmailField
 from ui.components.fields.password_field import PasswordField
-from ui.pages.green_city.profile_page import ProfilePage
+from ui.components.forgot_password_modal_component import ForgotPasswordModalComponent
+from ui.pages.green_city.green_city_profile_page import GreenCityProfilePage
 
 logging.basicConfig(level=logging.INFO,
                     format='[%(asctime)s] %(levelname)s %(message)s',
@@ -18,9 +19,11 @@ class LoginModalComponent:
         Initialize the LoginModalComponent with necessary page elements.
         """
         self.page = page
+        self.modal_component_element = page.locator("app-auth-modal div")
         self.email = EmailField(page)
         self.password = PasswordField(page)
         self.sign_in_button = page.locator(".sign-in-form button[type='submit']")
+        self.forgot_password_link = page.locator("a.forgot-password")
 
     def login(self, email: str, password: str):
         """
@@ -67,4 +70,11 @@ class LoginModalComponent:
     def click_sign_in_button_and_successful_login(self):
         self.click_sign_in_button()
         self.sign_in_button.wait_for(state='hidden')
-        return ProfilePage(self.page)
+        return GreenCityProfilePage(self.page)
+
+    def is_forgot_password_link_displayed(self) -> bool:
+        return self.forgot_password_link.is_visible()
+
+    def click_forgot_password_link(self):
+        self.forgot_password_link.click()
+        return ForgotPasswordModalComponent(self.page)
