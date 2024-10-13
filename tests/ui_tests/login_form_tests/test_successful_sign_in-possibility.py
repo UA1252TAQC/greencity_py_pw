@@ -20,7 +20,8 @@ def setup_function(request):
         browser.close()
 
 
-def test_successful_sign_in(setup_function):
+@pytest.mark.ui_login
+def test_successful_sign_in_possibility(setup_function, check):
     page = setup_function
     page.goto(f"{Data.UI_BASE_URL}/#/greenCity")
     profile_page = (GreenCityHomePage(page)
@@ -29,5 +30,9 @@ def test_successful_sign_in(setup_function):
                     .enter_password(Data.USER_PASSWORD)
                     .click_sign_in_button_and_successful_login())
 
-    assert profile_page.page.url == f"{Data.UI_BASE_URL}/#/profile/{Data.USER_ID}"
-    assert profile_page.header_component.get_username() == Data.USER_NAME
+    with check:
+        assert profile_page.page.url == f"{Data.UI_BASE_URL}/#/profile/{Data.USER_ID}", "User profile url doesn't match"
+    with check:
+        assert profile_page.header_component.get_username() == Data.USER_NAME, "User name don't match"
+    with check:
+        assert profile_page.page.url == f"{Data.UI_BASE_URL}/#/profiles/{Data.USER_ID}", "User profile url doesn't match"

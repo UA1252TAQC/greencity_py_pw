@@ -18,6 +18,7 @@ class GreenCityHeaderComponent:
         self.register = page.locator("li.header_sign-up-link span")
         self.login_root_element = page.locator("app-auth-modal")
         self.registration_root_element = page.locator("app-auth-modal")
+        self.username = page.locator("#header_user-wrp li.user-name")
 
     def open_registration_form(self):
         self.register.click()
@@ -34,7 +35,7 @@ class GreenCityHeaderComponent:
             self.ukrainian.click()
 
     def get_username(self) -> str:
-        return self.page.locator("#header_user-wrp li.user-name").inner_text().strip()
+        return self.username.inner_text().strip() if self.username.is_visible() else None
 
     def open_news_link(self):
         self.news.click()
