@@ -48,7 +48,7 @@ class ForgotPasswordComponent:
     def click_back_to_sign_in_link(self):
         self.back_to_signin_link.click()
         self.back_to_signin_link.wait_for(state='hidden')
-        return LoginModalComponent(self.page)
+        return None
 
     def get_error_message(self):
         return self.email.get_error_message()

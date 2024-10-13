@@ -75,5 +75,3 @@ class LoginModalComponent:
         self.forgot_password_link.wait_for(state='visible')
         self.forgot_password_link.click()
         return ForgotPasswordComponent(self.page)
-
-
