@@ -3,6 +3,7 @@ import logging
 from playwright.sync_api import Page
 from ui.components.fields.email_field import EmailField
 from ui.components.fields.password_field import PasswordField
+from ui.components.forgot_password_modal_component import ForgotPasswordComponent
 from ui.pages.green_city.profile_page import ProfilePage
 
 logging.basicConfig(level=logging.INFO,
@@ -20,7 +21,8 @@ class LoginModalComponent:
         self.page = page
         self.email = EmailField(page)
         self.password = PasswordField(page)
-        self.sign_in_button = page.locator(".sign-in-form button[type='submit']")
+        self.sign_in_button = page.locator("//form[@class='sign-in-form']//button[@type='submit']")
+        self.forgot_password_link = page.locator(".//a[@class='forgot-password']")
 
     def login(self, email: str, password: str):
         """
@@ -51,7 +53,7 @@ class LoginModalComponent:
         :param password: Password to be entered.
         :return: Returns the current instance of LoginModalComponent for chaining.
         """
-        self.logger.info("Entering password (hidden for security reasons)")
+        logger.info("Entering password (hidden for security reasons)")
         self.password.enter(password)
         return self
 
@@ -68,3 +70,8 @@ class LoginModalComponent:
         self.click_sign_in_button()
         self.sign_in_button.wait_for(state='hidden')
         return ProfilePage(self.page)
+
+    def click_forgot_password_link(self):
+        self.forgot_password_link.wait_for(state='visible')
+        self.forgot_password_link.click()
+        return ForgotPasswordComponent(self.page)
