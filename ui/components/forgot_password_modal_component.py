@@ -2,6 +2,7 @@ from playwright.sync_api import Page
 
 from ui.components.fields.email_field import EmailField
 
+
 class ForgotPasswordModalComponent:
     def __init__(self, page: Page):
         self.page = page

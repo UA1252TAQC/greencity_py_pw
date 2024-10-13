@@ -31,5 +31,3 @@ class Data:
     UI_GREEN_CITY_HOME_PAGE_URL = UI_BASE_URL + "/#/greenCity"
     UI_GREEN_CITY_NEWS_PAGE_URL = UI_BASE_URL + "/#/news"
     UI_GREEN_CITY_PROFILE_PAGE_URL = UI_BASE_URL + "/#/profile"
-
-

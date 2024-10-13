@@ -4,7 +4,7 @@ from modules.constants import Data
 from ui.pages.green_city.green_city_home_page import GreenCityHomePage
 
 
-# @pytest.mark.ui_login
+@pytest.mark.ui_login
 def test_successful_sign_in_possibility(setup_function, check):
     page = setup_function
     page.goto(Data.UI_GREEN_CITY_HOME_PAGE_URL)

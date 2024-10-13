@@ -15,4 +15,3 @@ def setup_function(request):
 
         context.close()
         browser.close()
-

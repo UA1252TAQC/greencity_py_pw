@@ -13,7 +13,7 @@ def test_successful_sign_in_possibility(setup_function, check, width):
                   .header_component.set_language('en')
                   .open_login_form())
 
-    assert login_form.is_forgot_password_link_displayed() == True
+    assert login_form.is_forgot_password_link_displayed() is True
 
     page.set_viewport_size({"width": width, "height": page.viewport_size['height']})
 
