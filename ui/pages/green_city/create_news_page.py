@@ -16,7 +16,7 @@ class CreateNewsPage(GreenCityBasePage):
         self.page = page
         self.news_title = self.page.locator("//textarea[@formcontrolname='title']")
         self.news_content = self.page.locator("//div[@class='ql-editor ql-blank']")
-        self.source_link_field = self.page.locator("//div[contains(@class, 'left-form-column')]//label/input")
+        self.source_link_field = self.page.locator("//div[contains(@class, 'source-block')]//label/input")
         self.tags_button = self.page.locator("//app-tags-select//button/a")
         self.news_preview_button = self.page.locator("//button[contains(@class, 'secondary-global-button')]")
         self.news_publish_button = self.page.locator("//div[contains(@class, 'submit-buttons')]//button[@type='submit']")
@@ -28,17 +28,19 @@ class CreateNewsPage(GreenCityBasePage):
 
     def select_single_tag(self, tag: NewsTags, language_code: str):
         tag_text = tag.get_text(language_code)
-        tag_button = self.page.locator(f"//app-tags-select//button/a[text()='{tag_text}']")
+        tag_button = self.page.get_by_role("button", name=tag_text).locator("a")
         tag_button.click()
 
     def fill_the_news_form(self, title: str, tags: list[NewsTags], content: str, language: str):
         self.news_title.fill(title)
         for tag in tags:
-            self.select_single_tag(tag, language)
+            self.select_single_tag( tag, language)
         self.news_content.fill(content)
+        return  self
 
     def enter_source_link(self, content: str):
         self.source_link_field.fill(content)
+        return self
 
     def select_tags(self, tags: list[NewsTags], language_code: str):
         for tag in tags:
