@@ -34,9 +34,9 @@ class CreateNewsPage(GreenCityBasePage):
     def fill_the_news_form(self, title: str, tags: list[NewsTags], content: str, language: str):
         self.news_title.fill(title)
         for tag in tags:
-            self.select_single_tag( tag, language)
+            self.select_single_tag(tag, language)
         self.news_content.fill(content)
-        return  self
+        return self
 
     def enter_source_link(self, content: str):
         self.source_link_field.fill(content)
