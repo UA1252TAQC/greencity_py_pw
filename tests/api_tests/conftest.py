@@ -78,10 +78,22 @@ def get_auth_token():
 @pytest.fixture(scope="module")
 def get_first_available_habit_id(get_auth_token):
     """
-    Fixture to get the first available habit with shopping list items.
-    :return: habit ID or raises ValueError if no habits are found.
+    Fixture to retrieve the first available habit that has shopping list items.
+
+    This fixture sends a request to fetch a list of habits and looks for the first habit
+    that contains associated shopping list items. If no such habit is found, it raises
+    a `ValueError`. It runs once per test module due to the "module" scope.
+
+    Args:
+        get_auth_token (str): The authentication token used for making the API request.
+
+    Returns:
+        int: The ID of the first habit that has shopping list items.
+
+    Raises:
+        ValueError: If the habit list is empty or no habit with shopping list items is found.
     """
-    api_url = 'https://greencity.greencity.cx.ua/habit?page=1&size=10'
+    api_url = f'{Data.API_BASE_URL}/habit?page=1&size=10'
     headers = prepare_headers(get_auth_token)
 
     log.info("CONFTEST: Requesting habit list with authentication token for user.")
@@ -103,11 +115,25 @@ def get_first_available_habit_id(get_auth_token):
 @pytest.fixture(scope="module")
 def assign_habit(get_auth_token, get_first_available_habit_id):
     """
-    Fixture to assign a habit.
-    :return: assigned habit ID.
+    Fixture to assign a habit to the user.
+
+    This fixture sends a POST request to assign a specific habit to the user, using the
+    habit ID provided by `get_first_available_habit_id`. It runs once per test module
+    due to the "module" scope. The fixture logs the process and returns the assigned habit ID.
+
+    Args:
+        get_auth_token (str): The authentication token used to authorize the API request.
+        get_first_available_habit_id (int): The ID of the habit to assign.
+
+    Returns:
+        int: The ID of the assigned habit, obtained from the API response.
+
+    Raises:
+        AssertionError: If the habit assignment fails (response status code not 201),
+        the `handle_api_error` function is called to handle the error.
     """
     habit_id = get_first_available_habit_id
-    api_url = f'https://greencity.greencity.cx.ua/habit/assign/{habit_id}'
+    api_url = f'{Data.API_BASE_URL}/habit/assign/{habit_id}'
     headers = prepare_headers(get_auth_token)
 
     log.info(f"CONFTEST: Assigning habit with ID {habit_id}.")
@@ -124,9 +150,25 @@ def assign_habit(get_auth_token, get_first_available_habit_id):
 @pytest.fixture
 def get_shopping_list(get_auth_token, get_first_available_habit_id):
     """
-    Fixture to get the shopping list for a specific habit.
+    Fixture to retrieve the shopping list for a specific habit.
+
+    This fixture sends a GET request to fetch the shopping list associated with the
+    habit specified by `get_first_available_habit_id`. The authentication token is
+    used to authorize the request, and the API response is returned in JSON format.
+    If the request fails, an error handler is invoked.
+
+    Args:
+        get_auth_token (str): The authentication token used to access the API.
+        get_first_available_habit_id (int): The ID of the habit for which the shopping list is fetched.
+
+    Returns:
+        dict: The API response containing the shopping list data in JSON format.
+
+    Raises:
+        AssertionError: If the API request fails (status code not 200), an error is logged
+        and handled using `handle_api_error`.
     """
-    api_url = f"https://greencity.greencity.cx.ua/habit/{get_first_available_habit_id}/shopping-list"
+    api_url = f"{Data.API_BASE_URL}/habit/{get_first_available_habit_id}/shopping-list"
     headers = prepare_headers(get_auth_token)
 
     log.info(f"Fetching shopping list for habit ID {get_first_available_habit_id}.")
@@ -143,11 +185,25 @@ def get_shopping_list(get_auth_token, get_first_available_habit_id):
 @pytest.fixture(scope="module")
 def delete_habit(get_auth_token, assign_habit):
     """
-    Fixture to delete a habit assigned during the test.
-    :return: None
+    Fixture to delete a habit that was assigned during the test.
+
+    This fixture sends a DELETE request to the API to remove a habit that was
+    assigned earlier in the test (using the `assign_habit` fixture). It runs once
+    per module due to the "module" scope. The fixture logs the process and raises
+    an exception if the deletion fails.
+
+    Args:
+        get_auth_token (str): The authentication token required to make the API request.
+        assign_habit (int): The ID of the habit to be deleted, provided by the `assign_habit` fixture.
+
+    Returns:
+        None
+
+    Raises:
+        HTTPError: If the DELETE request fails, the fixture raises an HTTP error.
     """
     habit_id = assign_habit
-    api = BaseApi(f"https://greencity.greencity.cx.ua/habit/assign/delete/{habit_id}")
+    api = BaseApi(f"{Data.API_BASE_URL}/habit/assign/delete/{habit_id}")
     headers = {
         'accept': '*/*',
         'Authorization': "Bearer " + get_auth_token
@@ -167,7 +223,24 @@ def delete_habit(get_auth_token, assign_habit):
 
 @pytest.fixture(scope="session")
 def get_user_id(get_auth_token):
-    api = BaseApi('https://greencity-user.greencity.cx.ua/ownSecurity/signIn')
+    """
+      Fixture to authenticate a user and retrieve their user ID.
+
+      This fixture sends a POST request to the sign-in API using the user's credentials
+      (email and password) to authenticate and retrieve the user ID. It runs once per
+      test session due to the "session" scope.
+
+      Args:
+          get_auth_token (str): The authentication token used for further API requests.
+
+      Returns:
+          int: The user ID obtained from the API response after successful authentication.
+
+      Raises:
+          AssertionError: If the authentication request fails (status code not 200),
+          an API error handler is invoked.
+      """
+    api = BaseApi(f'{Data.API_BASE_URL}/ownSecurity/signIn')
     data = {
         "email": Data.USER_EMAIL,
         "password": Data.USER_PASSWORD
@@ -191,7 +264,24 @@ def get_user_id(get_auth_token):
 
 @pytest.fixture
 def get_user_habits(get_auth_token, get_user_id):
-    api_url = f"https://greencity.greencity.cx.ua/habit/assign/allUser/{get_user_id}"
+    """
+        Fixture to fetch all user-assigned habits.
+
+        This fixture sends a GET request to the API to retrieve the list of habits assigned
+        to the user with the specified user_id. It uses the authentication token and user ID
+        to prepare headers and construct the request URL.
+
+        Args:
+            get_auth_token (str): The authentication token used to access the API.
+            get_user_id (int): The ID of the user whose habits need to be fetched.
+
+        Returns:
+            dict: The API response containing the user's habit data in JSON format.
+
+        Raises:
+            AssertionError: If the response status code is not 200, an API error handler is invoked.
+        """
+    api_url = f"{Data.API_BASE_URL}/habit/assign/allUser/{get_user_id}"
     headers = prepare_headers(get_auth_token)
 
     log.info(f"Fetching habits for user ID {get_user_id}.")
@@ -208,7 +298,20 @@ def get_user_habits(get_auth_token, get_user_id):
 @pytest.fixture
 def get_first_habit_id(get_user_habits):
     """
-    Fixture to get the first habit ID from the user's habits.
+    Fixture to retrieve the first habit ID from the user's habits.
+
+    This fixture accesses the user's habits and returns the ID of the first habit
+    from the list. If no habits are available, it raises a test failure.
+
+    Args:
+        get_user_habits (dict): A dictionary containing the user's habit data,
+        with a key 'page' that stores a list of habits.
+
+    Returns:
+        int: The ID of the first habit from the user's habit list.
+
+    Raises:
+        pytest.fail: If no habits are available in the user's habit list.
     """
     habits = get_user_habits.get('page', [])
     if habits and len(habits) > 0:
@@ -222,11 +325,27 @@ def get_first_habit_id(get_user_habits):
 @pytest.fixture
 def delete_shopping_list_item(get_auth_token):
     """
-    Fixture to delete a shopping list item by habitId and shoppingListItemId.
-    """
+     Fixture to delete a shopping list item by habitId and shoppingListItemId.
 
+     This fixture provides a function that sends a DELETE request to the API to remove
+     a specific shopping list item associated with a given habit. It requires both
+     the habit ID and the shopping list item ID as parameters. If the deletion is
+     unsuccessful, the fixture will handle the API error.
+
+     Args:
+         get_auth_token (str): The authentication token used for making API requests.
+
+     Returns:
+         function: A function that accepts two arguments:
+             - habit_id (int): The ID of the habit associated with the shopping list item.
+             - shopping_list_item_id (int): The ID of the shopping list item to delete.
+
+     Raises:
+         AssertionError: If the DELETE request fails (response status code is not 200),
+         an API error handler is invoked.
+     """
     def _delete_item(habit_id, shopping_list_item_id):
-        api_url = (f"https://greencity.greencity.cx.ua/user/shopping-list-items?habitId={habit_id}&shoppingListItemId="
+        api_url = (f"{Data.API_BASE_URL}/user/shopping-list-items?habitId={habit_id}&shoppingListItemId="
                    f"{shopping_list_item_id}")
         headers = prepare_headers(get_auth_token)
 
@@ -247,7 +366,20 @@ def delete_shopping_list_item(get_auth_token):
 @pytest.fixture
 def get_first_shopping_list_item_id(get_shopping_list):
     """
-    Returns the first available shopping list item ID.
+    Fixture to retrieve the ID of the first available shopping list item.
+
+    This fixture checks the provided shopping list and returns the ID of the
+    first item in the list. If the shopping list is empty or not available,
+    it triggers a test failure.
+
+    Args:
+        get_shopping_list (list): A list of shopping items, each represented as a dictionary.
+
+    Returns:
+        int: The ID of the first shopping list item.
+
+    Raises:
+        pytest.fail: If no items are available in the shopping list.
     """
     shopping_list = get_shopping_list
     if shopping_list and len(shopping_list) > 0:
