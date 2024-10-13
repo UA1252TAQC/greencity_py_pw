@@ -53,7 +53,7 @@ class LoginModalComponent:
         :param password: Password to be entered.
         :return: Returns the current instance of LoginModalComponent for chaining.
         """
-        self.logger.info("Entering password (hidden for security reasons)")
+        logger.info("Entering password (hidden for security reasons)")
         self.password.enter(password)
         return self
 
