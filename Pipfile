@@ -12,6 +12,7 @@ psycopg2 = "*"
 allure-pytest = "*"
 playwright = "*"
 pytest-playwright = "*"
+faker = "*"
 
 [dev-packages]
 

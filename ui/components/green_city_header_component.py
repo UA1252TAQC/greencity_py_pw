@@ -9,7 +9,7 @@ class GreenCityHeaderComponent:
     def __init__(self, page: Page):
         self.page = page
         self.logo = page.locator(".header_logo")
-        self.news = page.locator(".header_navigation-menu li:nth-child(1) a")
+        self.news = page.locator('.header_navigation-menu a[href*="news"]')
         self.current_language = page.locator("ul[aria-label='language switcher']")
         self.list_language = page.locator("ul[aria-label='language switcher'] li[aria-label='english']")
         self.english = page.locator("li[aria-label='En']")
