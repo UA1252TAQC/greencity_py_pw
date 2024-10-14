@@ -23,6 +23,7 @@ class LoginModalComponent:
         self.password = PasswordField(page)
         self.sign_in_button = page.locator("//form[@class='sign-in-form']//button[@type='submit']")
         self.forgot_password_link = page.locator(".//a[@class='forgot-password']")
+        self.close_button = page.locator("img.cross-btn[alt='close button']")
 
     def login(self, email: str, password: str):
         """
@@ -75,3 +76,7 @@ class LoginModalComponent:
         self.forgot_password_link.wait_for(state='visible')
         self.forgot_password_link.click()
         return ForgotPasswordComponent(self.page)
+
+    def close(self):
+        self.close_button.click()
+        self.page.wait_for_timeout(1000)
