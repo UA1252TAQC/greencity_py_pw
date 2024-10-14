@@ -105,7 +105,7 @@ class LoginModalComponent:
 
         :return: The current instance of LoginModalComponent for chaining.
         """
-        self.page.click(self.main_picture)
+        self.main_picture.click()
         return self
 
     def close(self):
