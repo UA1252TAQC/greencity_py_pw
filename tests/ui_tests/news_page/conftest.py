@@ -4,6 +4,7 @@ from playwright.sync_api import sync_playwright
 from modules.constants import Data
 from ui.pages.green_city.green_city_home_page import GreenCityHomePage
 
+
 @pytest.fixture(scope="function")
 def setup_function():
     with sync_playwright() as playwright_instance:
