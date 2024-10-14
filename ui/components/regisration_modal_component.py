@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page
 
 from ui.components.fields.email_field import EmailField
@@ -20,28 +21,34 @@ class RegistrationModalComponent:
         self.password = PasswordField(page)
         self.repeat_password = RepeatPasswordField(page)
 
+    @allure.step("Enter email {text}")
     def enter_email(self, text: str):
         self.email.enter(text)
         return self
 
+    @allure.step("Enter username {text}")
     def enter_username(self, text: str):
         self.username.enter(text)
         return self
 
+    @allure.step("Enter password {text}")
     def enter_password(self, text: str):
         self.password.enter(text)
         return self
 
+    @allure.step("Enter repeat password {text}")
     def enter_repeat_password(self, text: str):
         self.repeat_password.enter(text)
         return self
 
+    @allure.step("Open google auth form")
     def open_auth_google_form(self):
         self.google_button.click()
-        self.page.wait_for_timeout(20000)
+        self.page.wait_for_timeout(15000)
         self.page.context.pages[-1].bring_to_front()
         return GoogleAuthComponent(self.page.context.pages[-1])
 
+    @allure.step("Fill registration form")
     def fill_form(self, email: str, username: str, password: str, repeat_password: str):
         return (self.enter_email(email)
                 .enter_username(username)
@@ -59,9 +66,11 @@ class RegistrationModalComponent:
     def is_google_button_displayed(self) -> bool:
         return self.google_button.is_visible()
 
+    @allure.step("Submit registration form")
     def submit(self):
         if self.register_button.is_visible() and self.register_button.is_enabled():
             self.register_button.click()
+            self.page.wait_for_timeout(3000)
         else:
             raise Exception("Registration button is not enabled")
 
@@ -75,6 +84,7 @@ class RegistrationModalComponent:
     def is_sign_in_link_displayed(self) -> bool:
         return self.sign_in_link.is_visible()
 
+    @allure.step("Close registration form")
     def close(self):
         self.close_button.click()
         self.page.wait_for_timeout(1000)

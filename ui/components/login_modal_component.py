@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page
 
 from ui.components.fields.email_field import EmailField
@@ -33,3 +34,7 @@ class LoginModalComponent:
         self.click_sign_in_button()
         self.sign_in_button.wait_for(state='hidden')
         return ProfilePage(self.page)
+
+    @allure.step("Check if Sign-in button is active")
+    def is_signin_btn_active(self) -> bool:
+        return self.sign_in_button.is_enabled()
