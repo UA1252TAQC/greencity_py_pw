@@ -9,6 +9,7 @@ logging.basicConfig(level=logging.INFO,
 
 logger = logging.getLogger(__name__)
 
+
 class ForgotPasswordComponent:
     def __init__(self, page: Page):
         """
