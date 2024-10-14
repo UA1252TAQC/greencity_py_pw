@@ -1,5 +1,6 @@
 import pytest
 from playwright.sync_api import sync_playwright
+import allure
 
 from modules.constants import Data
 from ui.pages.green_city.green_city_home_page import GreenCityHomePage
@@ -31,3 +32,17 @@ def test_successful_sign_in(setup_function):
 
     assert profile_page.page.url == f"{Data.UI_BASE_URL}/#/profile/{Data.USER_ID}"
     assert profile_page.header_component.get_username() == Data.USER_NAME
+
+
+@allure.description("Verify that the 'Sign in' button is remained inactive after leaving the fields empty")
+@allure.feature("Login")
+@allure.issue("64")
+def test_signin_btn_is_inactive_by_empty_fields(setup_function):
+    page = setup_function
+    page.goto(f"{Data.UI_BASE_URL}/#/greenCity")
+    login_modal_component = (GreenCityHomePage(page)
+                             .header_component
+                             .open_login_form())
+    assert login_modal_component.email.is_email_field_empty()
+    assert login_modal_component.password.is_password_field_empty()
+    assert not login_modal_component.is_signin_btn_active()
