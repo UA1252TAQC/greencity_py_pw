@@ -3,12 +3,15 @@ import pytest
 from faker import Faker
 
 from modules.constants import Data
+from modules.logger import TcLogger
 
 fake = Faker()
 
 EMPTY_FIELDS_ERROR_EN = "Please fill all required fields."
 EMPTY_FIELDS_ERROR_UA = "Потрібно заповнити всі обов'язкові поля."
 
+logger = TcLogger.get_log()
+TcLogger.generate_logs(level="INFO", detailed_logs=True)
 
 @allure.title("Verify Error Message for empty email and/or password")
 @allure.description("This test checks the validation of the login form when email and/or password fields are empty.")
@@ -25,32 +28,25 @@ EMPTY_FIELDS_ERROR_UA = "Потрібно заповнити всі обов'я�
         ("En", Data.USER_EMAIL, '', EMPTY_FIELDS_ERROR_EN),
         ("En", '', Data.USER_PASSWORD, EMPTY_FIELDS_ERROR_EN),
         ("En", '', '', EMPTY_FIELDS_ERROR_EN)
-    ],
-    indirect=["setup_function"]
+    ]
 )
-def test_verify_error_message_for_empty_email_and_or_password(email,
-                                                              password,
-                                                              expected,
-                                                              setup_function):
-    """
-        Verifies the error message when the email and/or password fields are empty on the login form.
-
-        Parameters:
-        - email (str): The email to input in the form (can be empty).
-        - password (str): The password to input in the form (can be empty).
-        - expected (str): The expected error message that should appear for empty fields.
-        - setup_function: Fixture that initializes the login form and sets the environment.
-
-        Expected result:
-        The error message should match the expected error message for empty fields based on the language.
-        """
+def test_verify_error_message_for_empty_email_and_or_password(language, email, password, expected, setup_function):
     login_form = setup_function
 
+    logger.log_test_name(f"INFO: Starting test for empty email and/or password fields with language: {language}")
+
     with allure.step("Enter email and password"):
+        logger.log_test_name(f"DEBUG: Entering email: '{email}' and password: '{password}'")
         login_form.enter_email(email).enter_password(password)
 
     with allure.step("Click sign-in button and get the error message"):
+        logger.log_test_name("INFO: Clicking sign-in button and fetching error message")
         actual = login_form.click_sign_in_button().get_login_error_text()
 
     with allure.step("Verify error message"):
+        if actual == expected:
+            logger.log_test_name(f"INFO: Verification successful. Expected: '{expected}', Actual: '{actual}'")
+        else:
+            logger.log_test_name(f"ERROR: Verification failed. Expected: '{expected}', but got '{actual}'")
+
         assert actual == expected, f"Expected '{expected}', but got '{actual}'"
