@@ -17,7 +17,7 @@ EXCEEDING_PASSWORD_ERROR_EN = "Password must be less than 20 characters long wit
 @allure.feature("Login form")
 @allure.issue("130")
 @pytest.mark.parametrize(
-    "language, email, password, expected",
+    "language, email, expected",
     [
         ("Ua",
          Data.USER_EMAIL,
@@ -25,12 +25,9 @@ EXCEEDING_PASSWORD_ERROR_EN = "Password must be less than 20 characters long wit
         ("En",
          Data.USER_EMAIL,
          EXCEEDING_PASSWORD_ERROR_EN),
-    ],
-    indirect=["setup_function"]
+    ]
 )
-def test_verify_error_message_for_exceeding_password(email,
-                                                     expected,
-                                                     setup_function):
+def test_verify_error_message_for_exceeding_password(language, email, expected, setup_function):
     """
        This test verifies the error message displayed when a user attempts to log in
        with an empty email and/or password field in the login form.
