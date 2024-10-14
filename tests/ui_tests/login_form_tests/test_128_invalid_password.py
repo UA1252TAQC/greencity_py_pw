@@ -1,5 +1,5 @@
 import pytest
-from faker.contrib.pytest.plugin import faker
+import allure
 
 from modules.constants import Data
 from faker import Faker
@@ -9,7 +9,12 @@ fake = Faker()
 INVALID_PASSWORD_ERROR_UA = "Введено невірний email або пароль."
 INVALID_PASSWORD_ERROR_EN = "Bad email or password."
 
-
+@allure.title("Verify Error Message for invalid password")
+@allure.description("This test checks the validation of the login form fields.")
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Green City")
+@allure.feature("Login form")
+@allure.issue("128")
 @pytest.mark.parametrize(
     "language, email, password, expected",
     [
@@ -37,11 +42,14 @@ def test_verify_error_message_for_invalid_password(email,
 
     login_form = setup_function
 
-    actual = (login_form
-              .enter_email(email)
-              .enter_password(password)
-              .click_sign_in_button()
-              .password
-              .get_error_message())
+    with allure.step("Enter email and password"):
+        login_form.enter_email(email).enter_password(password)
 
-    assert actual == expected, f"Expected '{expected}', but got '{actual}'"
+    with allure.step("Click sign in and get error message"):
+        actual = (login_form
+                  .click_sign_in_button()
+                  .password
+                  .get_error_message())
+
+    with allure.step("Verify error message"):
+        assert actual == expected, f"Expected '{expected}', but got '{actual}'"
