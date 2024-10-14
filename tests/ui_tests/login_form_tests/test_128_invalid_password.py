@@ -1,6 +1,5 @@
 import pytest
 import allure
-
 from modules.constants import Data
 from faker import Faker
 
@@ -17,20 +16,13 @@ INVALID_PASSWORD_ERROR_EN = "Bad email or password."
 @allure.feature("Login form")
 @allure.issue("128")
 @pytest.mark.parametrize(
-    "language, email, password, expected",
+    "language, email, expected",
     [
-        ("Ua",
-         Data.USER_EMAIL,
-         INVALID_PASSWORD_ERROR_UA),
-        ("En",
-         Data.USER_EMAIL,
-         INVALID_PASSWORD_ERROR_EN),
-    ],
-    indirect=["setup_function"]
+        ("Ua", Data.USER_EMAIL, INVALID_PASSWORD_ERROR_UA),
+        ("En", Data.USER_EMAIL, INVALID_PASSWORD_ERROR_EN),
+    ]
 )
-def test_verify_error_message_for_invalid_password(email,
-                                                   expected,
-                                                   setup_function):
+def test_verify_error_message_for_invalid_password(language, email, expected, setup_function):
     """
     This test checks the correctness of error messages when entering a randomly generated invalid password
     on login pages with different language settings (Ukrainian and English).
@@ -47,10 +39,7 @@ def test_verify_error_message_for_invalid_password(email,
         login_form.enter_email(email).enter_password(password)
 
     with allure.step("Click sign in and get error message"):
-        actual = (login_form
-                  .click_sign_in_button()
-                  .password
-                  .get_error_message())
+        actual = login_form.click_sign_in_button().password.get_error_message()
 
     with allure.step("Verify error message"):
         assert actual == expected, f"Expected '{expected}', but got '{actual}'"
