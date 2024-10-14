@@ -33,7 +33,7 @@ def initialize_page(playwright_instance):
     )
     context = browser.new_context(viewport={"width": 1920, "height": 1080, "device_scale_factor": 1})
     page = context.new_page()
-    page.goto(f"{Data.UI_BASE_URL}greenCity", wait_until="load")
+    page.goto(f"{Data.UI_BASE_URL}/#/greenCity", wait_until="load")
     page.evaluate("() => document.body.style.zoom='100%'")
 
     home_page = GreenCityHomePage(page)
@@ -43,21 +43,20 @@ def initialize_page(playwright_instance):
 
 
 @pytest.fixture(scope="function")
-def setup_function(initialize_page, request):
+def setup_function(initialize_page, language):
     """
-        This fixture sets the language on the GreenCity homepage and opens the login form.
+    This fixture sets the language on the GreenCity homepage and opens the login form.
 
-        Parameters:
-        - initialize_page: The fixture that initializes the GreenCity homepage.
-        - request: The pytest request object, used to get the parameter for the language.
+    Parameters:
+    - initialize_page: The fixture that initializes the GreenCity homepage.
+    - language: The language parameter passed to set the page language.
 
-        Returns:
-        - form: The opened login form.
+    Returns:
+    - form: The opened login form.
 
-        The form is closed after the test is complete.
-        """
+    The form is closed after the test is complete.
+    """
     home_page = initialize_page
-    language = request.param
     home_page.header_component.set_language(language)
     form = home_page.header_component.open_login_form()
     yield form
