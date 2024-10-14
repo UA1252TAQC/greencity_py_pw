@@ -9,6 +9,7 @@ fake = Faker()
 EXCEEDING_PASSWORD_ERROR_UA = "Пароль повинен містити менше 20 символів без пробілів."
 EXCEEDING_PASSWORD_ERROR_EN = "Password must be less than 20 characters long without spaces."
 
+
 @allure.title("Verify Error Message for exceeding password")
 @allure.description("This test checks the validation of the login form fields.")
 @allure.severity(allure.severity_level.NORMAL)
