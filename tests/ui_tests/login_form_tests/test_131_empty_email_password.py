@@ -32,6 +32,18 @@ def test_verify_error_message_for_empty_email_and_or_password(email,
                                                               password,
                                                               expected,
                                                               setup_function):
+    """
+        Verifies the error message when the email and/or password fields are empty on the login form.
+
+        Parameters:
+        - email (str): The email to input in the form (can be empty).
+        - password (str): The password to input in the form (can be empty).
+        - expected (str): The expected error message that should appear for empty fields.
+        - setup_function: Fixture that initializes the login form and sets the environment.
+
+        Expected result:
+        The error message should match the expected error message for empty fields based on the language.
+        """
     login_form = setup_function
 
     with allure.step("Enter email and password"):

@@ -32,13 +32,14 @@ def test_verify_error_message_for_exceeding_password(email,
                                                      expected,
                                                      setup_function):
     """
-       This test verifies the error message displayed when a user attempts to enter
-       a password that exceeds the maximum allowed length in the login form.
+       This test verifies the error message displayed when a user attempts to log in
+       with an empty email and/or password field in the login form.
 
        Parameters:
-       - email: The email address to enter in the login form.
-       - expected: The expected error message for the exceeded password length.
-       - setup_function: Fixture that initializes the login form and sets up the test.
+       - email: The email address to enter in the login form (can be empty).
+       - password: The password to enter in the login form (can be empty).
+       - expected: The expected error message when one or both fields are left empty.
+       - setup_function: Fixture that initializes the login form and sets up the environment for the test.
        """
     password = fake.password(length=30, special_chars=True, digits=True, upper_case=True, lower_case=True)
 
