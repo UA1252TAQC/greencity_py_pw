@@ -9,6 +9,7 @@ fake = Faker()
 INVALID_PASSWORD_ERROR_UA = "Введено невірний email або пароль."
 INVALID_PASSWORD_ERROR_EN = "Bad email or password."
 
+
 @allure.title("Verify Error Message for invalid password")
 @allure.description("This test checks the validation of the login form fields.")
 @allure.severity(allure.severity_level.NORMAL)
