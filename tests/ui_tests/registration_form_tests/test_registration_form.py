@@ -9,54 +9,39 @@ from ui.pages.green_city.profile_page import ProfilePage
 from ui.pages.ubs.ubs_home_page import UbsHomePage
 
 
-# TODO EXTRACT
+@allure.title("Verify pop-up sign-up validation")
+@allure.description("""
+    This test checks the validation of the registration form fields.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Green City")
+@allure.feature("Registration form")
+@allure.story("Registration form pop-up sign-up validation")
+@allure.tag("Green City")
+@allure.issue("12")
+@pytest.mark.parametrize(
+    "expected_registration_success_message, expected_account_submit_message, mail_box, username, password, repeat_password",
+    DataProvider.get_ui_test_data("testPopUpSignUpValidation"),
+)
+def test_pop_up_sign_up_validation(expected_registration_success_message, expected_account_submit_message,
+                                   mail_box, username, password, repeat_password, registration_form_setup):
+    page, localization_utils, language = registration_form_setup
+    page.goto(f"{Data.UI_BASE_URL}greenCity")
+    home_page = GreenCityHomePage(page)
+    home_page.header_component.set_language(language)
+    form = home_page.header_component.open_registration_form()
 
+    form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
+    actual_registration_success_message = home_page.get_pop_up_message()
+    assert actual_registration_success_message == localization_utils.get_form_message(expected_registration_success_message)
 
-# def parse_jwt(token: str) -> JwtPayload:
-#     if not token:
-#         return None
-#     parts = token.split(".")
-#     payload = parts[1]
-#     decoded_bytes = base64.urlsafe_b64decode(payload + '==')
-#     decoded_payload = decoded_bytes.decode('utf-8')
-#     return JwtPayload(**json.loads(decoded_payload))
+    mail = MailUtils().get_last_mail(mail_box["id"])
+    home_page.open_url_in_new_tab(MailUtils.extract_activation_link(mail["body"]))
 
-# # TODO FIX THIS TEST (WAIT FOR LOGIN COMPONENT)
-# @allure.title("Verify registration email field validation")
-# @allure.description("""
-#     This test checks the validation of the registration form fields.
-#                     """)
-# @allure.severity(allure.severity_level.NORMAL)
-# @allure.epic("Green City")
-# @allure.feature("Registration form")
-# @allure.story("Registration form email field validation")
-# @allure.tag("Green City")
-# @allure.issue("12")
-# @pytest.mark.parametrize(
-#     "expected_registration_success_message, expected_account_submit_message, mail_box, username, password, repeat_password",
-#     DataProvider.get_ui_test_data("testPopUpSignUpValidation"),
-# )
-# def test_pop_up_sign_up_validation(expected_registration_success_message, expected_account_submit_message,
-#                                    mail_box, username, password, repeat_password, setup_function):
-#     page, localization_utils, language = setup_function
-#     page.goto(f"{Data.UI_BASE_URL}greenCity")
-#     home_page = GreenCityHomePage(page)
-#     home_page.header_component.set_language(language)
-#     form = home_page.header_component.open_registration_form()
-#     form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
+    ubs_page = UbsHomePage(home_page.page)
+    actual_account_submit_message = ubs_page.get_pop_up_message()
+    assert actual_account_submit_message == localization_utils.get_form_message(expected_account_submit_message)
 
-#     mail = MailUtils().get_last_mail(mail_box["id"])
-#     home_page.open_url_in_new_tab(MailUtils.extract_activation_link(mail["body"]))
-
-#  WAIT FOR LOGIN COMPONENT
-#     ubs_page = UbsHomePage(home_page.page)
-
-# login_form = ubs_page.header_component.get_current_login_form()
-# profile_page = login_form.fill_form(mail_box["emailAddress"], password).click_sign_in_button_successful_login()
-
-# jwt_payload = parse_jwt(profile_page.get_auth_token())
-# assert jwt_payload.exp == jwt_payload.iat + timedelta(
-#     hours=24), "Validating the JWT token expiration time is 24 hours."
 
 @allure.title("Verify Google sign-up process")
 @allure.description("""
