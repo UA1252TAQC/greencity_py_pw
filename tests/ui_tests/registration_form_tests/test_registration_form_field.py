@@ -1,5 +1,6 @@
 import allure
 import pytest
+import logging as log
 from modules.dataprovider import DataProvider
 
 
@@ -28,11 +29,14 @@ def test_email_validation(
         repeat_password,
         registration_form_field_setup
 ):
+    log.info("Starting test_email_validation with email: %s", email)
     form, localization_utils = registration_form_field_setup
     form.fill_form(email, username, password, repeat_password).submit_if(is_should_submit_form)
 
     is_actual_valid = form.email.is_valid()
     actual_error_message = form.email.get_error_message()
+
+    log.info("Validation result: %s, Error message: %s", is_actual_valid, actual_error_message)
 
     assert is_actual_valid == is_expected_valid, error_message
     assert actual_error_message == localization_utils.get_form_message(expected_error_message), "Error message mismatch"
@@ -55,11 +59,14 @@ def test_email_validation(
 def test_username_validation(
         is_expected_valid, expected_error_message, error_message, username, registration_form_field_setup
 ):
+    log.info("Starting test_username_validation with username: %s", username)
     form, localization_utils = registration_form_field_setup
     form.enter_username(username).click_title()
 
     is_actual_valid = form.username.is_valid()
     actual_error_message = form.username.get_error_message()
+
+    log.info("Validation result: %s, Error message: %s", is_actual_valid, actual_error_message)
 
     assert is_actual_valid == is_expected_valid, error_message
     assert actual_error_message == localization_utils.get_form_message(expected_error_message), "Error message mismatch"
@@ -81,11 +88,14 @@ def test_username_validation(
 )
 def test_password_validation(is_expected_valid, expected_error_message, error_message, password,
                              registration_form_field_setup):
+    log.info("Starting test_password_validation with password: %s", password)
     form, localization_utils = registration_form_field_setup
     form.enter_password(password).click_title()
 
     is_actual_valid = form.password.is_valid()
     actual_error_message = form.password.get_error_message()
+
+    log.info("Validation result: %s, Error message: %s", is_actual_valid, actual_error_message)
 
     assert is_actual_valid == is_expected_valid, error_message
     assert actual_error_message == localization_utils.get_form_message(expected_error_message), "Error message mismatch"
@@ -113,12 +123,15 @@ def test_repeat_password_validation(
         repeat_password,
         registration_form_field_setup
 ):
+    log.info("Starting test_repeat_password_validation with password: %s and repeat_password: %s", password, repeat_password)
     form, localization_utils = registration_form_field_setup
     form.enter_password(password)
     form.enter_repeat_password(repeat_password).click_title()
 
     is_actual_valid = form.repeat_password.is_valid()
     actual_error_message = form.repeat_password.get_error_message()
+
+    log.info("Validation result: %s, Error message: %s", is_actual_valid, actual_error_message)
 
     assert is_actual_valid == is_expected_valid, error_message
     assert actual_error_message == localization_utils.get_form_message(expected_error_message), "Error message mismatch"
