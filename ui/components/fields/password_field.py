@@ -1,5 +1,3 @@
-from asyncio import wait_for
-
 from playwright.sync_api import Page
 
 

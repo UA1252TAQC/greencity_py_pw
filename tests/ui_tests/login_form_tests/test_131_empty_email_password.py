@@ -13,6 +13,7 @@ EMPTY_FIELDS_ERROR_UA = "Потрібно заповнити всі обов'я�
 logger = TcLogger.get_log()
 TcLogger.generate_logs(level="INFO", detailed_logs=True)
 
+
 @allure.title("Verify Error Message for empty email and/or password")
 @allure.description("This test checks the validation of the login form when email and/or password fields are empty.")
 @allure.severity(allure.severity_level.NORMAL)

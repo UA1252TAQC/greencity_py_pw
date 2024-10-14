@@ -13,6 +13,7 @@ EXCEEDING_PASSWORD_ERROR_EN = "Password must be less than 20 characters long wit
 logger = TcLogger.get_log()
 TcLogger.generate_logs(level="INFO", detailed_logs=True)
 
+
 @allure.title("Verify Error Message for exceeding password")
 @allure.description("This test checks the validation of the login form fields.")
 @allure.severity(allure.severity_level.NORMAL)
