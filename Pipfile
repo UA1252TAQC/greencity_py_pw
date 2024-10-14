@@ -13,6 +13,7 @@ allure-pytest = "*"
 playwright = "*"
 pytest-playwright = "*"
 exceptiongroup = "*"
+faker = "*"
 
 [dev-packages]
 
