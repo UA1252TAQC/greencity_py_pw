@@ -27,6 +27,7 @@ class LoginModalComponent:
         self.forgot_password_link = page.locator(".//a[@class='forgot-password']")
         self.close_button = page.locator("img.cross-btn[alt='close button']")
         self.main_picture = page.locator("//img[@class='main-picture']")
+        self.form_error_message = page.locator(".alert-general-error")
 
     def login(self, email: str, password: str):
         """
@@ -116,3 +117,16 @@ class LoginModalComponent:
         """
         self.close_button.click()
         self.page.wait_for_timeout(1000)
+
+    def get_login_error_text(self):
+        """
+        Get the login error message text if the error message element is present.
+
+        Returns:
+        - str: The text of the error message if found, otherwise a message indicating that the element was not found.
+        """
+        if self.form_error_message.is_visible():
+            self.form_error_message.wait_for(state="visible", timeout=5000)
+            return self.form_error_message.text_content()
+        else:
+            return f"Element not found: {self.form_error_message}"
