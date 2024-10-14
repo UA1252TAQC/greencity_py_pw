@@ -6,7 +6,6 @@ from ui.pages.green_city.green_city_base_page import GreenCityBasePage
 from ui.enum.news_tags import NewsTags
 import os
 
-from ui.pages.green_city.news_page import NewsPage
 from ui.pages.green_city.news_preview_page import NewsPreviewPage
 
 
@@ -72,6 +71,8 @@ class CreateNewsPage(GreenCityBasePage):
     def click_publish_button(self):
         self.page.evaluate("window.scrollBy(0, document.body.scrollHeight)")
         self.news_publish_button.click()
+        from ui.pages.green_city.news_page import NewsPage
+
         return NewsPage(self.page)
 
     def click_preview_button(self):
