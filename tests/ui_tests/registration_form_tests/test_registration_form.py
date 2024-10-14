@@ -1,5 +1,6 @@
 import pytest
 import allure
+import logging as log
 
 from modules.constants import Data
 from modules.dataprovider import DataProvider
@@ -25,6 +26,7 @@ from ui.pages.ubs.ubs_home_page import UbsHomePage
 )
 def test_pop_up_sign_up_validation(expected_registration_success_message, expected_account_submit_message,
                                    mail_box, username, password, repeat_password, registration_form_setup):
+    log.info("Starting test_pop_up_sign_up_validation with username: %s", username)
     page, localization_utils, language = registration_form_setup
     page.goto(f"{Data.UI_BASE_URL}greenCity")
     home_page = GreenCityHomePage(page)
@@ -33,6 +35,7 @@ def test_pop_up_sign_up_validation(expected_registration_success_message, expect
 
     form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
     actual_registration_success_message = home_page.get_pop_up_message()
+    log.info("Registration success message: %s", actual_registration_success_message)
     assert actual_registration_success_message == localization_utils.get_form_message(expected_registration_success_message)
 
     mail = MailUtils().get_last_mail(mail_box["id"])
@@ -40,6 +43,7 @@ def test_pop_up_sign_up_validation(expected_registration_success_message, expect
 
     ubs_page = UbsHomePage(home_page.page)
     actual_account_submit_message = ubs_page.get_pop_up_message()
+    log.info("Account submit message: %s", actual_account_submit_message)
     assert actual_account_submit_message == localization_utils.get_form_message(expected_account_submit_message)
 
 
@@ -63,6 +67,7 @@ def test_google_sign_up(
         expected_google_name,
         registration_form_setup
 ):
+    log.info("Starting test_google_sign_up with Google email: %s", google_email)
     page, _, _ = registration_form_setup
     page.goto(f"{Data.UI_BASE_URL}greenCity")
     home_page = GreenCityHomePage(page)
@@ -75,10 +80,14 @@ def test_google_sign_up(
     home_page.switch_to_active_tab()
     profile_page = ProfilePage(home_page.page)
 
-    assert profile_page.get_auth_token() is not None, (
+    auth_token = profile_page.get_auth_token()
+    log.info("Auth token: %s", auth_token)
+    assert auth_token is not None, (
         "Validating that the JWT token is not null after Google sign-up."
     )
-    assert profile_page.header_component.get_username() == expected_google_name, (
+    username = profile_page.header_component.get_username()
+    log.info("Google account name: %s", username)
+    assert username == expected_google_name, (
         "Validating that the Google account name matches the expected name."
     )
 
@@ -107,6 +116,7 @@ def test_registered_green_city(
         repeat_password,
         registration_form_setup
 ):
+    log.info("Starting test_registered_green_city with username: %s", username)
     page, localization_utils, language = registration_form_setup
     page.goto(f"{Data.UI_BASE_URL}greenCity")
     home_page = GreenCityHomePage(page)
@@ -121,6 +131,7 @@ def test_registered_green_city(
     ubs_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
     actual_registration_error_message = ubs_form.email.get_error_message()
+    log.info("Registration error message: %s", actual_registration_error_message)
     assert actual_registration_error_message == localization_utils.get_form_message(
         expected_registration_error_message), (
         "Validating the error message for already registered email."
@@ -151,6 +162,7 @@ def test_registered_ubs(
         repeat_password,
         registration_form_setup
 ):
+    log.info("Starting test_registered_ubs with username: %s", username)
     page, localization_utils, language = registration_form_setup
     page.goto(f"{Data.UI_BASE_URL}ubs")
     ubs_page = UbsHomePage(page)
@@ -164,6 +176,7 @@ def test_registered_ubs(
     home_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
     actual_registration_error_message = home_form.email.get_error_message()
+    log.info("Registration error message: %s", actual_registration_error_message)
     assert actual_registration_error_message == localization_utils.get_form_message(
         expected_registration_error_message), (
         "Validating the error message for already registered email in UBS."
@@ -192,6 +205,7 @@ def test_email_already_exists(
         repeat_password,
         registration_form_setup
 ):
+    log.info("Starting test_email_already_exists with username: %s", username)
     page, localization_utils, language = registration_form_setup
     page.goto(f"{Data.UI_BASE_URL}greenCity")
     home_page = GreenCityHomePage(page)
@@ -203,6 +217,7 @@ def test_email_already_exists(
     home_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
     actual_error_message = home_form.email.get_error_message()
+    log.info("Error message: %s", actual_error_message)
     assert actual_error_message == localization_utils.get_form_message(expected_registration_error_message), (
         "Validating the error message for already registered email."
     )
@@ -231,6 +246,7 @@ def test_green_city_registered_with_confirm_email(
         repeat_password,
         registration_form_setup
 ):
+    log.info("Starting test_green_city_registered_with_confirm_email with username: %s", username)
     page, localization_utils, language = registration_form_setup
     page.goto(f"{Data.UI_BASE_URL}greenCity")
     home_page = GreenCityHomePage(page)
@@ -248,6 +264,7 @@ def test_green_city_registered_with_confirm_email(
     ubs_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
     actual_registration_error_message = ubs_form.email.get_error_message()
+    log.info("Registration error message: %s", actual_registration_error_message)
     assert actual_registration_error_message == localization_utils.get_form_message(expected_error_message)
 
 
@@ -274,6 +291,7 @@ def test_ubs_registered_with_confirm_email(
         repeat_password,
         registration_form_setup
 ):
+    log.info("Starting test_ubs_registered_with_confirm_email with username: %s", username)
     page, localization_utils, language = registration_form_setup
     page.goto(f"{Data.UI_BASE_URL}ubs")
     ubs_page = UbsHomePage(page)
@@ -290,6 +308,7 @@ def test_ubs_registered_with_confirm_email(
     home_form.fill_form(mail_box["emailAddress"], username, password, repeat_password).submit()
 
     actual_registration_error_message = home_form.email.get_error_message()
+    log.info("Registration error message: %s", actual_registration_error_message)
     assert actual_registration_error_message == localization_utils.get_form_message(
         expected_registration_error_message), (
         "Validating the error message for already registered email in Green City."
