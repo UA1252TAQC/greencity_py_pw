@@ -31,20 +31,3 @@ def test_successful_sign_in(setup_function):
 
     assert profile_page.page.url == f"{Data.UI_BASE_URL}/#/profile/{Data.USER_ID}"
     assert profile_page.header_component.get_username() == Data.USER_NAME
-
-
-def test_verify_error_message_for_invalid_password(setup_function):
-    page = setup_function
-    page = setup_function
-    page.goto(f"{Data.UI_BASE_URL}/#/greenCity")
-
-    (GreenCityHomePage(page)
-     .header_component
-     .set_language('en'))
-
-    (GreenCityHomePage(page)
-     .header_component
-     .open_login_form()
-     .enter_email('wodepab265@craftapk.com')
-     .enter_password('djsfskdfksd')
-     .click_sign_in_button())
