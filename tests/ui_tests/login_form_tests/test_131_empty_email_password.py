@@ -20,6 +20,8 @@ TcLogger.generate_logs(level="INFO", detailed_logs=True)
 @allure.epic("Green City")
 @allure.feature("Login form")
 @allure.issue("131")
+@pytest.mark.login
+@pytest.mark.ui
 @pytest.mark.parametrize(
     "language, email, password, expected",
     [
