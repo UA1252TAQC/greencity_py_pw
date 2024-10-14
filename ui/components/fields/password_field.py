@@ -1,3 +1,5 @@
+from asyncio import wait_for
+
 from playwright.sync_api import Page
 
 
@@ -12,11 +14,14 @@ class PasswordField:
     def is_displayed(self) -> bool:
         return self.page.is_visible("input#password")
 
-    def get_error_message(self) -> str:
+    def get_error_message(self, timeout: int = 3000) -> str:
         error_selector = ".alert-general-error, #pass-err-msg div"
+        self.page.wait_for_selector(error_selector, timeout=timeout)
+
         if self.page.is_visible(error_selector):
             return self.page.inner_text(error_selector)
-        return None
+
+        return ""
 
     def is_valid(self) -> bool:
         error_selector = ".alert-general-error, #pass-err-msg div"
