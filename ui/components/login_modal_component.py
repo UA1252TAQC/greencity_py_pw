@@ -16,7 +16,9 @@ logger = logging.getLogger(__name__)
 class LoginModalComponent:
     def __init__(self, page: Page):
         """
-        Initialize the LoginModalComponent with necessary page elements.
+        Initializes the LoginModalComponent with necessary page elements.
+
+        :param page: The Playwright page instance.
         """
         self.page = page
         self.email = EmailField(page)
@@ -24,12 +26,15 @@ class LoginModalComponent:
         self.sign_in_button = page.locator("//form[@class='sign-in-form']//button[@type='submit']")
         self.forgot_password_link = page.locator(".//a[@class='forgot-password']")
         self.close_button = page.locator("img.cross-btn[alt='close button']")
+        self.main_picture = page.locator("//img[@class='main-picture']")
 
     def login(self, email: str, password: str):
         """
-        Enter email, password, and click the sign-in button.
+        Logs in by entering the email and password, and clicking the sign-in button.
+
         :param email: Email address to be entered.
         :param password: Password to be entered.
+        :return: The current instance of LoginModalComponent for chaining.
         """
         logger.info(f"Logging in with email: {email}")
         self.email.enter(email)
@@ -40,9 +45,10 @@ class LoginModalComponent:
 
     def enter_email(self, email: str):
         """
-        Enter the email into the email field.
+        Enters the email into the email field.
+
         :param email: Email address to be entered.
-        :return: Returns the current instance of LoginModalComponent for chaining.
+        :return: The current instance of LoginModalComponent for chaining.
         """
         logger.info(f"Entering email: {email}")
         self.email.enter(email)
@@ -50,9 +56,10 @@ class LoginModalComponent:
 
     def enter_password(self, password: str):
         """
-        Enter the password into the password field.
+        Enters the password into the password field.
+
         :param password: Password to be entered.
-        :return: Returns the current instance of LoginModalComponent for chaining.
+        :return: The current instance of LoginModalComponent for chaining.
         """
         logger.info("Entering password (hidden for security reasons)")
         self.password.enter(password)
@@ -60,7 +67,9 @@ class LoginModalComponent:
 
     def click_sign_in_button(self):
         """
-        Wait for the sign-in button to appear and click it.
+        Waits for the sign-in button to appear and clicks it.
+
+        :return: The current instance of LoginModalComponent for chaining.
         """
         logger.info("Clicking the sign-in button")
         self.page.wait_for_selector("button[type='submit']")
@@ -68,15 +77,42 @@ class LoginModalComponent:
         return self
 
     def click_sign_in_button_and_successful_login(self):
+        """
+        Clicks the 'Sign In' button and waits for a successful login.
+
+        :return: ProfilePage object representing the user's profile page after a successful login.
+        """
         self.click_sign_in_button()
         self.sign_in_button.wait_for(state='hidden')
         return ProfilePage(self.page)
 
     def click_forgot_password_link(self):
+        """
+        Clicks on the 'Forgot Password' link and returns the ForgotPasswordComponent.
+
+        This method waits for the 'Forgot Password' link to be visible before clicking it.
+
+        :return: ForgotPasswordComponent for further interactions with the 'Forgot Password' page or form.
+        """
         self.forgot_password_link.wait_for(state='visible')
         self.forgot_password_link.click()
         return ForgotPasswordComponent(self.page)
 
+    def click_outside_form(self):
+        """
+        Clicks outside the form, for example, on the image.
+
+        :return: The current instance of LoginModalComponent for chaining.
+        """
+        self.page.click(self.main_picture)
+        return self
+
     def close(self):
+        """
+        Closes the current form by clicking the close button and waits for a short timeout.
+
+        This method simulates a user closing the form and includes a 1-second timeout
+        to ensure that any UI animations or transitions complete after the close button is clicked.
+        """
         self.close_button.click()
         self.page.wait_for_timeout(1000)
