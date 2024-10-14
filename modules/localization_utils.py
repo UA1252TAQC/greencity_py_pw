@@ -1,16 +1,21 @@
 import json
 from pathlib import Path
-from typing import Dict
 
 
 class LocalizationUtils:
-    def __init__(self, file_path: str = "localization.json"):
+    _data = None
+
+    def __init__(self, file_path: str = "localization.json", language: str = "Ua"):
         self.file_path = Path(file_path)
-        self.root_node = self._load_json()
+        self._load_json()
+        self.language = language
 
-    def _load_json(self) -> Dict:
-        with self.file_path.open(encoding='utf-8') as f:
-            return json.load(f)
+    def _load_json(self):
+        if self._data is None:
+            with self.file_path.open(encoding='utf-8') as f:
+                self._data = json.load(f)
 
-    def get_form_messages(self, language: str) -> Dict[str, str]:
-        return self.root_node["form"][language]
+    def get_form_message(self, message):
+        if message is None:
+            return None
+        return self._data["form"][self.language][message]
