@@ -1,0 +1,20 @@
+test_name,language,email,password,expected
+
+test_verify_error_message_for_empty_email,Ua,,,Введіть пошту.
+test_verify_error_message_for_empty_email,En,,,Email is required.
+
+test_verify_error_message_for_empty_password,Ua,,"",Будь ласка введіть пароль.
+test_verify_error_message_for_empty_password,En,,"",Password is required.
+
+test_verify_error_message_for_invalid_password,Ua,Data.USER_EMAIL,,Введено невірний email або пароль.
+test_verify_error_message_for_invalid_password,En,Data.USER_EMAIL,,Bad email or password.
+
+test_verify_error_message_for_exceeding_password,Ua,Data.USER_EMAIL,,Пароль повинен містити менше 20 символів без пробілів.
+test_verify_error_message_for_exceeding_password,En,Data.USER_EMAIL,,Password must be less than 20 characters long without spaces.
+
+test_verify_error_message_for_empty_email_and_or_password,Ua,,Data.USER_PASSWORD,Потрібно заповнити всі обов'язкові поля.
+test_verify_error_message_for_empty_email_and_or_password,Ua,Data.USER_EMAIL,,Потрібно заповнити всі обов'язкові поля.
+test_verify_error_message_for_empty_email_and_or_password,Ua,,,Потрібно заповнити всі обов'язкові поля.
+test_verify_error_message_for_empty_email_and_or_password,En,Data.USER_EMAIL,,Please fill all required fields.
+test_verify_error_message_for_empty_email_and_or_password,En,,Data.USER_PASSWORD,Please fill all required fields.
+test_verify_error_message_for_empty_email_and_or_password,En,,,Please fill all required fields.

@@ -53,7 +53,7 @@ class ForgotPasswordComponent:
         :return: Boolean indicating whether the forgot password form is displayed.
         """
         logger.info("Checking if the forgot password form is displayed")
-        return self.forgot_password_form.is_visible()
+        return self.forgot_password_locator.is_visible()
 
     def click_back_to_sign_in_link(self):
         """

@@ -24,7 +24,7 @@ class LoginModalComponent:
         self.email = EmailField(page)
         self.password = PasswordField(page)
         self.sign_in_button = page.locator('button[type="submit"]')
-        self.forgot_password_link = page.locator(".//a[@class='forgot-password']")
+        self.forgot_password_link = page.locator("//a[@class='forgot-password']")
         self.close_button = page.locator("img.cross-btn[alt='close button']")
         self.main_picture = page.locator("//img[@class='main-picture']")
         self.form_error_message = page.locator(".alert-general-error")
