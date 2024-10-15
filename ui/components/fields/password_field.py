@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page
 
 
@@ -29,3 +30,7 @@ class PasswordField:
     def clear(self):
         self.page.click(self.input_selector)
         self.page.fill(self.input_selector, "")
+
+    @allure.step("Check, if Password field is empty")
+    def is_password_field_empty(self) -> bool:
+        return "ng-pristine" in self.page.get_attribute("input#password", "class")
