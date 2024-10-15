@@ -2,7 +2,6 @@ import allure
 import pytest
 from faker import Faker
 
-from modules.constants import Data
 from modules.logger import TcLogger
 from tests.ui_tests.test_utils.test_data_loader_csv import get_test_data_by_test_name
 

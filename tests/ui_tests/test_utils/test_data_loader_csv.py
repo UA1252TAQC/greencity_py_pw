@@ -1,6 +1,7 @@
 import csv
 from modules.constants import Data
 
+
 def resolve_data_constant(value):
     """
     Replaces strings like 'Data.USER_EMAIL' with actual values from the Data class.
@@ -10,6 +11,7 @@ def resolve_data_constant(value):
         attribute_name = value.split('.')[1]
         return getattr(Data, attribute_name, value)
     return value
+
 
 def get_test_data_by_test_name(filename, test_name):
     """

@@ -3,13 +3,9 @@ import pytest
 from faker import Faker
 
 from modules.logger import TcLogger
-from tests.ui_tests.login_form_tests.test_131_132_empty_email_password import EMPTY_FIELDS_ERROR_EN
 from tests.ui_tests.test_utils.test_data_loader_csv import get_test_data_by_test_name
 
 fake = Faker()
-
-EMPTY_PASSWORD_ERROR_UA = "Будь ласка введіть пароль."
-EMPTY_PASSWORD_ERROR_EN = "Password is required."
 
 logger = TcLogger.get_log()
 TcLogger.generate_logs(level="INFO", detailed_logs=True)
@@ -26,9 +22,9 @@ TcLogger.generate_logs(level="INFO", detailed_logs=True)
 @pytest.mark.ui
 @pytest.mark.parametrize(
     "language, email, password, expected",
-    get_test_data_by_test_name('../test_data/test_data.csv', 'test_verify_error_message_for_empty_password')
+    get_test_data_by_test_name('../test_data/test_data_login.csv', 'test_verify_error_message_for_empty_password')
 )
-def test_verify_error_message_for_empty_email(language, email, password, expected, setup_function):
+def test_verify_error_message_for_empty_password(language, email, password, expected, setup_function):
     login_form = setup_function
 
     logger.log_test_name(f"INFO: Starting test for empty password field with language: {language}")
