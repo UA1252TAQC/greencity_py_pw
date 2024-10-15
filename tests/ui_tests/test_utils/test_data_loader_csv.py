@@ -15,17 +15,15 @@ def resolve_data_constant(value):
 
 def get_test_data_by_test_name(filename, test_name):
     """
-    Loads test data from a CSV file and replaces string references to constants in the Data class.
-    Returns a list of lists, each containing data for a single test case.
+    Loads test data from a CSV file and dynamically builds a list of dictionaries
+    excluding the 'test_name' field. Replaces string references to constants in the Data class.
+    Returns a list of dictionaries, where each dictionary contains data for a single test case.
     """
     test_data = []
     with open(filename, newline='', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             if row['test_name'] == test_name:
-                language = resolve_data_constant(row['language'])
-                email = resolve_data_constant(row['email'])
-                password = resolve_data_constant(row['password'])
-                expected = resolve_data_constant(row['expected'])
-                test_data.append([language, email, password, expected])
+                resolved_row = {key: resolve_data_constant(value) for key, value in row.items() if key != 'test_name'}
+                test_data.append(resolved_row)
     return test_data
