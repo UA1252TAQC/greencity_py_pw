@@ -151,5 +151,3 @@ class LoginModalComponent:
         active_page.wait_for_load_state()
         active_page.bring_to_front()
         return GoogleAuthComponent(active_page)
-
-

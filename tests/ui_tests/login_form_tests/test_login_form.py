@@ -47,6 +47,7 @@ def test_signin_btn_is_inactive_by_empty_fields(setup_function):
     assert login_modal_component.password.is_password_field_empty()
     assert not login_modal_component.is_signin_btn_active()
 
+
 @allure.description("Verify that the ‘Sign in’ button is activeted and highlighted in green after entering "
                     "a valid email and password")
 @allure.feature("Login")
