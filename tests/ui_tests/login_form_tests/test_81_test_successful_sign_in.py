@@ -14,12 +14,15 @@ def test_successful_sign_in(initialize_page, tc_logger):
 
     expected_username = Data.USER_NAME
     expected_url = f"{Data.UI_BASE_URL}/#/profile/{Data.USER_ID}"
+
     try:
-        profile_page = (initialize_page
-                        .header_component.open_login_form()
-                        .enter_email(Data.USER_EMAIL)
-                        .enter_password(Data.USER_PASSWORD)
-                        .click_sign_in_button_and_successful_login())
+        profile_page = (
+            initialize_page
+            .header_component.open_login_form()
+            .enter_email(Data.USER_EMAIL)
+            .enter_password(Data.USER_PASSWORD)
+            .click_sign_in_button_and_successful_login()
+        )
 
         actual_url = profile_page.page.url
         assert actual_url == expected_url, (

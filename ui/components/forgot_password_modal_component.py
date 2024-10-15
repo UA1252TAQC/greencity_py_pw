@@ -2,6 +2,7 @@ import logging
 from playwright.sync_api import Page
 from ui.components.fields.email_field import EmailField
 from ui.pages.ubs.ubs_home_page import UbsHomePage
+from ui.components.component_factory import create_login_modal_component
 
 logging.basicConfig(level=logging.INFO,
                     format='[%(asctime)s] %(levelname)s %(message)s',
@@ -10,7 +11,7 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger(__name__)
 
 
-class ForgotPasswordComponent:
+class ForgotPasswordModalComponent:
     def __init__(self, page: Page):
         """
         Initializes the ForgotPasswordComponent with necessary page elements.
@@ -64,7 +65,7 @@ class ForgotPasswordComponent:
         logger.info("Clicking the 'Back to Sign In' link")
         self.back_to_signin_link.click()
         self.back_to_signin_link.wait_for(state='hidden')
-        return None
+        return create_login_modal_component(self.page)
 
     def get_error_message(self):
         """

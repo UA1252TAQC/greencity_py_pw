@@ -4,7 +4,7 @@ import allure
 from playwright.sync_api import Page
 from ui.components.fields.email_field import EmailField
 from ui.components.fields.password_field import PasswordField
-from ui.components.forgot_password_modal_component import ForgotPasswordComponent
+from ui.components.component_factory import create_forgot_password_modal_component
 from ui.components.google_auth_component import GoogleAuthComponent
 from ui.pages.green_city.profile_page import ProfilePage
 
@@ -23,6 +23,7 @@ class LoginModalComponent:
         :param page: The Playwright page instance.
         """
         self.page = page
+        self.app_sign_in = page.locator('app-sign-in')
         self.email = EmailField(page)
         self.password = PasswordField(page)
         self.sign_in_button = page.locator('button[type="submit"]')
@@ -100,7 +101,7 @@ class LoginModalComponent:
         """
         self.forgot_password_link.wait_for(state='visible')
         self.forgot_password_link.click()
-        return ForgotPasswordComponent(self.page)
+        return create_forgot_password_modal_component(self.page)
 
     def click_outside_form(self):
         """
@@ -151,3 +152,6 @@ class LoginModalComponent:
         active_page.wait_for_load_state()
         active_page.bring_to_front()
         return GoogleAuthComponent(active_page)
+
+    def is_login_form_displayed(self):
+        return self.app_sign_in.is_visible()

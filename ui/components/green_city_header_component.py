@@ -34,8 +34,10 @@ class GreenCityHeaderComponent:
         self.list_language.click()
         if language.lower() == "en":
             self.english.click()
+            return self
         elif language.lower() == "ua":
             self.ukrainian.click()
+            return self
 
     def get_username(self):
         return self.page.wait_for_selector(self.username_selector).inner_text().strip()
