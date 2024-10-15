@@ -44,7 +44,7 @@ def initialize_page(playwright_instance):
 
 
 @pytest.fixture(scope="function")
-def setup_function(initialize_page, language):
+def setup_function(initialize_page, language='en'):
     """
     This fixture sets the language on the GreenCity homepage and opens the login form.
 

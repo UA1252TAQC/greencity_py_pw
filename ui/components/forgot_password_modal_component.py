@@ -21,8 +21,8 @@ class ForgotPasswordComponent:
         self.submit_button = page.locator("//div[@class='restore-password-container']//button[@type='submit']")
         self.back_to_signin_button = page.locator("//div[@class='mentioned-password']//a[@class='green-link']")
         self.email = EmailField(page)
-        self.forgot_password_form = page.locator("//div[@class='restore-password-container']")
-        self.back_to_signin_link = page.locator(".//div[@class='mentioned-password']//a[@class='green-link']")
+        self.forgot_password_locator = page.locator("//div[@class='restore-password-container']")
+        self.back_to_signin_link = page.locator("//div[@class='mentioned-password']//a[@class='green-link']")
 
     def enter_email(self, email: str):
         """
