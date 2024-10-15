@@ -1,7 +1,7 @@
 import pytest
 import allure
 
-from tests.ui_tests.test_data.test_data import test_data
+from tests.ui_tests.test_data.data_provider import data_provider
 from modules.constants import Data
 from ui.pages.green_city.create_news_page import CreateNewsPage
 from ui.pages.green_city.news_page import NewsPage
@@ -10,9 +10,7 @@ from ui.pages.green_city.news_page import NewsPage
 @allure.description("Verify that Author (registered User nickname) is Auto-filled")
 @allure.feature("CreateNews")
 @allure.issue("77")
-@pytest.mark.parametrize("title, content, tags", [
-    (test_data['author_field']['title'], test_data['news_publish']['content'], test_data['news_publish']['tags'])
-])
+@pytest.mark.parametrize("title, content, tags", [data_provider('author_field')])
 def test_publish_news(setup_function, title, content, tags):
     page = setup_function
 
