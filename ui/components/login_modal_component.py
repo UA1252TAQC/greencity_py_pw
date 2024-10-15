@@ -23,7 +23,7 @@ class LoginModalComponent:
         self.page = page
         self.email = EmailField(page)
         self.password = PasswordField(page)
-        self.sign_in_button = page.locator("//form[@class='sign-in-form']//button[@type='submit']")
+        self.sign_in_button = page.locator('button[type="submit"]')
         self.forgot_password_link = page.locator(".//a[@class='forgot-password']")
         self.close_button = page.locator("img.cross-btn[alt='close button']")
         self.main_picture = page.locator("//img[@class='main-picture']")
@@ -126,7 +126,7 @@ class LoginModalComponent:
         - str: The text of the error message if found, otherwise a message indicating that the element was not found.
         """
         if self.form_error_message.is_visible():
-            self.form_error_message.wait_for(state="visible", timeout=5000)
+            self.form_error_message.wait_for(state="visible")
             return self.form_error_message.text_content()
         else:
             return f"Element not found: {self.form_error_message}"

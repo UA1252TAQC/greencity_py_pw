@@ -16,10 +16,11 @@ TcLogger.generate_logs(level="INFO", detailed_logs=True)
 
 @allure.title("Verify Error Message for empty email and/or password")
 @allure.description("This test checks the validation of the login form when email and/or password fields are empty.")
-@allure.severity(allure.severity_level.NORMAL)
-@allure.epic("Green City")
+@allure.severity(allure.severity_level.CRITICAL)
+@allure.epic("Sign in")
 @allure.feature("Login form")
 @allure.issue("131")
+@allure.issue("132")
 @pytest.mark.login
 @pytest.mark.ui
 @pytest.mark.parametrize(
@@ -44,7 +45,7 @@ def test_verify_error_message_for_empty_email_and_or_password(language, email, p
 
     with allure.step("Click sign-in button and get the error message"):
         logger.log_test_name("INFO: Clicking sign-in button and fetching error message")
-        actual = login_form.click_sign_in_button().get_login_error_text()
+        actual = login_form.click_outside_form().get_login_error_text()
 
     with allure.step("Verify error message"):
         if actual == expected:
