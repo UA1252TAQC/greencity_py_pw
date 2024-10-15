@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page
 
 
@@ -23,3 +24,7 @@ class GoogleAuthComponent():
 
     def click_password_submit_button(self):
         self.password_next_button.click()
+
+    @allure.step("Email field is displayed on GoogleAuthComponent")
+    def is_email_input_displayed(self):
+        return self.email_input.is_disabled()
