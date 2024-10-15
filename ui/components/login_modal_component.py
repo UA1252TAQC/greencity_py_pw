@@ -3,7 +3,7 @@ import logging
 from playwright.sync_api import Page
 from ui.components.fields.email_field import EmailField
 from ui.components.fields.password_field import PasswordField
-from ui.components.forgot_password_modal_component import ForgotPasswordModalComponent
+from ui.common import create_forgot_password_modal_component
 from ui.pages.green_city.green_city_profile_page import GreenCityProfilePage
 
 logging.basicConfig(level=logging.INFO,
@@ -77,4 +77,4 @@ class LoginModalComponent:
 
     def click_forgot_password_link(self):
         self.forgot_password_link.click()
-        return ForgotPasswordModalComponent(self.page)
+        return create_forgot_password_modal_component(self.page)

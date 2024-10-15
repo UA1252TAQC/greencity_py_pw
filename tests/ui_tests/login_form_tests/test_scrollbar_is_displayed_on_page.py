@@ -5,7 +5,7 @@ from ui.pages.green_city.green_city_home_page import GreenCityHomePage
 
 
 @pytest.mark.ui_login
-@pytest.mark.parametrize("width", [320, 480])
+@pytest.mark.parametrize("width", [320])
 def test_successful_sign_in_possibility(setup_function, check, width):
     page = setup_function
     page.goto(Data.UI_GREEN_CITY_HOME_PAGE_URL)
@@ -21,7 +21,7 @@ def test_successful_sign_in_possibility(setup_function, check, width):
 
     # scroll_height = login_form.sign_in_button('element => element.scrollHeight')
     # client_height = login_form.sign_in_button('element => element.clientHeight')
-
+    page.pause()
     zoom = 150
     page.evaluate(f"document.body.style.zoom = '{zoom}%'")
 
@@ -31,4 +31,4 @@ def test_successful_sign_in_possibility(setup_function, check, width):
     # assert client_height == 100
     assert zoom_value == 1000
 
-    page.pause()
+

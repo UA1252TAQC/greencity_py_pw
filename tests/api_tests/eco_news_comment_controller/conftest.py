@@ -1,6 +1,7 @@
 """
 Module for holding eco-news-comment-controller fixtures
 """
+import json
 import logging as log
 
 import allure
@@ -19,7 +20,7 @@ def setup_and_teardown_news(get_auth_token):
     :param get_auth_token: Fixture to get the authentication token.
     :return: ID of the created news article.
     """
-    api = BaseApi(f'{Data.API_BASE_URL}/eco-news')
+    api = BaseApi(f'{Data.API_BASE_URL}/econews')
     headers = {
         'accept': '*/*',
         'Authorization': f'Bearer {get_auth_token}'
@@ -27,8 +28,11 @@ def setup_and_teardown_news(get_auth_token):
     files = {
         'addEcoNewsDtoRequest': (
             '',
-            '{"tags":["News"],"title":"Title Test News",'
-            '"text":"Text Test News DELETE Long"}'
+            json.dumps({
+                "title":"News Title (created for news comment controller test)",
+                "text":f"News Text (created for news comment controller test at {timestamp()})",
+                "tags":["News"]
+            })
         )
     }
     log.info("CONFTEST: Creating a news article.")
@@ -40,7 +44,7 @@ def setup_and_teardown_news(get_auth_token):
     yield news_id
 
     log.info(f"CONFTEST: Deleting news article with ID: {news_id}")
-    delete_api = BaseApi(f'{Data.API_BASE_URL}/eco-news/{news_id}')
+    delete_api = BaseApi(f'{Data.API_BASE_URL}/econews/{news_id}')
     delete_api.delete_data(headers=headers)
     log.info(
         f"CONFTEST: News article with ID: {news_id} deleted successfully."
@@ -57,20 +61,27 @@ def setup_comment(get_auth_token, setup_and_teardown_news):
     :return: Response of the comment creation.
     """
     news_id = setup_and_teardown_news
-    comment_text = (
-        f'Test comment at {datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")}'
-    )
+    comment_text = generate_comment_text_with_timestamp()
 
-    api = BaseApi(f'{Data.API_BASE_URL}/eco-news/{news_id}/comments')
+    api = BaseApi(f'{Data.API_BASE_URL}/econews/comments/{news_id}')
     headers = {
         'accept': '*/*',
-        'Authorization': f'Bearer {get_auth_token}'
+        'Authorization': f'Bearer {get_auth_token}',
+        'Content-Type': 'application/json'
     }
-    files = {
-        'request': ('', f'{{"parentCommentId": 0, "text": "{comment_text}"}}')
+    data = {
+        "parentCommentId": 0,
+        "text": comment_text
     }
-    log.info(f"CONFTEST: Creating comment for news ID: {news_id}")
-    response = api.post_data(files=files, headers=headers)
+    response = api.post_data(payload=data, headers=headers)
     log.info(f"CONFTEST: Comment created with ID: {response.json()['id']}")
 
     return response
+
+def timestamp():
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+
+def generate_comment_text_with_timestamp():
+    return f'Test comment at {timestamp()}'
+
+

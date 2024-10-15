@@ -7,6 +7,7 @@ import pytest
 
 from api.base_api import BaseApi
 from modules.constants import Data
+from tests.api_tests.eco_news_comment_controller.test_add_comment import test_add_comment_success
 
 
 @pytest.mark.comment
@@ -25,7 +26,7 @@ def test_count_comments_success(tc_logger,
 
         log.info(f"Starting test {test_count_comments_success.__name__}")
         api = BaseApi(
-            f'{Data.API_BASE_URL}/eco-news/{news_id}/comments/count'
+            f'{Data.API_BASE_URL}/econews/comments/count/comments/{news_id}'
         )
         headers = {
             'accept': '*/*'

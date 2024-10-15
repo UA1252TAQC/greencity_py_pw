@@ -13,7 +13,7 @@ def test_sign_in():
     """
     Verify that the sign-in functionality works correctly
     """
-    api = BaseApi('https://greencity-user.greencity.cx.ua/ownSecurity/signIn')
+    api = BaseApi(f'{Data.USER_API_BASE_URL}/ownSecurity/signIn')
     data = {
         "email": Data.USER_EMAIL,
         "password": Data.USER_PASSWORD
@@ -26,5 +26,5 @@ def test_sign_in():
     assert response.status_code == HTTPStatus.OK
     json_response = response.json()
     assert json_response["userId"] == Data.USER_ID
-    assert json_response["name"] == "TestUser"
+    assert json_response["name"] == Data.USER_NAME
     assert json_response["ownRegistrations"] is True

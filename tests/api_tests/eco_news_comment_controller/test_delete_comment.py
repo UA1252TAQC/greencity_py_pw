@@ -23,7 +23,7 @@ def test_delete_comment_success(tc_logger,
         comment_id = setup_comment.json()['id']
 
         log.info(f"Starting test {test_delete_comment_success.__name__}")
-        api = BaseApi(f'{Data.API_BASE_URL}/eco-news/comments/{comment_id}')
+        api = BaseApi(f'{Data.API_BASE_URL}/econews/comments?id={comment_id}')
         headers = {
             'accept': '*/*',
             'Authorization': f'Bearer {get_auth_token}'

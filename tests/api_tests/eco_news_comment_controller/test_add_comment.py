@@ -5,9 +5,11 @@ import logging as log
 
 import allure
 import pytest
+import inspect
 
 from api.base_api import BaseApi
 from modules.constants import Data
+from tests.api_tests.eco_news_comment_controller.conftest import generate_comment_text_with_timestamp
 
 
 @pytest.mark.comment
@@ -18,24 +20,22 @@ def test_add_comment_success(tc_logger,
                              get_auth_token,
                              setup_and_teardown_news):
     try:
-        tc_logger.log_test_name(
-            "Verify successful addition of a comment to news."
-        )
-        comment_text = (
-            f'Test comment at {datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")}'
-        )
+        tc_logger.log_test_name("Verify successful addition of a comment to news")
+        comment_text = generate_comment_text_with_timestamp()
         news_id = setup_and_teardown_news
 
-        log.info(f"Starting test {test_add_comment_success.__name__}")
-        api = BaseApi(f'{Data.API_BASE_URL}/eco-news/{news_id}/comments')
+        log.info(f"Starting test {inspect.currentframe().f_code.co_name}")
+        api = BaseApi(f'{Data.API_BASE_URL}/econews/comments/{news_id}')
         headers = {
             'accept': '*/*',
-            'Authorization': f'Bearer {get_auth_token}'
+            'Authorization': f'Bearer {get_auth_token}',
+            'Content-Type': 'application/json'
         }
-        files = {
-            'request': ('', f'{{"parentCommentId": 0, "text": "{comment_text}"}}')
+        data = {
+            "parentCommentId": 0,
+            "text": comment_text
         }
-        response = api.post_data(files=files, headers=headers)
+        response = api.post_data(payload=data, headers=headers)
         log.info(f"Response status code: {response.status_code}")
 
         assert response.status_code == HTTPStatus.CREATED

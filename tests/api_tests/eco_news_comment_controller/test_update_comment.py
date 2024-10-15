@@ -8,6 +8,7 @@ import pytest
 
 from api.base_api import BaseApi
 from modules.constants import Data
+from tests.api_tests.eco_news_comment_controller.conftest import generate_comment_text_with_timestamp
 
 
 @pytest.mark.comment
@@ -24,13 +25,12 @@ def test_update_comment_success(tc_logger,
         )
         comment_id = setup_comment.json()['id']
         modified_comment_text = (
-            f'Test comment modified at '
-            f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")}'
+            generate_comment_text_with_timestamp()
         )
 
         log.info(f"Starting test {test_update_comment_success.__name__}")
         api = BaseApi(
-            f'{Data.API_BASE_URL}/eco-news/comments?commentId={comment_id}'
+            f'{Data.API_BASE_URL}/econews/comments?id={comment_id}&text={modified_comment_text}'
         )
         headers = {
             'accept': '*/*',

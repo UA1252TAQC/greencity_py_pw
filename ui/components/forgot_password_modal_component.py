@@ -1,6 +1,7 @@
 from playwright.sync_api import Page
 
 from ui.components.fields.email_field import EmailField
+from ui.common import create_login_modal_component
 
 
 class ForgotPasswordModalComponent:
@@ -14,7 +15,6 @@ class ForgotPasswordModalComponent:
         return self.back_to_sign_in_link.is_visible()
 
     def click_back_to_sign_in_link(self):
-        from ui.components.login_modal_component import LoginModalComponent
         self.back_to_sign_in_link.click()
         self.back_to_sign_in_link.wait_for(state="hidden")
-        return LoginModalComponent(self.page)
+        return create_login_modal_component(self.page)
