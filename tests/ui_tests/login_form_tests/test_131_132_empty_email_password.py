@@ -7,8 +7,8 @@ from modules.logger import TcLogger
 
 fake = Faker()
 
-EMPTY_FIELDS_ERROR_EN = "Please fill all required fields."
 EMPTY_FIELDS_ERROR_UA = "Потрібно заповнити всі обов'язкові поля."
+EMPTY_FIELDS_ERROR_EN = "Please fill all required fields."
 
 logger = TcLogger.get_log()
 TcLogger.generate_logs(level="INFO", detailed_logs=True)
