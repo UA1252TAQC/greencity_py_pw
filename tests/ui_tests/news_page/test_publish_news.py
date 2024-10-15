@@ -1,7 +1,7 @@
 import pytest
 import allure
 
-from tests.ui_tests.test_data.test_data import test_data
+from tests.ui_tests.test_data.data_provider import data_provider
 from ui.pages.green_city.create_news_page import CreateNewsPage
 from ui.pages.green_city.news_page import NewsPage
 
@@ -9,9 +9,7 @@ from ui.pages.green_city.news_page import NewsPage
 @allure.description("Verify that the user can publish news after clicking the 'Publish' button")
 @allure.feature("CreateNews")
 @allure.issue("78")
-@pytest.mark.parametrize("title, content, tags", [
-    (test_data['news_publish']['title'], test_data['news_publish']['content'], test_data['news_publish']['tags'])
-])
+@pytest.mark.parametrize("title, content, tags", [data_provider('news_publish')])
 def test_publish_news(setup_function, title, content, tags):
     page = setup_function
 
