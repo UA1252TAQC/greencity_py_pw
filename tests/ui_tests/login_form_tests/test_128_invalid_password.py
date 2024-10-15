@@ -25,7 +25,7 @@ TcLogger.generate_logs(level="INFO", detailed_logs=True)
 @pytest.mark.ui
 @pytest.mark.parametrize(
     "language, email, password, expected",
-    get_test_data_by_test_name('tests/ui_tests/test_data/test_data_login.csv', 'test_verify_error_message_for_invalid_password')
+    get_test_data_by_test_name('../test_data/test_data_login.csv', 'test_verify_error_message_for_invalid_password')
 )
 def test_verify_error_message_for_invalid_password(language, email, password, expected, setup_function):
     password = fake.password(length=12, special_chars=True, digits=True, upper_case=True, lower_case=True)

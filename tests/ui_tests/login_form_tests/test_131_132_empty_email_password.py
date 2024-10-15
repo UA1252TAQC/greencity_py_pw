@@ -26,7 +26,7 @@ TcLogger.generate_logs(level="INFO", detailed_logs=True)
 @pytest.mark.ui
 @pytest.mark.parametrize(
     "language, email, password, expected",
-    get_test_data_by_test_name('../test_data/test_data.csv', 'test_verify_error_message_for_empty_email_and_or_password')
+    get_test_data_by_test_name('../test_data/test_data_login.csv', 'test_verify_error_message_for_empty_email_and_or_password')
 )
 def test_verify_error_message_for_empty_email_and_or_password(language, email, password, expected, setup_function):
     login_form = setup_function
