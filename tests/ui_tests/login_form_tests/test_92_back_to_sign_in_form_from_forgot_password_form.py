@@ -14,8 +14,7 @@ def test_back_to_sign_in_form_from_forgot_password_form(initialize_page, tc_logg
     try:
         forgot_password_form = (
             initialize_page
-            .header_component.set_language('en')
-            .open_login_form()
+            .header_component.open_login_form()
             .click_forgot_password_link()
         )
 
