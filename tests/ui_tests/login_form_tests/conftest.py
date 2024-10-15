@@ -33,6 +33,7 @@ def initialize_page(playwright_instance):
     )
     context = browser.new_context(viewport={"width": 1920, "height": 1080, "device_scale_factor": 1})
     page = context.new_page()
+    page.set_default_timeout(5000)
     page.goto(f"{Data.UI_BASE_URL}/#/greenCity", wait_until="load")
     page.evaluate("() => document.body.style.zoom='100%'")
 

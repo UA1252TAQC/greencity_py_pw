@@ -45,7 +45,7 @@ def test_verify_error_message_for_empty_email_and_or_password(language, email, p
 
     with allure.step("Click sign-in button and get the error message"):
         logger.log_test_name("INFO: Clicking sign-in button and fetching error message")
-        actual = login_form.click_sign_in_button().get_login_error_text()
+        actual = login_form.click_outside_form().get_login_error_text()
 
     with allure.step("Verify error message"):
         if actual == expected:
