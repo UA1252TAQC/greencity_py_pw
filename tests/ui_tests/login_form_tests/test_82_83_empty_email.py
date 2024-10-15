@@ -36,7 +36,7 @@ def test_verify_error_message_for_empty_email(language, email, expected, setup_f
     logger.log_test_name(f"INFO: Starting test for empty email field with language: {language}")
 
     with allure.step("Enter email"):
-        logger.log_test_name(f"DEBUG: Entering empty email")
+        logger.log_test_name("DEBUG: Entering empty email")
         login_form.enter_email(email)
 
     with allure.step("Click sign-in button and get the email error message"):

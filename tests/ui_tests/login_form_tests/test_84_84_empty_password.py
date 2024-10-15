@@ -36,7 +36,7 @@ def test_verify_error_message_for_empty_email(language, password, expected, setu
     logger.log_test_name(f"INFO: Starting test for empty password field with language: {language}")
 
     with allure.step("Enter password"):
-        logger.log_test_name(f"DEBUG: Entering empty password")
+        logger.log_test_name("DEBUG: Entering empty password")
         login_form.enter_password(password)
 
     with allure.step("Click sign-in button and get password error message"):
