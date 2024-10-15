@@ -23,6 +23,3 @@ class GoogleAuthComponent():
 
     def click_password_submit_button(self):
         self.password_next_button.click()
-
-    def is_email_input_displayed(self) -> bool:
-        return self.email_input.is_visible()

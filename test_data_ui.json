@@ -37,7 +37,6 @@
     ],
 
     "testPopUpSignUpValidation": [
-        ["REGISTERED_POP_UP_MESSAGE", "ACCOUNT_SUBMIT_POP_UP_MESSAGE", "GENERATE_TEMPORARY_EMAIL", "TestUser", "Password1!", "Password1!"],
         ["REGISTERED_POP_UP_MESSAGE", "ACCOUNT_SUBMIT_POP_UP_MESSAGE", "GENERATE_TEMPORARY_EMAIL", "TestUser2", "Password2!", "Password2!"]
     ],
 
@@ -46,21 +45,21 @@
     ],
 
     "testEmailAlreadyExists" : [
-        ["REGISTERED_POP_UP_MESSAGE","EMAIL_ALREADY_EXIST_ERROR_MESSAGE","GENERATE_TEMPORARY_EMAIL","UserName","Password1!","Password1!"]
+        ["EMAIL_ALREADY_EXIST_ERROR_MESSAGE","GENERATE_TEMPORARY_EMAIL","UserName","Password1!","Password1!"]
     ],
 
     "testRegisteredGreenCity" : [
-        ["REGISTERED_POP_UP_MESSAGE","EMAIL_ALREADY_EXIST_ERROR_MESSAGE","GENERATE_TEMPORARY_EMAIL","UserName","Password1!","Password1!"]
+        ["EMAIL_ALREADY_EXIST_ERROR_MESSAGE", "GENERATE_TEMPORARY_EMAIL", "UserName", "Password1!", "Password1!"]
     ],
     "testRegisteredUbs" : [
-        ["REGISTERED_POP_UP_MESSAGE","EMAIL_ALREADY_EXIST_ERROR_MESSAGE","GENERATE_TEMPORARY_EMAIL","UserName","Password1!","Password1!"]
+        ["EMAIL_ALREADY_EXIST_ERROR_MESSAGE", "GENERATE_TEMPORARY_EMAIL", "UserName", "Password1!", "Password1!"]
     ],
 
     "testGreenCityRegisteredWithConfirmEmail" : [
-        ["REGISTERED_POP_UP_MESSAGE", "ACCOUNT_SUBMIT_POP_UP_MESSAGE", "EMAIL_ALREADY_EXIST_ERROR_MESSAGE","GENERATE_TEMPORARY_EMAIL","UserName","Password1!","Password1!"]
+        ["EMAIL_ALREADY_EXIST_ERROR_MESSAGE", "GENERATE_TEMPORARY_EMAIL", "UserName", "Password1!", "Password1!"]
     ],
 
     "testUbsRegisteredWithConfirmEmail" : [
-        ["REGISTERED_POP_UP_MESSAGE", "ACCOUNT_SUBMIT_POP_UP_MESSAGE", "EMAIL_ALREADY_EXIST_ERROR_MESSAGE","GENERATE_TEMPORARY_EMAIL","UserName","Password1!","Password1!"]
+        ["EMAIL_ALREADY_EXIST_ERROR_MESSAGE", "GENERATE_TEMPORARY_EMAIL", "UserName", "Password1!", "Password1!"]
     ]
 }
