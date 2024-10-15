@@ -1,7 +1,6 @@
 import allure
 import pytest
 
-from modules.constants import Data
 from modules.logger import TcLogger
 
 logger = TcLogger.get_log()
