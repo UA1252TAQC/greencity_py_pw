@@ -11,6 +11,7 @@ python-dotenv = "*"
 allure-pytest = "*"
 playwright = "*"
 pytest-playwright = "*"
+faker = "*"
 
 [dev-packages]
 
