@@ -13,6 +13,11 @@ from ui.pages.green_city.news_page import NewsPage
 @pytest.mark.parametrize("title, content, tags", [data_provider("news_data_valid")])
 def test_create_news_with_jpeg_img(setup_function, title, content, tags):
     page = setup_function
+    def handle_response(response,):
+        if response.request.method == "POST" and "eco-news" in response.url:
+            assert response.ok
+
+    page.on("response", handle_response)
 
     create_news_page = CreateNewsPage(page)
     news_page = NewsPage(page)
