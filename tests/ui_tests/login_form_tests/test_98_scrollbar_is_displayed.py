@@ -28,7 +28,9 @@ def test_scrollbar_is_displayed_on_page(initialize_page, tc_logger, width, zoom_
     log.info(f"Test '{test_name}' started")
 
     try:
-        login_form = initialize_page.header_component.open_login_form()
+        login_form = (initialize_page.header_component
+                      .set_language('en')
+                      .open_login_form())
 
         height = login_form.page.viewport_size['height']
         login_form.page.set_viewport_size({"width": width, "height": height})
