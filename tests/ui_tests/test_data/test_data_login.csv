@@ -23,4 +23,4 @@ test_verify_inactive_button_for_only_password,En,,Data.USER_PASSWORD,The 'Sign i
 test_verify_inactive_button_for_only_email,,En,Data.USER_EMAIL,The 'Sign in' button should be inactive when only the password is filled.
 test_verify_inactive_button_for_valid_password_invalid_email,En,invalid@email.com,USER_PASSWORD,The 'Sign in' button should be inactive when email field is invalid.
 test_verify_inactive_button_for_invalid_password_valid_email,En,USER_EMAIL,invalidpassword,The 'Sign in' button should be inactive when password field is invalid.
-test_verify_inactive_button_for_invalid_password_and_email,En,invalid@email.com,invalidpassword,Expected error message for invalid password
+test_verify_inactive_button_for_invalid_password_and_email,En,invalid@email.com,invalidpassword,The 'Sign in' button should be inactive when password and field is invalid.

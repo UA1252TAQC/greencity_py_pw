@@ -156,3 +156,10 @@ class LoginModalComponent:
 
     def is_login_form_displayed(self):
         return self.app_sign_in.is_visible()
+
+    def is_sign_in_button_active(self):
+        """
+        Checks if the "Sign in" button is enabled.
+        Returns True if the button is enabled (does not have the disabled attribute).
+        """
+        return self.sign_in_button.is_enabled()
