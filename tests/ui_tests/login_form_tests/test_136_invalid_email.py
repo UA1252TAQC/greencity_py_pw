@@ -1,11 +1,11 @@
 import allure
 import pytest
-from faker import Faker
 
 from modules.logger import TcLogger
-from tests.ui_tests.test_utils.test_data_loader_csv import get_test_data_by_test_name, get_test_data
+from tests.ui_tests.test_utils.test_data_loader_csv import get_test_data
 
 logger = TcLogger.get_log()
+
 
 @allure.title("Verify invalid email warning after entering not valid E-mail to the 'E-mail' field")
 @allure.description("This test checks the validation of the login form when email is invalid.")

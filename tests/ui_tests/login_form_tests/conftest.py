@@ -68,6 +68,7 @@ def setup_function(initialize_page, language: Optional[str] = None):
     yield form
     form.close()
 
+
 @pytest.fixture(scope="function")
 def setup_function_with_language(initialize_page, request):
     """
