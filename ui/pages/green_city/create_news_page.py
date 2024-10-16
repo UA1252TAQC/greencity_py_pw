@@ -41,8 +41,8 @@ class CreateNewsPage(GreenCityBasePage):
         return self
 
     @allure.step("Fill the source link field with {link}")
-    def enter_source_link(self, content: str):
-        self.source_link_field.fill(content)
+    def enter_source_link(self, link: str):
+        self.source_link_field.fill(link)
         return self
 
     @allure.step("Select the tags: {tags}")
@@ -50,6 +50,13 @@ class CreateNewsPage(GreenCityBasePage):
         for tag in tags:
             self.select_single_tag(tag, language_code)
         return self
+
+    @allure.step("Unselect the tags: {tags}")
+    def unselect_tags(self, tags: list[NewsTags], language_code):
+        for tag in tags:
+            self.unselect_single_tag(tag, language_code)
+        return self
+
 
     @allure.step("Unselect the tag: {tag}")
     def unselect_single_tag(self, tag: NewsTags, language_code: str):

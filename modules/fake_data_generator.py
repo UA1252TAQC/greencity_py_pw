@@ -9,7 +9,7 @@ fake = Faker()
 
 def generate_news_data():
     title = fake.sentence(nb_words=10)
-    content = fake.paragraph(nb_sentences=100)
+    content = fake.paragraph(nb_sentences=20)
     tags = generate_random_tags()
     return title, content, tags
 
