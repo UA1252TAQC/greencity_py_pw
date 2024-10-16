@@ -1,4 +1,3 @@
-from datetime import datetime
 from http import HTTPStatus
 
 import logging as log
@@ -17,20 +16,19 @@ from modules.constants import Data
 def test_update_comment_success(tc_logger,
                                 get_auth_token,
                                 setup_and_teardown_news,
-                                setup_comment):
+                                setup_comment,
+                                generate_comment_text_with_timestamp):
     try:
-        tc_logger.log_test_name(
-            "Verify successful updating of an existing comment on news."
-        )
-        comment_id = setup_comment.json()['id']
-        modified_comment_text = (
-            f'Test comment modified at '
-            f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")}'
-        )
+        test_name = "Verify successful updating of an existing comment on news."
+        tc_logger.log_test_name(test_name)
+        log.info(f"Test '{test_name}' started")
 
-        log.info(f"Starting test {test_update_comment_success.__name__}")
+        comment_id = setup_comment.json()['id']
+        modified_comment_text = generate_comment_text_with_timestamp
+
+        log.info(f"Starting test {test_name}")
         api = BaseApi(
-            f'{Data.API_BASE_URL}/eco-news/comments?commentId={comment_id}'
+            f'{Data.API_BASE_URL}/econews/comments?id={comment_id}&text={modified_comment_text}'
         )
         headers = {
             'accept': '*/*',

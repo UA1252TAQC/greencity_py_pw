@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page
 
 
@@ -25,3 +26,7 @@ class EmailField:
     def clear(self):
         self.page.click(self.input_selector)
         self.page.fill(self.input_selector, "")
+
+    @allure.step("Check, if Email field is empty")
+    def is_email_field_empty(self) -> bool:
+        return "ng-pristine" in self.page.locator("input#email").get_attribute("class")
