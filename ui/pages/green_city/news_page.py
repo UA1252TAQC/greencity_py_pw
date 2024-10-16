@@ -2,6 +2,7 @@ from playwright.sync_api import Page
 
 from ui.enum.news_tags import NewsTags
 from ui.pages.green_city.green_city_base_page import GreenCityBasePage
+import allure
 
 
 class NewsPage(GreenCityBasePage):
@@ -10,11 +11,13 @@ class NewsPage(GreenCityBasePage):
         self.create_news_button = page.locator(NewsPageLocators.CREATE_NEWS_BUTTON)
         self.author_name = self.page.locator(NewsPageLocators.AUTH_NAME)
 
+    @allure.step("Click 'Create News' button")
     def click_create_news(self, page):
         self.create_news_button.click()
         from ui.pages.green_city.create_news_page import CreateNewsPage
         return CreateNewsPage(self.page)
 
+    @allure.step("Verify if news is displayed by title, content and tags")
     def is_news_displayed(self, title: str, content: str, tags: list[NewsTags]) -> bool:
         news_items = self.page.locator(NewsPageLocators.NEWS_ITEM_BOX).all()
 
@@ -34,6 +37,7 @@ class NewsPage(GreenCityBasePage):
 
         return False
 
+    @allure.step("Verify if news is displayed by title")
     def is_news_displayed_with_title(self,  title: str):
         news_items = self.page.locator("//div[@class='list-gallery']").all()
 
@@ -44,6 +48,7 @@ class NewsPage(GreenCityBasePage):
 
         return False
 
+    @allure.step("Click on news item by title")
     def click_on_news_with_title(self, title):
         news_items = self.page.locator("//div[@class='list-gallery']").all()
         for item in news_items:
@@ -54,8 +59,9 @@ class NewsPage(GreenCityBasePage):
 
         raise TimeoutError(f"News with title '{title}' was not found.")
 
+    @allure.step("Get author Name")
     def get_author_name(self) -> str:
-        return self.author_name.inner_text()
+        return self.author_name.text_content().strip()
 
 
 class NewsPageLocators:
