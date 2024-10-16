@@ -1,11 +1,15 @@
 import allure
 import logging as log
 
+import pytest
+
 
 @allure.description("Verify that the User is directed back to Sign in page after clicking the 'Back to Sign in' link")
 @allure.feature("Login")
 @allure.feature("Forgot Password")
 @allure.issue("92")
+@pytest.mark.login
+@pytest.mark.forgot_password
 def test_back_to_sign_in_form_from_forgot_password_form(initialize_page, tc_logger):
     test_name = "Verify that the User is directed back to Sign in page after clicking the 'Back to Sign in' link"
     tc_logger.log_test_name(test_name)

@@ -1,12 +1,15 @@
 import allure
 import logging as log
 
+import pytest
+
 from modules.constants import Data
 
 
 @allure.description("Verify the Sign-In possibility with valid credentials")
 @allure.feature("Login")
 @allure.issue("81")
+@pytest.mark.login
 def test_successful_sign_in(initialize_page, tc_logger):
     test_name = "Verify the Sign-In possibility with valid credentials."
     tc_logger.log_test_name(test_name)

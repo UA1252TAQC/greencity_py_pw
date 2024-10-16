@@ -24,6 +24,7 @@ class LoginModalComponent:
         """
         self.page = page
         self.app_sign_in = page.locator('app-sign-in')
+        self.modal_component_element = page.locator("app-auth-modal .main")
         self.email = EmailField(page)
         self.password = PasswordField(page)
         self.sign_in_button = page.locator('button[type="submit"]')
