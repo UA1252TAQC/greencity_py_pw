@@ -21,3 +21,6 @@ test_verify_error_message_for_empty_email_and_or_password,En,,,Please fill all r
 
 test_verify_inactive_button_for_only_password,En,,Data.USER_PASSWORD,The 'Sign in' button should be inactive when only the password is filled.
 test_verify_inactive_button_for_only_email,,En,Data.USER_EMAIL,The 'Sign in' button should be inactive when only the password is filled.
+
+test_verify_invalid_email_warning,En,"test.mail.comaaaa",Data.USER_PASSWORD,"Please check that your e-mail address is indicated correctly"
+test_verify_invalid_email_warning,Ua,"test.mail.comaaaa",Data.USER_PASSWORD,"Перевірте, чи правильно вказано вашу адресу електронної пошти"
