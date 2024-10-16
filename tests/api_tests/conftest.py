@@ -58,7 +58,7 @@ def get_auth_token():
     Fixture to get an authentication token.
     :return: Authentication token.
     """
-    api = BaseApi('https://greencity-user.greencity.cx.ua/ownSecurity/signIn')
+    api = BaseApi(f'{Data.USER_API_BASE_URL}/ownSecurity/signIn')
     data = {
         "email": Data.USER_EMAIL,
         "password": Data.USER_PASSWORD
