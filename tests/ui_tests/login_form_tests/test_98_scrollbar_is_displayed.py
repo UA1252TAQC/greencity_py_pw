@@ -3,6 +3,7 @@ import logging as log
 
 import pytest
 
+
 @allure.description("Verify that the scrollbar is displayed on the Sign In page")
 @allure.feature("Login")
 @allure.issue("98")
