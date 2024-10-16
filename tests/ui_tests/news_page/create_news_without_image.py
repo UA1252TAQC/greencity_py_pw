@@ -6,6 +6,7 @@ import allure
 
 from ui.pages.green_city.news_page import NewsPage
 
+
 @allure.description("Verify that news without image can be created")
 @allure.feature("CreateNews")
 @allure.issue("75")
@@ -21,4 +22,4 @@ def test_create_news_without_image(setup_function, title, content, tags):
      .click_publish_button())
     page.wait_for_url(f"{Data.UI_BASE_URL}/#/news")
 
-    assert   news_page.is_news_displayed_with_title(title) == True
+    assert news_page.is_news_displayed_with_title(title) is True

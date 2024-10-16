@@ -7,13 +7,15 @@ import os
 
 from ui.pages.green_city.news_page import NewsPage
 
-@allure.description("Verify that news with added image(jpeg) can be created")
+
+@allure.description("Verify that news with added image(png) can be created")
 @allure.feature("CreateNews")
-@allure.issue("80")
+@allure.issue("91")
 @pytest.mark.parametrize("title, content, tags", [data_provider("news_data_valid")])
 def test_create_news_with_jpeg_img(setup_function, title, content, tags):
     page = setup_function
-    def handle_response(response,):
+
+    def handle_response(response):
         if response.request.method == "POST" and "eco-news" in response.url:
             assert response.ok
 
@@ -28,9 +30,4 @@ def test_create_news_with_jpeg_img(setup_function, title, content, tags):
      .click_publish_button())
     page.wait_for_url(f"{Data.UI_BASE_URL}/#/news")
 
-    assert   news_page.is_news_displayed_with_title(title) == True
-
-
-
-
-
+    assert news_page.is_news_displayed_with_title(title) is True

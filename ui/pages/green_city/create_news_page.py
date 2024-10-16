@@ -4,7 +4,6 @@ from playwright.sync_api import Page
 
 from ui.pages.green_city.green_city_base_page import GreenCityBasePage
 from ui.enum.news_tags import NewsTags
-import os
 import allure
 
 from ui.pages.green_city.news_preview_page import NewsPreviewPage
@@ -56,7 +55,6 @@ class CreateNewsPage(GreenCityBasePage):
         for tag in tags:
             self.unselect_single_tag(tag, language_code)
         return self
-
 
     @allure.step("Unselect the tag: {tag}")
     def unselect_single_tag(self, tag: NewsTags, language_code: str):
