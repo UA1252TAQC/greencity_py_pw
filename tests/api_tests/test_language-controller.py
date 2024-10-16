@@ -1,6 +1,7 @@
 import json
 from http import HTTPStatus
 
+import allure
 import pytest
 
 from api.base_api import BaseApi
@@ -12,6 +13,7 @@ def setup_teardown():
     yield api
 
 
+@allure.feature('Get available languages list')
 def test_get_languages_codes(tc_logger, setup_teardown):
     tc_logger.log_test_name("""
     Verify that all codes are in the list of languages codes

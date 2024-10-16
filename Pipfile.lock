@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f373d5eefdfb95b5a42769f2bc5ad1489cce8c4a5c7f7109edde6100e6f23ffe"
+            "sha256": "030c0602dc163e4730bfd67c86c5ed7166f627a0ed6150c7cb7864f9e811978e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -15,6 +15,8 @@
             }
         ]
     },
+    "default": {},
+    "develop": {}
     "default": {
         "allure-pytest": {
             "hashes": [
