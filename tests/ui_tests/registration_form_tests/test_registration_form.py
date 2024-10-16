@@ -15,10 +15,8 @@ from ui.pages.ubs.ubs_home_page import UbsHomePage
     This test checks the validation of the registration form fields.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
-@allure.epic("Green City")
-@allure.feature("Registration form")
+@allure.epic("Registration form")
 @allure.story("Registration form pop-up sign-up validation")
-@allure.tag("Green City")
 @allure.issue("12")
 @pytest.mark.parametrize(
     "expected_registration_success_message, expected_account_submit_message, mail_box, username, password, repeat_password",
@@ -52,10 +50,8 @@ def test_pop_up_sign_up_validation(expected_registration_success_message, expect
     This test validates the Google sign-up process for unregistered users on the Green City application.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
-@allure.epic("Green City")
-@allure.feature("Registration form")
+@allure.epic("Registration form")
 @allure.story("Google sign-up process validation")
-@allure.tag("Green City")
 @allure.issue("12")
 @pytest.mark.parametrize(
     "google_email, google_password, expected_google_name",
@@ -68,9 +64,10 @@ def test_google_sign_up(
         registration_form_setup
 ):
     log.info("Starting test_google_sign_up with Google email: %s", google_email)
-    page, _, _ = registration_form_setup
+    page, localization_utils, language = registration_form_setup
     page.goto(f"{Data.UI_BASE_URL}greenCity")
     home_page = GreenCityHomePage(page)
+    home_page.header_component.set_language(language)
     form = home_page.header_component.open_registration_form()
 
     google_form = form.open_auth_google_form()
@@ -99,10 +96,8 @@ This test checks the scenario where a user registered from the Green City site,
 but hasn't confirmed their email yet, tries to register again from the UBS site.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
-@allure.epic("Green City")
-@allure.feature("Registration form")
-@allure.story("Registration form email field validation")
-@allure.tag("Green City")
+@allure.epic("Registration form")
+@allure.story("Error message handling for users with unconfirmed emails during UBS sign-up")
 @allure.issue("12")
 @pytest.mark.parametrize(
     "expected_registration_error_message, mail_box, username, password, repeat_password",
@@ -145,10 +140,8 @@ def test_registered_green_city(
     but hasn't confirmed their email yet, tries to register again from the Green City site.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
-@allure.epic("Green City")
-@allure.feature("Registration form")
-@allure.story("Registration form email field validation")
-@allure.tag("Green City")
+@allure.epic("Registration form")
+@allure.story("Error message handling for users with unconfirmed emails during Green City sign-up")
 @allure.issue("12")
 @pytest.mark.parametrize(
     "expected_registration_error_message, mail_box, username, password, repeat_password",
@@ -188,10 +181,8 @@ def test_registered_ubs(
     This test verifies that when a user attempts to register with an email that is
     already registered on the Green City platform, the appropriate error message  is displayed.""")
 @allure.severity(allure.severity_level.NORMAL)
-@allure.epic("Green City")
-@allure.feature("Registration form")
-@allure.story("Registration form email field validation")
-@allure.tag("Green City")
+@allure.epic("Registration form")
+@allure.story("Error message for already registered email during sign-up")
 @allure.issue("12")
 @pytest.mark.parametrize(
     "expected_registration_error_message, mail_box, username, password, repeat_password",
@@ -229,10 +220,8 @@ def test_email_already_exists(
     the email and tries to sign up on the UBS site receives the appropriate error message.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
-@allure.epic("Green City")
-@allure.feature("Registration form")
-@allure.story("Registration form email field validation")
-@allure.tag("Green City")
+@allure.epic("Registration form")
+@allure.story("Error message handling for users with confirmed emails during UBS sign-up")
 @allure.issue("12")
 @pytest.mark.parametrize(
     "expected_error_message, mail_box, username, password, repeat_password",
@@ -274,10 +263,8 @@ def test_green_city_registered_with_confirm_email(
     the email and tries to sign up on the Green City site receives the appropriate error message.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
-@allure.epic("Green City")
-@allure.feature("Registration form")
-@allure.story("Registration form email field validation")
-@allure.tag("Green City")
+@allure.epic("Registration form")
+@allure.story("Error message handling for users with confirmed emails during Green City sign-up")
 @allure.issue("12")
 @pytest.mark.parametrize(
     "expected_registration_error_message, mail_box, username, password, repeat_password",
