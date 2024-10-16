@@ -150,11 +150,8 @@ class CreateNewsPage(GreenCityBasePage):
 
     @allure.step("Upload an image from the path {path}")
     def add_image(self, path: str):
-        file_path = os.path.join(os.getcwd(), path)
-        self.add_img_link.click()
-
         try:
-            self.page.set_input_files("input[type='file']", file_path)
+            self.page.set_input_files("input[type='file']", path)
         except Exception as e:
             print(f"Error uploading file: {e}")
 
