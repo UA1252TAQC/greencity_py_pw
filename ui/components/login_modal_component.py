@@ -33,6 +33,7 @@ class LoginModalComponent:
         self.main_picture = page.locator("//img[@class='main-picture']")
         self.form_error_message = page.locator(".alert-general-error")
         self.sign_in_with_google = page.get_by_role("button", name="Google sign-in Sign in with")
+        self.email_error_message = page.locator('//div[@id="email-err-msg"]')
 
     def login(self, email: str, password: str):
         """
@@ -135,6 +136,19 @@ class LoginModalComponent:
             return self.form_error_message.text_content()
         else:
             return f"Element not found: {self.form_error_message}"
+
+    def get_email_error_text(self):
+        """
+        Get the email error message text if the error message element is present.
+
+        Returns:
+        - str: The text of the error message if found, otherwise a message indicating that the element was not found.
+        """
+        if self.email_error_message.is_visible():
+            self.email_error_message.wait_for(state="visible")
+            return self.email_error_message.text_content()
+        else:
+            return f"Element not found: {self.email_error_message}"
 
     @allure.step("Check if Sign-in button is active")
     def is_signin_btn_active(self) -> bool:
