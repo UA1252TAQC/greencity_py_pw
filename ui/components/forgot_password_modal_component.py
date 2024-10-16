@@ -1,4 +1,6 @@
 import logging
+
+import allure
 from playwright.sync_api import Page
 from ui.components.fields.email_field import EmailField
 from ui.pages.ubs.ubs_home_page import UbsHomePage
@@ -24,6 +26,7 @@ class ForgotPasswordModalComponent:
         self.email = EmailField(page)
         self.forgot_password_locator = page.locator("//div[@class='restore-password-container']")
         self.back_to_signin_link = page.locator("//div[@class='mentioned-password']//a[@class='green-link']")
+        self.error_message = page.locator("//div[contains(@class, 'validation-email-error')]")
 
     def enter_email(self, email: str):
         """
@@ -75,3 +78,12 @@ class ForgotPasswordModalComponent:
         """
         logger.info("Getting error message from the email field")
         return self.email.get_error_message()
+
+    @allure.step("Click 'Submit Login Link' button")
+    def click_submit_login_link(self):
+        self.submit_button.click()
+        return self
+
+    @allure.step("Receive hint message below email field")
+    def get_hint_message(self):
+        return self.error_message.inner_text()

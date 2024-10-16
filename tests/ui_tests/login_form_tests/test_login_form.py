@@ -61,3 +61,32 @@ def test_link_signin_with_google(setup_function):
                                    .click_signin_with_google_btn())
     assert "accounts.google.com" in google_auth_component.page.url, "Wrong URL"
     assert google_auth_component.is_email_input_displayed, "There is no element after following link"
+
+
+@allure.description("Verify that the message \"{expected_message}\" is shown below the 'Email' field "
+                    "after click recover the password")
+@allure.feature("Forgot Password")
+@allure.issue("71")
+@pytest.mark.parametrize("language, expected_message", [
+    ("EN", "Password restore link already sent, please check your email: "),
+    ("UA", "Посилання на відновлення пароля вже надіслано, перевірте свою електронну адресу: ")
+])
+def test_message_after_recover_pass(setup_function, language, expected_message):
+    page = setup_function
+    page.goto(f"{Data.UI_BASE_URL}/#/greenCity")
+    home_page = GreenCityHomePage(page).header_component
+    home_page.set_language(language)
+    (home_page.open_login_form()
+     .click_forgot_password_link()
+     .enter_email(Data.USER_EMAIL)
+     .click_submit_login_link())
+
+    page.reload()
+    home_page = GreenCityHomePage(page).header_component
+    home_page.set_language(language)
+    hint_message = (home_page.open_login_form()
+                    .click_forgot_password_link()
+                    .enter_email(Data.USER_EMAIL)
+                    .click_submit_login_link()
+                    .get_hint_message())
+    assert hint_message == expected_message + Data.USER_EMAIL
