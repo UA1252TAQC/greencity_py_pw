@@ -1,7 +1,10 @@
 import logging
+
+import allure
 from playwright.sync_api import Page
 from ui.components.fields.email_field import EmailField
 from ui.pages.ubs.ubs_home_page import UbsHomePage
+from ui.components.component_factory import create_login_modal_component
 
 logging.basicConfig(level=logging.INFO,
                     format='[%(asctime)s] %(levelname)s %(message)s',
@@ -10,7 +13,7 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger(__name__)
 
 
-class ForgotPasswordComponent:
+class ForgotPasswordModalComponent:
     def __init__(self, page: Page):
         """
         Initializes the ForgotPasswordComponent with necessary page elements.
@@ -23,6 +26,7 @@ class ForgotPasswordComponent:
         self.email = EmailField(page)
         self.forgot_password_locator = page.locator("//div[@class='restore-password-container']")
         self.back_to_signin_link = page.locator("//div[@class='mentioned-password']//a[@class='green-link']")
+        self.error_message = page.locator("//div[contains(@class, 'validation-email-error')]")
 
     def enter_email(self, email: str):
         """
@@ -53,7 +57,7 @@ class ForgotPasswordComponent:
         :return: Boolean indicating whether the forgot password form is displayed.
         """
         logger.info("Checking if the forgot password form is displayed")
-        return self.forgot_password_form.is_visible()
+        return self.forgot_password_locator.is_visible()
 
     def click_back_to_sign_in_link(self):
         """
@@ -64,7 +68,7 @@ class ForgotPasswordComponent:
         logger.info("Clicking the 'Back to Sign In' link")
         self.back_to_signin_link.click()
         self.back_to_signin_link.wait_for(state='hidden')
-        return None
+        return create_login_modal_component(self.page)
 
     def get_error_message(self):
         """
@@ -74,3 +78,12 @@ class ForgotPasswordComponent:
         """
         logger.info("Getting error message from the email field")
         return self.email.get_error_message()
+
+    @allure.step("Click 'Submit Login Link' button")
+    def click_submit_login_link(self):
+        self.submit_button.click()
+        return self
+
+    @allure.step("Receive hint message below email field")
+    def get_hint_message(self):
+        return self.error_message.inner_text()

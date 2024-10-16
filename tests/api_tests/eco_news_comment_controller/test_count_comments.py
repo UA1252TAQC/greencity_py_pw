@@ -18,14 +18,15 @@ def test_count_comments_success(tc_logger,
                                 setup_and_teardown_news,
                                 setup_comment):
     try:
-        tc_logger.log_test_name(
-            "Verify successful retrieval of the comment count for the news post."
-        )
+        test_name = "Verify successful retrieval of the comment count for the news post."
+        tc_logger.log_test_name(test_name)
+        log.info(f"Test '{test_name}' started")
+
         news_id = setup_and_teardown_news
 
-        log.info(f"Starting test {test_count_comments_success.__name__}")
+        log.info(f"Starting test {test_name}")
         api = BaseApi(
-            f'{Data.API_BASE_URL}/eco-news/{news_id}/comments/count'
+            f'{Data.API_BASE_URL}/econews/comments/count/comments/{news_id}'
         )
         headers = {
             'accept': '*/*'

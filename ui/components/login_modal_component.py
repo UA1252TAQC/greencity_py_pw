@@ -1,9 +1,11 @@
 import logging
 
+import allure
 from playwright.sync_api import Page
 from ui.components.fields.email_field import EmailField
 from ui.components.fields.password_field import PasswordField
-from ui.components.forgot_password_modal_component import ForgotPasswordComponent
+from ui.components.component_factory import create_forgot_password_modal_component
+from ui.components.google_auth_component import GoogleAuthComponent
 from ui.pages.green_city.profile_page import ProfilePage
 
 logging.basicConfig(level=logging.INFO,
@@ -21,6 +23,8 @@ class LoginModalComponent:
         :param page: The Playwright page instance.
         """
         self.page = page
+        self.app_sign_in = page.locator('app-sign-in')
+        self.modal_component_element = page.locator("app-auth-modal .main")
         self.email = EmailField(page)
         self.password = PasswordField(page)
         self.sign_in_button = page.locator('button[type="submit"]')
@@ -28,6 +32,7 @@ class LoginModalComponent:
         self.close_button = page.locator("img.cross-btn[alt='close button']")
         self.main_picture = page.locator("//img[@class='main-picture']")
         self.form_error_message = page.locator(".alert-general-error")
+        self.sign_in_with_google = page.get_by_role("button", name="Google sign-in Sign in with")
 
     def login(self, email: str, password: str):
         """
@@ -97,7 +102,7 @@ class LoginModalComponent:
         """
         self.forgot_password_link.wait_for(state='visible')
         self.forgot_password_link.click()
-        return ForgotPasswordComponent(self.page)
+        return create_forgot_password_modal_component(self.page)
 
     def click_outside_form(self):
         """
@@ -131,6 +136,27 @@ class LoginModalComponent:
         else:
             return f"Element not found: {self.form_error_message}"
 
+    @allure.step("Check if Sign-in button is active")
+    def is_signin_btn_active(self) -> bool:
+        return self.sign_in_button.is_enabled()
+
+    @allure.step("Check if Sign-In Button is highlighted in {expected_color}")
+    def is_highlighted_signin_btn_in_color(self, expected_color):
+        background_color = self.sign_in_button.evaluate("element => getComputedStyle(element).backgroundColor")
+        return background_color == expected_color
+
+    @allure.step("Click \"Sign-in\" with Google")
+    def click_signin_with_google_btn(self):
+        with self.page.context.expect_page() as new_page_info:
+            self.sign_in_with_google.click()
+        active_page = new_page_info.value
+        active_page.wait_for_load_state()
+        active_page.bring_to_front()
+        return GoogleAuthComponent(active_page)
+
+    def is_login_form_displayed(self):
+        return self.app_sign_in.is_visible()
+      
     def is_sign_in_button_active(self):
         """
         Checks if the "Sign in" button is enabled.

@@ -3,12 +3,9 @@ import pytest
 from faker import Faker
 
 from modules.logger import TcLogger
-from tests.ui_tests.login_form_tests.test_131_132_empty_email_password import EMPTY_FIELDS_ERROR_EN
+from tests.ui_tests.test_utils.test_data_loader_csv import get_test_data_by_test_name
 
 fake = Faker()
-
-EMPTY_EMAIL_ERROR_UA = "Введіть пошту."
-EMPTY_EMAIL_ERROR_EN = "Email is required."
 
 logger = TcLogger.get_log()
 TcLogger.generate_logs(level="INFO", detailed_logs=True)
@@ -24,13 +21,10 @@ TcLogger.generate_logs(level="INFO", detailed_logs=True)
 @pytest.mark.login
 @pytest.mark.ui
 @pytest.mark.parametrize(
-    "language, email, expected",
-    [
-        ("Ua", '', EMPTY_EMAIL_ERROR_UA),
-        ("En", '', EMPTY_FIELDS_ERROR_EN)
-    ]
+    "language, email, password, expected",
+    get_test_data_by_test_name('../test_data/test_data_login.csv', 'test_verify_error_message_for_empty_email')
 )
-def test_verify_error_message_for_empty_email(language, email, expected, setup_function):
+def test_verify_error_message_for_empty_email(language, email, password, expected, setup_function):
     login_form = setup_function
 
     logger.log_test_name(f"INFO: Starting test for empty email field with language: {language}")

@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pytest
 
 from playwright.sync_api import sync_playwright
@@ -33,7 +35,7 @@ def initialize_page(playwright_instance):
     )
     context = browser.new_context(viewport={"width": 1920, "height": 1080, "device_scale_factor": 1})
     page = context.new_page()
-    page.set_default_timeout(5000)
+    page.set_default_timeout(10000)
     page.goto(f"{Data.UI_BASE_URL}/#/greenCity", wait_until="load")
     page.evaluate("() => document.body.style.zoom='100%'")
 
@@ -44,13 +46,13 @@ def initialize_page(playwright_instance):
 
 
 @pytest.fixture(scope="function")
-def setup_function(initialize_page, language='en'):
+def setup_function(initialize_page, language: Optional[str] = None):
     """
     This fixture sets the language on the GreenCity homepage and opens the login form.
 
     Parameters:
     - initialize_page: The fixture that initializes the GreenCity homepage.
-    - language: The language parameter passed to set the page language.
+    - language: The language parameter passed from the test.
 
     Returns:
     - form: The opened login form.
@@ -58,7 +60,10 @@ def setup_function(initialize_page, language='en'):
     The form is closed after the test is complete.
     """
     home_page = initialize_page
-    home_page.header_component.set_language(language)
+    if language is None:
+        home_page.header_component.set_language('ua')
+    else:
+        home_page.header_component.set_language(language)
     form = home_page.header_component.open_login_form()
     yield form
     form.close()
