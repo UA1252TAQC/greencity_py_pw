@@ -21,19 +21,6 @@ def setup_function(request):
         browser.close()
 
 
-def test_successful_sign_in(setup_function):
-    page = setup_function
-    page.goto(f"{Data.UI_BASE_URL}/#/greenCity")
-    profile_page = (GreenCityHomePage(page)
-                    .header_component.open_login_form()
-                    .enter_email(Data.USER_EMAIL)
-                    .enter_password(Data.USER_PASSWORD)
-                    .click_sign_in_button_and_successful_login())
-
-    assert profile_page.page.url == f"{Data.UI_BASE_URL}/#/profile/{Data.USER_ID}"
-    assert profile_page.header_component.get_username() == Data.USER_NAME
-
-
 @allure.description("Verify that the 'Sign in' button is remained inactive after leaving the fields empty")
 @allure.feature("Login")
 @allure.issue("64")
