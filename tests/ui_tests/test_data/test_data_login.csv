@@ -19,5 +19,5 @@ test_verify_error_message_for_empty_email_and_or_password,En,Data.USER_EMAIL,,Pl
 test_verify_error_message_for_empty_email_and_or_password,En,,Data.USER_PASSWORD,Please fill all required fields.
 test_verify_error_message_for_empty_email_and_or_password,En,,,Please fill all required fields.
 
-test_verify_inactive_button_for_only_password,En,Data.USER_PASSWORD,The 'Sign in' button should be inactive when only the password is filled.
-test_verify_inactive_button_for_only_email,En,Data.USER_EMAIL,The 'Sign in' button should be inactive when only the password is filled.
+test_verify_inactive_button_for_only_password,En,,Data.USER_PASSWORD,The 'Sign in' button should be inactive when only the password is filled.
+test_verify_inactive_button_for_only_email,,En,Data.USER_EMAIL,The 'Sign in' button should be inactive when only the password is filled.
