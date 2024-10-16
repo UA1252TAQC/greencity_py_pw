@@ -67,3 +67,25 @@ def setup_function(initialize_page, language: Optional[str] = None):
     form = home_page.header_component.open_login_form()
     yield form
     form.close()
+
+
+@pytest.fixture(scope="function")
+def setup_function_with_language(initialize_page, request):
+    """
+    This fixture sets the language on the GreenCity homepage and opens the login form.
+
+    Parameters:
+    - initialize_page: The fixture that initializes the GreenCity homepage.
+    - language: The language parameter passed from the test.
+
+    Returns:
+    - form: The opened login form.
+
+    The form is closed after the test is complete.
+    """
+    language = request.param
+    home_page = initialize_page
+    home_page.header_component.set_language(language)
+    form = home_page.header_component.open_login_form()
+    yield form
+    form.close()

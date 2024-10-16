@@ -24,3 +24,6 @@ test_verify_inactive_button_for_only_email,,En,Data.USER_EMAIL,The 'Sign in' but
 test_verify_inactive_button_for_valid_password_invalid_email,En,invalid@email.com,USER_PASSWORD,The 'Sign in' button should be inactive when email field is invalid.
 test_verify_inactive_button_for_invalid_password_valid_email,En,USER_EMAIL,invalidpassword,The 'Sign in' button should be inactive when password field is invalid.
 test_verify_inactive_button_for_invalid_password_and_email,En,invalid@email.com,invalidpassword,The 'Sign in' button should be inactive when password and field is invalid.
+
+test_verify_invalid_email_warning,En,"test.mail.comaaaa",Data.USER_PASSWORD,"Please check that your e-mail address is indicated correctly"
+test_verify_invalid_email_warning,Ua,"test.mail.comaaaa",Data.USER_PASSWORD,"Перевірте, чи правильно вказано вашу адресу електронної пошти"
