@@ -21,5 +21,9 @@ test_data = {
         "title": "Coffee takeaway with 40% discount",
         "content": "It's so healthy, fun and cool to bring eco habits into everyday life",
         "tags": [NewsTags.EVENTS]
+    },
+    "tags_lists": {
+        "list_1": [NewsTags.NEWS, NewsTags.EVENTS, NewsTags.EDUCATION],
+        "list_2": [NewsTags.INITIATIVES, NewsTags.ADS]
     }
 }

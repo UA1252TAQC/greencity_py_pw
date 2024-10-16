@@ -4,7 +4,6 @@ from playwright.sync_api import Page
 
 from ui.pages.green_city.green_city_base_page import GreenCityBasePage
 from ui.enum.news_tags import NewsTags
-import os
 import allure
 
 from ui.pages.green_city.news_preview_page import NewsPreviewPage
@@ -41,14 +40,20 @@ class CreateNewsPage(GreenCityBasePage):
         return self
 
     @allure.step("Fill the source link field with {link}")
-    def enter_source_link(self, content: str):
-        self.source_link_field.fill(content)
+    def enter_source_link(self, link: str):
+        self.source_link_field.fill(link)
         return self
 
     @allure.step("Select the tags: {tags}")
     def select_tags(self, tags: list[NewsTags], language_code: str):
         for tag in tags:
             self.select_single_tag(tag, language_code)
+        return self
+
+    @allure.step("Unselect the tags: {tags}")
+    def unselect_tags(self, tags: list[NewsTags], language_code):
+        for tag in tags:
+            self.unselect_single_tag(tag, language_code)
         return self
 
     @allure.step("Unselect the tag: {tag}")
@@ -143,11 +148,8 @@ class CreateNewsPage(GreenCityBasePage):
 
     @allure.step("Upload an image from the path {path}")
     def add_image(self, path: str):
-        file_path = os.path.join(os.getcwd(), path)
-        self.add_img_link.click()
-
         try:
-            self.page.set_input_files("input[type='file']", file_path)
+            self.page.set_input_files("input[type='file']", path)
         except Exception as e:
             print(f"Error uploading file: {e}")
 
