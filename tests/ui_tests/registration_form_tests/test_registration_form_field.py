@@ -1,7 +1,7 @@
 import allure
 import pytest
 import logging as log
-from modules.dataprovider import DataProvider
+from modules.dataprovider_utils import DataProvider
 
 
 @allure.title("Verify registration email field validation")

@@ -3,7 +3,7 @@ import allure
 from api.base_api import BaseApi
 from http import HTTPStatus
 from modules.constants import Data
-from modules.dataprovider import DataProvider
+from modules.dataprovider_utils import DataProvider
 
 
 @allure.title("Get all eco news")

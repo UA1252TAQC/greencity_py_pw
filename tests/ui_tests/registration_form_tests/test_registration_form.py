@@ -3,7 +3,7 @@ import allure
 import logging as log
 
 from modules.constants import Data
-from modules.dataprovider import DataProvider
+from modules.dataprovider_utils import DataProvider
 from modules.mail_utils import MailUtils
 from ui.pages.green_city.green_city_home_page import GreenCityHomePage
 from ui.pages.green_city.profile_page import ProfilePage
