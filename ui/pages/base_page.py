@@ -32,3 +32,7 @@ class BasePage:
 
     def get_auth_token(self):
         return self.get_local_storage_item("accessToken")
+
+    @allure.step("Page is reloaded")
+    def reload_page(self):
+        self.page.reload()
