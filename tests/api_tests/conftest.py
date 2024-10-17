@@ -147,41 +147,6 @@ def assign_habit(get_auth_token, get_first_available_habit_id):
         handle_api_error(response, "Failed to assign habit")
 
 
-@pytest.fixture
-def get_shopping_list(get_auth_token, get_first_available_habit_id):
-    """
-    Fixture to retrieve the shopping list for a specific habit.
-
-    This fixture sends a GET request to fetch the shopping list associated with the
-    habit specified by `get_first_available_habit_id`. The authentication token is
-    used to authorize the request, and the API response is returned in JSON format.
-    If the request fails, an error handler is invoked.
-
-    Args:
-        get_auth_token (str): The authentication token used to access the API.
-        get_first_available_habit_id (int): The ID of the habit for which the shopping list is fetched.
-
-    Returns:
-        dict: The API response containing the shopping list data in JSON format.
-
-    Raises:
-        AssertionError: If the API request fails (status code not 200), an error is logged
-        and handled using `handle_api_error`.
-    """
-    api_url = f"{Data.API_BASE_URL}/habit/{get_first_available_habit_id}/shopping-list"
-    headers = prepare_headers(get_auth_token)
-
-    log.info(f"Fetching shopping list for habit ID {get_first_available_habit_id}.")
-
-    api = BaseApi(api_url)
-    response = api.get_data(headers=headers)
-
-    if response.status_code != 200:
-        handle_api_error(response, f"Failed to get shopping list for habit ID {get_first_available_habit_id}")
-
-    return response.json()
-
-
 @pytest.fixture(scope="module")
 def delete_habit(get_auth_token, assign_habit):
     """
@@ -320,47 +285,6 @@ def get_first_habit_id(get_user_habits):
         return first_habit_id
     else:
         pytest.fail("No habits available to retrieve ID.")
-
-
-@pytest.fixture
-def delete_shopping_list_item(get_auth_token):
-    """
-     Fixture to delete a shopping list item by habitId and shoppingListItemId.
-
-     This fixture provides a function that sends a DELETE request to the API to remove
-     a specific shopping list item associated with a given habit. It requires both
-     the habit ID and the shopping list item ID as parameters. If the deletion is
-     unsuccessful, the fixture will handle the API error.
-
-     Args:
-         get_auth_token (str): The authentication token used for making API requests.
-
-     Returns:
-         function: A function that accepts two arguments:
-             - habit_id (int): The ID of the habit associated with the shopping list item.
-             - shopping_list_item_id (int): The ID of the shopping list item to delete.
-
-     Raises:
-         AssertionError: If the DELETE request fails (response status code is not 200),
-         an API error handler is invoked.
-     """
-    def _delete_item(habit_id, shopping_list_item_id):
-        api_url = (f"{Data.API_BASE_URL}/user/shopping-list-items?habitId={habit_id}&shoppingListItemId="
-                   f"{shopping_list_item_id}")
-        headers = prepare_headers(get_auth_token)
-
-        log.info(f"Attempting to delete shopping list item with ID {shopping_list_item_id} for habit ID {habit_id}.")
-
-        api = BaseApi(api_url)
-        response = api.delete_data(headers=headers)
-
-        if response.status_code != 200:
-            handle_api_error(response, f"Failed to delete shopping list item with ID {shopping_list_item_id}")
-
-        log.info(f"Successfully deleted shopping list item with ID {shopping_list_item_id} for habit ID {habit_id}.")
-        return response
-
-    return _delete_item
 
 
 @pytest.fixture

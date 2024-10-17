@@ -29,3 +29,16 @@ def delete_data(api_url, headers):
     api = BaseApi(api_url)
     response = api.delete_data(headers=headers)
     return response
+
+
+def get_data(api_url, headers):
+    """
+    Send a GET request to the given API.
+
+    :param api_url: The API endpoint to send the GET request to.
+    :param headers: The headers required for making the GET request (including authorization).
+    :return: The response object from the GET request.
+    """
+    api = BaseApi(api_url)
+    response = api.get_data(headers=headers)
+    return response
