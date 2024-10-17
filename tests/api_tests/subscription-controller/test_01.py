@@ -1,13 +1,14 @@
+import pytest
+import allure
 import requests
 from http import HTTPStatus
-
+from api.base_api import BaseApi
 from modules.constants import Data
-
-BASE_URL = 'https://greencity-user.greencity.cx.ua'
+from modules.dataprovider import DataProvider
 
 
 def sign_in():
-    url = f'{BASE_URL}/ownSecurity/signIn'
+    url = f'{Data.API_BASE_URL}/ownSecurity/signIn'
     data = {
         "email": Data.USER_EMAIL,
         "password": Data.USER_PASSWORD
@@ -21,20 +22,58 @@ def sign_in():
     return response.json()['accessToken']
 
 
-# def test_create_subscription():
-#     token = sign_in()
-#     url = 'https://greencity.greencity.cx.ua/subscriptions'
-#     api = BaseApi(url)
-#     headers = {
-#         'Authorization': f'Bearer {token}',
-#         'Content-Type': 'application/json'
-#     }
-#     data = {
-#         "email": Data.USER_EMAIL,
-#         "subscriptionType": "ECO_NEWS"
-#     }
-#     response = api.post_data(headers=headers, payload=data)
-#     assert response.status_code == HTTPStatus.CREATED
-#     json_response = response.json()
-#     assert json_response["email"] == Data.EMAIL
-#     assert json_response["subscriptionType"] == "ECO_NEWS"
+@allure.title("Subscribe to eco news")
+@allure.description("""
+    This test checks the response of the request to subscribe an email to eco news.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Subscriptions")
+@allure.feature("Subscribe to eco news")
+@allure.story("Subscribe to eco news")
+@allure.tag("Subscriptions")
+@pytest.mark.parametrize(
+    "email, subscription_type",
+    DataProvider.get_api_test_data("test_subscribe_to_eco_news")
+)
+def test_subscribe_to_eco_news(email, subscription_type):
+    token = sign_in()
+    api = BaseApi(f"{Data.API_BASE_URL}subscriptions")
+    headers = {
+        'Authorization': f'Bearer {token}',
+        'Content-Type': 'application/json'
+    }
+    payload = {
+        "email": email,
+        "subscriptionType": subscription_type
+    }
+    response = api.post_data(payload=payload, headers=headers)
+
+    assert response.status_code == HTTPStatus.CREATED
+
+    json_response = response.json()
+    assert "unsubscribeToken" in json_response
+
+
+@allure.title("Unsubscribe from eco news")
+@allure.description("""
+    This test checks the response of the request to unsubscribe from eco news by token.
+                    """)
+@allure.severity(allure.severity_level.NORMAL)
+@allure.epic("Subscriptions")
+@allure.feature("Unsubscribe from eco news")
+@allure.story("Unsubscribe from eco news")
+@allure.tag("Subscriptions")
+@pytest.mark.parametrize(
+    "unsubscribe_token",
+    DataProvider.get_api_test_data("test_unsubscribe_from_eco_news")
+)
+def test_unsubscribe_from_eco_news(unsubscribe_token):
+    token = sign_in()
+    api = BaseApi(f"{Data.API_BASE_URL}subscriptions/{unsubscribe_token}")
+    headers = {
+        'Authorization': f'Bearer {token}',
+        'Content-Type': 'application/json'
+    }
+    response = api.delete_data(headers=headers)
+
+    assert response.status_code == HTTPStatus.OK

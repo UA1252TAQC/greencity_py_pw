@@ -19,5 +19,16 @@
         [16, ["News", "Education"]],
         [95, ["Education"]],
         [463, ["News"]]
+    ],
+    "test_subscribe_to_eco_news": [
+        {
+            "email": "test@example.com",
+            "subscriptionType": "ECO_NEWS"
+        }
+    ],
+    "test_unsubscribe_from_eco_news": [
+        {
+            "unsubscribeToken": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        }
     ]
 }

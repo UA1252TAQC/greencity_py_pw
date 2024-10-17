@@ -9,10 +9,8 @@ from modules.dataprovider_utils import DataProvider
     This test checks the validation of the registration form fields.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
-@allure.epic("Green City")
-@allure.feature("Registration form")
+@allure.epic("Registration form")
 @allure.story("Registration form email field validation")
-@allure.tag("Green City")
 @allure.issue("12")
 @pytest.mark.parametrize(
     "is_expected_valid, expected_error_message, is_should_submit_form, error_message, email, username, password, repeat_password",
@@ -47,10 +45,8 @@ def test_email_validation(
     This test checks the validation of the registration form fields.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
-@allure.epic("Green City")
-@allure.feature("Registration form")
+@allure.epic("Registration form")
 @allure.story("Registration form username field validation")
-@allure.tag("Green City")
 @allure.issue("12")
 @pytest.mark.parametrize(
     "is_expected_valid, expected_error_message, error_message, username",
@@ -77,16 +73,14 @@ def test_username_validation(
     This test checks the validation of the registration form fields.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
-@allure.epic("Green City")
-@allure.feature("Registration form")
+@allure.epic("Registration form")
 @allure.story("Registration form password field validation")
-@allure.tag("Green City")
 @allure.issue("12")
 @pytest.mark.parametrize(
     "is_expected_valid, expected_error_message, error_message, password",
     DataProvider.get_ui_test_data("testPasswordValidation"),
 )
-def test_password_validation(is_expected_valid, expected_error_message, error_message, password,
+def                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             test_password_validation(is_expected_valid, expected_error_message, error_message, password,
                              registration_form_field_setup):
     log.info("Starting test_password_validation with password: %s", password)
     form, localization_utils = registration_form_field_setup
@@ -106,10 +100,8 @@ def test_password_validation(is_expected_valid, expected_error_message, error_me
     This test checks the validation of the registration form fields.
                     """)
 @allure.severity(allure.severity_level.NORMAL)
-@allure.epic("Green City")
-@allure.feature("Registration form")
+@allure.epic("Registration form")
 @allure.story("Registration form repeat password field validation")
-@allure.tag("Green City")
 @allure.issue("12")
 @pytest.mark.parametrize(
     "is_expected_valid, expected_error_message, error_message, password, repeat_password",
@@ -131,7 +123,7 @@ def test_repeat_password_validation(
     is_actual_valid = form.repeat_password.is_valid()
     actual_error_message = form.repeat_password.get_error_message()
 
-    log.info("Validation result: %s, Error message: %s", is_actual_valid, actual_error_message)
+    log.info("Validation result: %s, Error message: %s", is_actual_valid, actual_error_message)                                                             
 
     assert is_actual_valid == is_expected_valid, error_message
     assert actual_error_message == localization_utils.get_form_message(expected_error_message), "Error message mismatch"
