@@ -3,7 +3,7 @@ import pytest
 from faker import Faker
 
 from modules.logger import TcLogger
-from tests.ui_tests.test_utils.test_data_loader_csv import get_test_data_by_test_name
+from tests.ui_tests.test_utils.test_data_loader_csv import get_test_data
 
 fake = Faker()
 
@@ -25,7 +25,7 @@ TcLogger.generate_logs(level="INFO", detailed_logs=True)
 @pytest.mark.ui
 @pytest.mark.parametrize(
     "language, email, password, expected",
-    get_test_data_by_test_name('../test_data/test_data_login.csv', 'test_verify_error_message_for_empty_email_and_or_password')
+    get_test_data('../test_data/test_data_login.csv', 'test_verify_error_message_for_empty_email_and_or_password')
 )
 def test_verify_error_message_for_empty_email_and_or_password(language, email, password, expected, setup_function):
     login_form = setup_function
